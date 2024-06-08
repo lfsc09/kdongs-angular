@@ -2,3 +2,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    * {
+        /* @apply text-slate-700 focus:outline-1 focus:outline-blue-300; */
+        @apply text-slate-700 focus:outline-1 focus:outline-[#3d9970];
+    }
+}
+
+@layer components {
+    /*
+        KDS COMPONENTS
+    */
+    input[kds-input] {
+        @apply border rounded py-2 px-3 leading-tight;
+    }
+
+}
+
