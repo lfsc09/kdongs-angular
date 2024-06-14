@@ -37,8 +37,8 @@ module.exports = {
 				'kds-go': 'kds-go-around 2s infinite',
 			},
 			fontFamily: {
-				'kds-inter': 'KdsInter',
-				'kds-mono': 'KdsMono',
+				'kds-inter': ['KdsInter', 'ui-sans-serif', 'system-ui'],
+				'kds-mono': ['KdsMono', 'ui-monospace'],
 			},
 			colors: {
 				white: '#ffffff',
