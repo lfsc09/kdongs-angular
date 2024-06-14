@@ -1,22 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
+
+@layer base {
+	@font-face {
+		font-family: 'KdsInter';
+		font-style: normal;
+		font-weight: 100 900;
+		font-display: swap;
+		src: url(/assets/font-inter.woff2) format('woff2');
+	}
+
+	@font-face {
+		font-family: 'KdsMono';
+		font-weight: 200 900;
+		font-display: swap;
+		src: url(/assets/font-mono.woff2) format('woff2');
+	}
+
+	::-webkit-scrollbar {
+		@apply w-[5px];
+	}
+
+	::-webkit-scrollbar-track {
+		@apply rounded-none bg-[#dedede] dark:bg-[#949494];
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply rounded-none bg-dongs-300 dark:bg-dongs-600;
+	}
+
+	* {
+		@apply font-kds-inter text-slate-700 focus:outline-1 focus:outline-dongs-300 dark:text-slate-200 dark:focus:outline-dongs-700;
+	}
+}
+
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    * {
-        /* @apply text-slate-700 focus:outline-1 focus:outline-blue-300; */
-        @apply text-slate-700 focus:outline-1 focus:outline-[#3d9970];
-    }
+@layer utilities {
+	fa-icon {
+		& svg {
+			@apply text-current;
+
+			& path {
+				@apply text-current;
+			}
+		}
+	}
 }
-
-@layer components {
-    /*
-        KDS COMPONENTS
-    */
-    input[kds-input] {
-        @apply border rounded py-2 px-3 leading-tight;
-    }
-
-}
-
