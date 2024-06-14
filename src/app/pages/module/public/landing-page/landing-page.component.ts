@@ -44,7 +44,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 			this.randomParticleProps.speedMin = 2;
 			this.randomParticleProps.direction = MoveDirection.bottom;
 		}
-        console.log(this.randomParticleProps);
+		console.log(this.randomParticleProps);
 	});
 	particlesOptions = {
 		fpsLimit: 120,

@@ -1,7 +1,7 @@
 <main class="min-h-screen bg-gradient-to-r from-zinc-100 to-dongs-100 dark:from-slate-900 dark:to-dongs-950">
 	<ngx-particles [options]="particlesOptions" />
-	<div class="flex min-h-screen flex-row items-stretch gap-0 desktop-2k:container">
-		<div
+	<section class="flex min-h-screen flex-row items-stretch gap-0 desktop-2k:container">
+		<section
 			class="z-10 mx-8 my-8 flex flex-1 flex-col rounded-lg bg-slate-50 px-8 pb-4 pt-8 shadow-lg tablet-h:mr-0 tablet-h:max-w-[400px] tablet-h:flex-auto laptop:max-w-[500px] dark:bg-slate-700"
 		>
 			<div
@@ -83,11 +83,11 @@
 					>
 				</div>
 			</div>
-			<div class="mt-auto text-center">
-				<p class="mt-8 text-[.65em] font-bold text-slate-500 dark:text-slate-300">KDONGS &#64; {{ year() }}</p>
-			</div>
-		</div>
-		<div
+			<footer class="mt-auto text-center">
+				<p class="mt-8 text-[.65em] font-bold text-slate-500 dark:text-slate-300 select-none">KDONGS &#64; {{ year() }}</p>
+			</footer>
+		</section>
+		<section
 			class="z-10 flex flex-1 flex-row items-center justify-center"
 			*kdsViewportMatch="[viewports().TABLET_HORIZONTAL, viewports().LAPTOP, viewports().DESKTOP_1K, viewports().DESKTOP_2K]"
 		>
@@ -96,6 +96,6 @@
 				src="assets/kdongs-top-725x610-noback.png"
 				alt="logo"
 			/>
-		</div>
-	</div>
+		</section>
+	</section>
 </main>
