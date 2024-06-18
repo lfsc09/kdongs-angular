@@ -5,14 +5,15 @@
 			class="z-10 mx-8 my-8 flex flex-1 flex-col rounded-lg bg-slate-50 px-8 pb-4 pt-8 shadow-lg tablet-h:mr-0 tablet-h:max-w-[400px] tablet-h:flex-auto laptop:max-w-[500px] dark:bg-slate-700"
 		>
 			<div
-				class="mb-20 mt-8 flex flex-row items-center justify-center"
+				class="mb-20 mt-8 flex flex-row items-center justify-center gap-4 mobile-h:gap-8"
 				*kdsViewportMatch="[viewports().MOBILE_VERTICAL, viewports().MOBILE_HORIZONTAL, viewports().TABLET_VERTICAL]"
 			>
 				<img
-					class="h-40 select-none"
-					src="assets/kdongs-left-975x350-noback.png"
+					class="h-28 select-none mobile-h:h-36 tablet-v:h-44 drop-shadow-md"
+					src="assets/kdongs-icon-square-470x468-noback.png"
 					alt="logo"
 				/>
+				<span class="font-kds-inter text-5xl text-dongs-500 mobile-h:text-7xl drop-shadow-md">Kdongs</span>
 			</div>
 			<span class="kds-title-slash text-xl font-semibold text-green-600 dark:text-slate-300">Login</span>
 			<form class="mb-12 mt-20 px-4">
@@ -84,18 +85,19 @@
 				</div>
 			</div>
 			<footer class="mt-auto text-center">
-				<p class="mt-8 text-[.65em] font-bold text-slate-500 dark:text-slate-300 select-none">KDONGS &#64; {{ year() }}</p>
+				<p class="mt-8 select-none text-[.65rem] font-bold text-slate-500 dark:text-slate-300">KDONGS &#64; {{ year() }}</p>
 			</footer>
 		</section>
 		<section
-			class="z-10 flex flex-1 flex-row items-center justify-center"
+			class="z-10 flex flex-1 select-none flex-col items-center justify-center gap-6"
 			*kdsViewportMatch="[viewports().TABLET_HORIZONTAL, viewports().LAPTOP, viewports().DESKTOP_1K, viewports().DESKTOP_2K]"
 		>
 			<img
-				class="max-h-64 select-none laptop:max-h-96"
-				src="assets/kdongs-top-725x610-noback.png"
+				class="max-h-52 laptop:max-h-72 drop-shadow-md"
+				src="assets/kdongs-icon-square-470x468-noback.png"
 				alt="logo"
 			/>
+			<span class="font-kds-inter text-8xl text-dongs-500 laptop:text-9xl drop-shadow-md">Kdongs</span>
 		</section>
 	</section>
 </main>
