@@ -9,14 +9,18 @@
 				*kdsViewportMatch="[viewports().MOBILE_VERTICAL, viewports().MOBILE_HORIZONTAL, viewports().TABLET_VERTICAL]"
 			>
 				<img
-					class="h-28 select-none mobile-h:h-36 tablet-v:h-44 drop-shadow-md"
+					class="h-28 select-none drop-shadow-md mobile-h:h-36 tablet-v:h-44"
 					src="assets/kdongs-icon-square-470x468-noback.png"
 					alt="logo"
 				/>
-				<span class="font-kds-inter text-5xl text-dongs-500 mobile-h:text-7xl drop-shadow-md">Kdongs</span>
+				<span class="font-kds-inter text-5xl text-dongs-500 drop-shadow-md mobile-h:text-7xl">Kdongs</span>
 			</div>
 			<span class="kds-title-slash text-xl font-semibold text-green-600 dark:text-slate-300">Login</span>
-			<form class="mb-12 mt-20 px-4">
+			<form
+				class="mb-12 mt-20 px-4"
+				[formGroup]="loginForm"
+				(ngSubmit)="handleLoginFormSubmit()"
+			>
 				<div class="flex flex-col gap-4">
 					<div class="kds-form-group-v">
 						<label for="login-username">Username</label>
@@ -25,27 +29,52 @@
 							name="username"
 							id="login-username"
 							class="kds-input"
+							formControlName="username"
 						/>
+						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched) {
+							<span class="kds-form-group-error">Invalid Username</span>
+						}
 					</div>
 					<div class="kds-form-group-v">
 						<label for="login-password">Password</label>
-						<input
-							type="password"
-							name="password"
-							id="login-password"
-							class="kds-input"
-						/>
+						<div class="relative">
+							<input
+								[type]="showPassword() ? 'text' : 'password'"
+								name="password"
+								id="login-password"
+								class="kds-input w-full !pr-14"
+								formControlName="password"
+							/>
+							<button
+								type="button"
+								class="absolute bottom-0 right-0 top-0 m-0.5 rounded bg-gradient-to-r from-slate-100 to-dongs-200/50 px-4 py-1 opacity-75 hover:opacity-95"
+								(click)="handlePasswordShow()"
+							>
+								<fa-icon
+									[icon]="showPassword() ? icons().faEye : icons().faEyeSlash"
+									class="text-dongs-500"
+									size="sm"
+								/>
+							</button>
+						</div>
+						@if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
+							<span class="kds-form-group-error">Invalid Password</span>
+						}
 					</div>
 					<div class="mt-4 flex w-full flex-row items-center justify-end">
 						<button
 							type="submit"
-							class="group/go kds-button kds-button-sm w-full bg-green-600 text-white hover:bg-dongs-600 tablet-h:w-1/3"
+							class="group/go kds-button kds-button-sm w-full bg-green-600 text-white hover:brightness-110 tablet-h:w-1/3"
 						>
 							Go
-							<fa-icon
-								class="ml-auto text-white group-hover/go:animate-kds-go"
-								[icon]="icons().faAnglesRight"
-							/>
+							@if (loadingLoginForm()) {
+								<kds-loading-spinner class="ml-auto" />
+							} @else {
+								<fa-icon
+									class="ml-auto text-white group-hover/go:animate-kds-go"
+									[icon]="icons().faAnglesRight"
+								/>
+							}
 						</button>
 					</div>
 				</div>
@@ -93,11 +122,11 @@
 			*kdsViewportMatch="[viewports().TABLET_HORIZONTAL, viewports().LAPTOP, viewports().DESKTOP_1K, viewports().DESKTOP_2K]"
 		>
 			<img
-				class="max-h-52 laptop:max-h-72 drop-shadow-md"
+				class="max-h-52 drop-shadow-md laptop:max-h-72"
 				src="assets/kdongs-icon-square-470x468-noback.png"
 				alt="logo"
 			/>
-			<span class="font-kds-inter text-8xl text-dongs-500 laptop:text-9xl drop-shadow-md">Kdongs</span>
+			<span class="font-kds-inter text-8xl text-dongs-500 drop-shadow-md laptop:text-9xl">Kdongs</span>
 		</section>
 	</section>
 </main>
