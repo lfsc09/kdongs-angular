@@ -93,9 +93,9 @@ module.exports = {
 				 *
 				 */
 
-				/**********
-				 * LOADING
-				 **********/
+				/******************
+				 * LOADING SPINNER
+				 ******************/
 				'.kds-loading-spinner-outer': {
 					'@apply inline-block animate-kds-loading-circular-outer': {},
 				},
