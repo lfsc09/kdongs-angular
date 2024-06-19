@@ -32,9 +32,33 @@ module.exports = {
 						transform: 'translateX(-1rem)',
 					},
 				},
+				'kds-loading-circular-progress': {
+					'0%': {
+						transform: 'rotate(0deg)',
+					},
+					'100%': {
+						transform: 'rotate(360deg)',
+					},
+				},
+				'kds-loading-circular-linear': {
+					'0%': {
+						'stroke-dasharray': '1px, 200px',
+						'stroke-dashoffset': '0',
+					},
+					'50%': {
+						'stroke-dasharray': '100px, 200px',
+						'stroke-dashoffset': '-15px',
+					},
+					'100%': {
+						'stroke-dasharray': '100px, 200px',
+						'stroke-dashoffset': '-125px',
+					},
+				},
 			},
 			animation: {
 				'kds-go': 'kds-go-around 2s infinite',
+				'kds-loading-circular-outer': '1.4s linear 0s infinite normal none running kds-loading-circular-progress',
+				'kds-loading-circular-inner': '1.4s ease-in-out 0s infinite normal none running kds-loading-circular-linear',
 			},
 			fontFamily: {
 				'kds-inter': ['KdsInter', 'ui-sans-serif', 'system-ui'],
@@ -69,6 +93,18 @@ module.exports = {
 				 *
 				 */
 
+				/**********
+				 * LOADING
+				 **********/
+				'.kds-loading-spinner-outer': {
+					'@apply inline-block animate-kds-loading-circular-outer': {},
+				},
+				'.kds-loading-spinner-inner': {
+					'@apply stroke-current animate-kds-loading-circular-inner': {},
+					'stroke-dasharray': '80px, 200px',
+					'stroke-dashoffset': '0',
+				},
+
 				/*******************
 				 * TITLE WITH SLASH
 				 *******************/
@@ -101,14 +137,23 @@ module.exports = {
 					'& > label': {
 						'@apply block font-bold select-none': {},
 					},
+					'& > .kds-form-group-error': {
+						'@apply text-red-500 text-[.75rem] select-none': {},
+					},
 				},
 
 				// Form group horizontally
 
-				//
+				// Inputs Invalid
+				'input.kds-input.ng-touched.ng-invalid': {
+					'@apply border border-red-300 ring-1 ring-offset-0 ring-red-200': {},
+				},
+
+				// General Inputs [NOT checkbox]
 				'input:not([type="checkbox"]).kds-input': {
 					'@apply border rounded py-2 px-3 dark:text-slate-700': {},
 
+					// Input small size
 					'&.kds-input-sm': {
 						'@apply leading-tight': {},
 					},
