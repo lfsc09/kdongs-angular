@@ -65,22 +65,19 @@ export class LandingPageComponent implements OnInit {
 		password: ['', Validators.required],
 	});
 	protected async handleLoginFormSubmit() {
-        if (this.loginForm.valid) {
-            this.loadingLoginForm.update(() => true);
-            try {
-                const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
-    
-                // TODO: Make service for TokenManagement
-                //      -> Save the token in LocalStorage
-            } catch (err: any) {
-    
-                // TODO: Make service for LogManagement
-                console.error(err.message);
-            }
-            this.loadingLoginForm.update(() => false);
-        }
-        else
-            this.loginForm.markAllAsTouched();
+		if (this.loginForm.valid) {
+			this.loadingLoginForm.update(() => true);
+			try {
+				const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
+
+				// TODO: Make service for TokenManagement
+				//      -> Save the token in LocalStorage
+			} catch (err: any) {
+				// TODO: Make service for LogManagement
+				console.error(err.message);
+			}
+			this.loadingLoginForm.update(() => false);
+		} else this.loginForm.markAllAsTouched();
 	}
 
 	/**

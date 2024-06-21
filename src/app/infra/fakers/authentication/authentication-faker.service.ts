@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from './authentication.model';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class AuthenticationFakerService {
 	private users: User[];
 
