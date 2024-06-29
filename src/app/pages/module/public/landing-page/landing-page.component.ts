@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -26,6 +26,7 @@ export class LandingPageComponent implements OnInit {
 	readonly ngParticlesService = inject(NgParticlesService);
 	readonly formBuilderService = inject(FormBuilder);
 	readonly authenticationService = inject(AuthenticationFakerService);
+    readonly zone = inject(NgZone);
 
 	/**
 	 * SIGNALS
@@ -42,9 +43,11 @@ export class LandingPageComponent implements OnInit {
 	viewports = signal(ViewportSizes);
 
 	ngOnInit(): void {
-		this.ngParticlesService.init(async (engine: Engine) => {
-			await loadSlim(engine);
-		});
+        this.zone.runOutsideAngular(() => {
+            this.ngParticlesService.init(async (engine: Engine) => {
+                await loadSlim(engine);
+            });
+        })
 	}
 
 	/**
