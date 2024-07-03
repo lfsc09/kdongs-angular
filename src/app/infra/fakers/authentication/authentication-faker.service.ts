@@ -4,6 +4,7 @@ import { User } from './authentication.model';
 @Injectable()
 export class AuthenticationFakerService {
 	private users: User[];
+    public requestTime: number = 2500;
 
 	constructor() {
 		this.users = [
@@ -12,19 +13,19 @@ export class AuthenticationFakerService {
 				name: 'Jacinto Pinto',
 				username: 'jacinto.pinto',
 				password: '123456',
-				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwidXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwiaWF0Ijo0NTE2MjM5MDIyfQ.OTURxK1eK3b0VsakCYLtCmpPwAMAVGxTPvA3choF1Jc',
+				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwidXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwiaG9zdCI6Imtkb25ncyIsImFkbWluX2ZsYWciOnRydWUsImlhdCI6NDUxNjIzOTAyMn0.81oWn-SEq3ZeqVYeb30u7KQOcMuIa_01Iwc9PXard7Y',
 			},
 			{
 				id: '7408cdcd-6a77-4533-b6d3-481904b467b2',
 				name: 'Tomas Turbando',
-				username: 'tomas.t',
+				username: 'tomas.turbando',
 				password: '654321',
-				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MDhjZGNkLTZhNzctNDUzMy1iNmQzLTQ4MTkwNGI0NjdiMiIsIm5hbWUiOiJUb21hcyBUdXJiYW5kbyIsInVzZXJuYW1lIjoidG9tYXMudCIsImlhdCI6NDUxNjIzOTAyMn0.aczcQwun7rZ0K3W398yTRwCgIof2_nMzqphbr3EDdBs',
+				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MDhjZGNkLTZhNzctNDUzMy1iNmQzLTQ4MTkwNGI0NjdiMiIsIm5hbWUiOiJUb21hcyBUdXJiYW5kbyIsInVzZXJuYW1lIjoidG9tYXMudHVyYmFuZG8iLCJob3N0Ijoia2RvbmdzIiwiYWRtaW5fZmxhZyI6ZmFsc2UsImlhdCI6NDUxNjIzOTAyMn0.g5Vl9J9LB7116ORU5K_G-BsXnEBtM-e3IHQFBwhwfbA',
 			},
 		];
 	}
 
-	fakeFailRequest() {
+	fakeFailRequest(): boolean {
 		return Math.trunc(Math.random() * 10) > 8;
 	}
 
@@ -34,7 +35,7 @@ export class AuthenticationFakerService {
 			setTimeout(() => {
 				if (this.fakeFailRequest()) reject(new Error('Request Failed'));
 				else resolve(user?.token || null);
-			}, 2500);
+			}, this.requestTime);
 		});
 	}
 }

@@ -8,6 +8,7 @@ import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { AuthenticationFakerService } from '../../../../infra/fakers/authentication/authentication-faker.service';
+import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
 import { ViewportMatchDirective } from '../../../../infra/services/viewport/viewport-match.directive';
 import { ViewportSizes } from '../../../../infra/services/viewport/viewport.model';
 import { RandomParticlesProps } from './landing-page.model';
@@ -26,7 +27,8 @@ export class LandingPageComponent implements OnInit {
 	readonly ngParticlesService = inject(NgParticlesService);
 	readonly formBuilderService = inject(FormBuilder);
 	readonly authenticationService = inject(AuthenticationFakerService);
-    readonly zone = inject(NgZone);
+	readonly tokenManagerService = inject(TokenManagerService);
+	readonly zone = inject(NgZone);
 
 	/**
 	 * SIGNALS
@@ -43,11 +45,11 @@ export class LandingPageComponent implements OnInit {
 	viewports = signal(ViewportSizes);
 
 	ngOnInit(): void {
-        this.zone.runOutsideAngular(() => {
-            this.ngParticlesService.init(async (engine: Engine) => {
-                await loadSlim(engine);
-            });
-        })
+		this.zone.runOutsideAngular(() => {
+			this.ngParticlesService.init(async (engine: Engine) => {
+				await loadSlim(engine);
+			});
+		});
 	}
 
 	/**
@@ -69,17 +71,21 @@ export class LandingPageComponent implements OnInit {
 	});
 	protected async handleLoginFormSubmit() {
 		if (this.loginForm.valid) {
-			this.loadingLoginForm.update(() => true);
+			this.loadingLoginForm.set(true);
 			try {
 				const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
-
-				// TODO: Make service for TokenManagement
-				//      -> Save the token in LocalStorage
+				if (userToken) {
+					if (this.tokenManagerService.processToken(userToken)) console.warn('GO');
+					else console.warn('showLogError');
+				} else {
+                    this.loginForm.reset();
+                    console.warn('showLogError');
+                }
 			} catch (err: any) {
 				// TODO: Make service for LogManagement
 				console.error(err.message);
 			}
-			this.loadingLoginForm.update(() => false);
+			this.loadingLoginForm.set(false);
 		} else this.loginForm.markAllAsTouched();
 	}
 
