@@ -1,5 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faAnglesRight, faEye, faEyeSlash, faGamepad, faLightbulb, faMoon, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
@@ -25,12 +26,13 @@ export class LandingPageComponent implements OnInit {
 	/**
 	 * SERVICES
 	 */
-	readonly ngParticlesService = inject(NgParticlesService);
 	readonly formBuilderService = inject(FormBuilder);
-	readonly authenticationService = inject(AuthenticationFakerService);
+	readonly routerService = inject(Router);
+	readonly zone = inject(NgZone);
+	readonly ngParticlesService = inject(NgParticlesService);
 	readonly tokenManagerService = inject(TokenManagerService);
 	readonly themeManagerService = inject(ThemeManagerService);
-	readonly zone = inject(NgZone);
+	readonly authenticationService = inject(AuthenticationFakerService);
 
 	/**
 	 * SIGNALS
@@ -82,11 +84,11 @@ export class LandingPageComponent implements OnInit {
 			try {
 				const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
 				if (userToken) {
-					if (this.tokenManagerService.processToken(userToken)) console.warn('GO');
+					if (this.tokenManagerService.processToken(userToken)) this.routerService.navigate(['/home']);
 					else console.warn('showLogError');
 				} else {
 					this.loginForm.reset();
-                    submittedForm.resetForm();
+					submittedForm.resetForm();
 					this.inputLoginUsername()?.nativeElement.focus();
 					console.warn('showLogError');
 				}

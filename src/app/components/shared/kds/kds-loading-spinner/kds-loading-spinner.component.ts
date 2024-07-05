@@ -25,10 +25,16 @@ import { Component, input } from '@angular/core';
 	`,
 })
 export class KdsLoadingSpinnerComponent {
+    /**
+     * SIGNALS
+     */
 	size = input<'sm' | 'md' | 'lg'>('sm');
 	position = input<'start' | 'center' | 'end'>('center');
 	color = input<'white' | 'dongs'>('white');
 
+    /**
+     * VARS
+     */
 	protected sizes = {
 		sm: 'h-4 w-4',
 		md: 'h-6 w-6',
