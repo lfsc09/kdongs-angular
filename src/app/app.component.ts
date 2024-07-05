@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { TokenManagerService } from './infra/services/token/token-manager.service';
+import { environment } from '../environments/environment';
 import { ThemeManagerService } from './infra/services/theme/theme-manager.service';
+import { TokenManagerService } from './infra/services/token/token-manager.service';
 
 @Component({
 	selector: 'app-root',
@@ -11,25 +12,33 @@ import { ThemeManagerService } from './infra/services/theme/theme-manager.servic
 	templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-    /**
-     * SERVICES
-     */
+	/**
+	 * SERVICES
+	 */
 	private tokenManagerService = inject(TokenManagerService);
-    private themeManagerService = inject(ThemeManagerService);
+	private themeManagerService = inject(ThemeManagerService);
+	private routerService = inject(Router);
 
-    /**
-     * SIGNALS AND OBSERVABLES
-     */
+	/**
+	 * SIGNALS AND OBSERVABLES
+	 */
 	private tokenExpLeftSubscription: Subscription | undefined;
 	private clearTimeoutProcessToken: ReturnType<typeof setTimeout> | undefined;
-    protected useDarkTheme = this.themeManagerService.darkTheme;
+	protected useDarkTheme = this.themeManagerService.darkTheme;
 
 	ngOnInit(): void {
 		this.tokenExpLeftSubscription = this.tokenManagerService.tokenExpLeft$.subscribe((expLeft: number) => {
-			if (expLeft > 0) {
+			// Register the next tokenProcess if token is still valid
+            if (expLeft > 0) {
 				this.clearTimeoutProcessToken = setTimeout(() => {
-					this.tokenManagerService.processToken();
-				}, 5000);
+					if (!this.tokenManagerService.processToken()) this.routerService.navigate(['/gate']);
+				}, environment.token.interval);
+			} 
+            // When token gets invalid, or tokenManager was cleaned
+            else if (this.clearTimeoutProcessToken !== undefined) {
+				clearTimeout(this.clearTimeoutProcessToken);
+				this.clearTimeoutProcessToken = undefined;
+				this.routerService.navigate(['/gate']);
 			}
 		});
 	}
@@ -37,5 +46,6 @@ export class AppComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {
 		this.tokenExpLeftSubscription!.unsubscribe();
 		clearTimeout(this.clearTimeoutProcessToken);
+		this.clearTimeoutProcessToken = undefined;
 	}
 }
