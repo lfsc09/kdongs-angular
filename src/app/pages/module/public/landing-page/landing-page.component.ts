@@ -1,13 +1,14 @@
-import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
+import { FormBuilder, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faAnglesRight, faEye, faEyeSlash, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesRight, faEye, faEyeSlash, faGamepad, faLightbulb, faMoon, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { AuthenticationFakerService } from '../../../../infra/fakers/authentication/authentication-faker.service';
+import { ThemeManagerService } from '../../../../infra/services/theme/theme-manager.service';
 import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
 import { ViewportMatchDirective } from '../../../../infra/services/viewport/viewport-match.directive';
 import { ViewportSizes } from '../../../../infra/services/viewport/viewport.model';
@@ -28,21 +29,27 @@ export class LandingPageComponent implements OnInit {
 	readonly formBuilderService = inject(FormBuilder);
 	readonly authenticationService = inject(AuthenticationFakerService);
 	readonly tokenManagerService = inject(TokenManagerService);
+	readonly themeManagerService = inject(ThemeManagerService);
 	readonly zone = inject(NgZone);
 
 	/**
 	 * SIGNALS
 	 */
-	year = signal(new Date().getFullYear());
-	icons = signal({
+	protected year = signal(new Date().getFullYear());
+	protected icons = signal({
 		faRightToBracket: faRightToBracket,
 		faAnglesRight: faAnglesRight,
 		faLinkedin: faLinkedin,
 		faGithub: faGithub,
 		faEye: faEye,
 		faEyeSlash: faEyeSlash,
+		faLightbulb: faLightbulb,
+		faMoon: faMoon,
+		faGamepad: faGamepad,
 	});
-	viewports = signal(ViewportSizes);
+	protected viewports = signal(ViewportSizes);
+	protected useDarkTheme = this.themeManagerService.darkTheme;
+	private inputLoginUsername = viewChild<ElementRef>('inputLoginUsername');
 
 	ngOnInit(): void {
 		this.zone.runOutsideAngular(() => {
@@ -69,7 +76,7 @@ export class LandingPageComponent implements OnInit {
 		username: ['', Validators.required],
 		password: ['', Validators.required],
 	});
-	protected async handleLoginFormSubmit() {
+	protected async handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
 			this.loadingLoginForm.set(true);
 			try {
@@ -78,9 +85,11 @@ export class LandingPageComponent implements OnInit {
 					if (this.tokenManagerService.processToken(userToken)) console.warn('GO');
 					else console.warn('showLogError');
 				} else {
-                    this.loginForm.reset();
-                    console.warn('showLogError');
-                }
+					this.loginForm.reset();
+                    submittedForm.resetForm();
+					this.inputLoginUsername()?.nativeElement.focus();
+					console.warn('showLogError');
+				}
 			} catch (err: any) {
 				// TODO: Make service for LogManagement
 				console.error(err.message);

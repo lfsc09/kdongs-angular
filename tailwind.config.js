@@ -138,15 +138,15 @@ module.exports = {
 						'@apply block font-bold select-none': {},
 					},
 					'& > .kds-form-group-error': {
-						'@apply text-red-500 text-[.75rem] select-none': {},
+						'@apply text-red-500 dark:text-red-400 text-[.75rem] select-none': {},
 					},
 				},
 
 				// Form group horizontally
 
 				// Inputs Invalid
-				'input.kds-input.ng-touched.ng-invalid': {
-					'@apply border border-red-300 ring-1 ring-offset-0 ring-red-200': {},
+				'input.kds-input.kds-input-error': {
+					'@apply border border-red-300 dark:border-red-500 ring-1 ring-offset-0 ring-red-200 dark:ring-red-300': {},
 				},
 
 				// General Inputs [NOT checkbox]

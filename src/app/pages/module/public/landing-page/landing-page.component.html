@@ -2,7 +2,7 @@
 	<ngx-particles [options]="particlesOptions" />
 	<section class="flex min-h-screen flex-row items-stretch gap-0 desktop-2k:container">
 		<section
-			class="z-10 mx-8 my-8 flex flex-1 flex-col rounded-lg bg-slate-50 px-8 pb-4 pt-8 shadow-lg tablet-h:mr-0 tablet-h:max-w-[400px] tablet-h:flex-auto laptop:max-w-[500px] dark:bg-slate-700"
+			class="z-10 mx-8 my-8 flex flex-1 flex-col rounded-lg bg-slate-50/80 px-8 pb-4 pt-8 shadow-lg backdrop-blur-[2px] tablet-h:mr-0 tablet-h:max-w-[400px] tablet-h:flex-auto laptop:max-w-[500px] dark:bg-slate-700/75"
 		>
 			<div
 				class="mb-20 mt-8 flex flex-row items-center justify-center gap-4 mobile-h:gap-8"
@@ -15,11 +15,12 @@
 				/>
 				<span class="font-kds-inter text-5xl text-dongs-500 drop-shadow-md mobile-h:text-7xl">Kdongs</span>
 			</div>
-			<span class="kds-title-slash text-xl font-semibold text-green-600 dark:text-slate-300">Login</span>
+			<span class="kds-title-slash text-xl font-semibold text-green-600 dark:text-green-500">Login</span>
 			<form
 				class="mb-12 mt-20 px-4"
 				[formGroup]="loginForm"
-				(ngSubmit)="handleLoginFormSubmit()"
+				#formLoginForm="ngForm"
+				(ngSubmit)="handleLoginFormSubmit(formLoginForm)"
 			>
 				<div class="flex flex-col gap-4">
 					<div class="kds-form-group-v">
@@ -29,11 +30,13 @@
 							name="username"
 							id="login-username"
 							class="kds-input"
+							[class.kds-input-error]="loginForm.controls.username.invalid && loginForm.controls.username.touched && formLoginForm.submitted"
 							formControlName="username"
-                            autofocus
+							autofocus
+							#inputLoginUsername
 						/>
-						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched) {
-							<span class="kds-form-group-error">Invalid Username</span>
+						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched && formLoginForm.submitted) {
+							<span class="kds-form-group-error">Invalid username</span>
 						}
 					</div>
 					<div class="kds-form-group-v">
@@ -44,6 +47,7 @@
 								name="password"
 								id="login-password"
 								class="kds-input w-full !pr-14"
+								[class.kds-input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched && formLoginForm.submitted"
 								formControlName="password"
 							/>
 							<button
@@ -58,8 +62,8 @@
 								/>
 							</button>
 						</div>
-						@if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
-							<span class="kds-form-group-error">Invalid Password</span>
+						@if (loginForm.controls.password.invalid && loginForm.controls.password.touched && formLoginForm.submitted) {
+							<span class="kds-form-group-error">Invalid password</span>
 						}
 					</div>
 					<div class="mt-4 flex w-full flex-row items-center justify-end">
@@ -89,7 +93,7 @@
 				<p>If you have credentials you may continue, otherwise feel free to reach me out.</p>
 				<div class="mt-4 flex flex-row gap-4">
 					<a
-						class="group/link flex flex-row items-center rounded-lg px-2 py-1 font-kds-mono text-lg font-medium text-slate-500 hover:brightness-110 hover:backdrop-brightness-95"
+						class="group/link flex flex-row items-center rounded-lg px-2 py-1 text-lg hover:brightness-110 hover:backdrop-brightness-95 dark:hover:backdrop-brightness-110"
 						href="https://www.linkedin.com/in/lucasfscastro/"
 						target="_blank"
 					>
@@ -98,10 +102,10 @@
 							[icon]="icons().faLinkedin"
 							size="lg"
 						/>
-						/lucasfscastro
+						<span class="font-kds-mono text-base font-medium text-slate-500 group-hover/link:text-dongs-500">/lucasfscastro</span>
 					</a>
 					<a
-						class="group/link flex flex-row items-center rounded-lg px-2 py-1 font-kds-mono text-lg font-medium text-slate-500 hover:brightness-110 hover:backdrop-brightness-95"
+						class="group/link flex flex-row items-center rounded-lg px-2 py-1 text-lg hover:brightness-110 hover:backdrop-brightness-95 dark:hover:backdrop-brightness-110"
 						href="https://github.com/lfsc09"
 						target="_blank"
 					>
@@ -110,9 +114,31 @@
 							[icon]="icons().faGithub"
 							size="lg"
 						/>
-						/lfsc09</a
-					>
+						<span class="font-kds-mono text-base font-medium text-slate-500 group-hover/link:text-dongs-500">/lfsc09</span>
+					</a>
 				</div>
+			</div>
+			<div class="mt-2 flex flex-row gap-2">
+				<button
+					type="button"
+					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 font-kds-mono shadow-sm hover:brightness-95 dark:bg-slate-800"
+					(click)="themeManagerService.invert()"
+				>
+					<fa-icon
+						class="group-hover/link:text-dongs-500"
+						[icon]="useDarkTheme() ? icons().faLightbulb : icons().faMoon"
+					/>
+				</button>
+				<button
+					type="button"
+					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 shadow-sm hover:brightness-95 dark:bg-slate-800"
+				>
+					<fa-icon
+						class="mr-2 group-hover/link:text-dongs-500"
+						[icon]="icons().faGamepad"
+					/>
+					<span class="font-kds-mono font-medium group-hover/link:text-dongs-500">Play</span>
+				</button>
 			</div>
 			<footer class="mt-auto text-center">
 				<p class="mt-8 select-none text-[.65rem] font-bold text-slate-500 dark:text-slate-300">KDONGS &#64; {{ year() }}</p>
