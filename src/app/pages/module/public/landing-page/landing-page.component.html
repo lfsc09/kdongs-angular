@@ -6,7 +6,7 @@
 		>
 			<div
 				class="mb-20 mt-8 flex flex-row items-center justify-center gap-4 mobile-h:gap-8"
-				*kdsViewportMatch="[viewports().MOBILE_VERTICAL, viewports().MOBILE_HORIZONTAL, viewports().TABLET_VERTICAL]"
+				*viewportMatch="['MOBILE_VERTICAL', 'MOBILE_HORIZONTAL', 'TABLET_VERTICAL']"
 			>
 				<img
 					class="h-28 select-none drop-shadow-md mobile-h:h-36 tablet-v:h-44"
@@ -121,7 +121,7 @@
 			<div class="mt-2 flex flex-row gap-2">
 				<button
 					type="button"
-					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 shadow-sm hover:brightness-95 dark:bg-slate-800"
+					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 shadow-sm hover:brightness-95 dark:bg-slate-800 dark:hover:brightness-110"
 					(click)="themeManagerService.invert()"
 				>
 					<fa-icon
@@ -131,7 +131,7 @@
 				</button>
 				<button
 					type="button"
-					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 shadow-sm hover:brightness-95 dark:bg-slate-800"
+					class="group/link flex flex-row items-center rounded-lg bg-slate-200 px-4 py-2 shadow-sm hover:brightness-95 dark:bg-slate-800 dark:hover:brightness-110"
 				>
 					<fa-icon
 						class="mr-2 group-hover/link:text-dongs-500"
@@ -146,10 +146,10 @@
 		</section>
 		<section
 			class="z-10 flex flex-1 select-none flex-col items-center justify-center gap-6"
-			*kdsViewportMatch="[viewports().TABLET_HORIZONTAL, viewports().LAPTOP, viewports().DESKTOP_1K, viewports().DESKTOP_2K]"
+			*viewportMatch="['TABLET_HORIZONTAL', 'LAPTOP', 'DESKTOP_1K', 'DESKTOP_2K']"
 		>
 			<img
-				class="max-h-52 drop-shadow-md laptop:max-h-72"
+				class="max-h-52 drop-shadow-md laptop:max-h-72 transition ease-in-out hover:scale-95"
 				src="assets/kdongs-icon-square-470x468-noback.png"
 				alt="logo"
 			/>

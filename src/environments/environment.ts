@@ -1,4 +1,5 @@
 export const environment = {
+    title: 'Kdongs',
 	token: {
 		host: 'kdongs',
         // lifespan of "1d" (miliseconds)

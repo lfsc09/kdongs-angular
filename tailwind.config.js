@@ -93,6 +93,13 @@ module.exports = {
 				 *
 				 */
 
+				/**************
+				 * BLOCK QUOTE
+				 **************/
+				'.kds-blockquote': {
+					'@apply text-sm font-medium mt-4 border-l-4 border-l-blue-400 pl-6 italic': {},
+				},
+
 				/******************
 				 * LOADING SPINNER
 				 ******************/
@@ -128,15 +135,17 @@ module.exports = {
 				},
 
 				/********
-				 * INPUT
+				 * FORMS
 				 ********/
 
 				// Form group vertically
 				'.kds-form-group-v': {
 					'@apply flex flex-col gap-1 text-sm': {},
+
 					'& > label': {
 						'@apply block font-bold select-none': {},
 					},
+
 					'& > .kds-form-group-error': {
 						'@apply text-red-500 dark:text-red-400 text-[.75rem] select-none': {},
 					},
@@ -144,18 +153,73 @@ module.exports = {
 
 				// Form group horizontally
 
+				/********
+				 * INPUT
+				 ********/
+
 				// Inputs Invalid
 				'input.kds-input.kds-input-error': {
 					'@apply border border-red-300 dark:border-red-500 ring-1 ring-offset-0 ring-red-200 dark:ring-red-300': {},
 				},
 
-				// General Inputs [NOT checkbox]
-				'input:not([type="checkbox"]).kds-input': {
+				// General Inputs [NOT checkbox] [NOT time]
+				'input:not([type="checkbox"]).kds-input, input:not([type="time"]).kds-input': {
 					'@apply border rounded py-2 px-3 dark:text-slate-700': {},
 
 					// Input small size
 					'&.kds-input-sm': {
 						'@apply leading-tight': {},
+					},
+				},
+
+				// Checkbox wrapper
+				'div.kds-input-checkbox-wrapper': {
+					'@apply flex items-center': {},
+
+					// Inputs Checkbox
+					'& > input[type="checkbox"].kds-input-checkbox': {
+						'@apply w-4 h-4 rounded ': {},
+					},
+					'& > label': {
+						'@apply ms-2 text-=sm font-medium': {},
+					},
+				},
+
+				// Inputs Checkbox (Tootle Button Style)
+
+				// Input Time
+				'input[type="time"]': {
+					'@apply p-4': {},
+				},
+
+				/********
+				 * BADGE
+				 ********/
+				'.kds-badge': {
+					'@apply w-fit px-3 py-2 text-sm font-semibold text-slate-700 rounded-sm select-none bg-gray-200;': {},
+
+					// Badge small size
+					'&.kds-badge-sm': {
+						'@apply !px-2 !py-1': {},
+					},
+				},
+
+				/************
+				 * SEPARATOR
+				 ************/
+
+				// Horizontal divider
+				'hr.kds-h-divider': {
+					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-current to-transparent opacity-75': {},
+				},
+
+				// Horizontal divider with text
+				'div.kds-h-divider-text': {
+					'@apply h-3 border-b-2 border-current text-center': {},
+
+					// With text
+					'& > span': {
+						'@apply bg-transparent px-5': {},
 					},
 				},
 			});

@@ -4,37 +4,40 @@ import { Component, input } from '@angular/core';
 	selector: 'kds-loading-spinner',
 	standalone: true,
 	imports: [],
+	styles: `
+		:host {
+			@apply flex transition-opacity delay-150 ease-in-out;
+		}
+	`,
 	template: `
-		<div class="flex transition-opacity delay-150 ease-in-out">
-			<span class="kds-loading-spinner-outer {{ sizes[size()] }}">
-				<svg
-					class="block"
-					viewBox="22 22 44 44"
-				>
-					<circle
-						class="kds-loading-spinner-inner {{ colors[color()] }}"
-						cx="44"
-						cy="44"
-						r="20.2"
-						fill="none"
-						stroke-width="3.6"
-					></circle>
-				</svg>
-			</span>
-		</div>
+		<span class="kds-loading-spinner-outer {{ sizes[size()] }}">
+			<svg
+				class="block"
+				viewBox="22 22 44 44"
+			>
+				<circle
+					class="kds-loading-spinner-inner {{ colors[color()] }}"
+					cx="44"
+					cy="44"
+					r="20.2"
+					fill="none"
+					stroke-width="3.6"
+				></circle>
+			</svg>
+		</span>
 	`,
 })
 export class KdsLoadingSpinnerComponent {
-    /**
-     * SIGNALS
-     */
+	/**
+	 * SIGNALS
+	 */
 	size = input<'sm' | 'md' | 'lg'>('sm');
 	position = input<'start' | 'center' | 'end'>('center');
 	color = input<'white' | 'dongs'>('white');
 
-    /**
-     * VARS
-     */
+	/**
+	 * VARS
+	 */
 	protected sizes = {
 		sm: 'h-4 w-4',
 		md: 'h-6 w-6',

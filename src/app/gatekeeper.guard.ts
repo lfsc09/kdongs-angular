@@ -16,8 +16,8 @@ export const gatekeeperGuard: CanActivateFn = (route: ActivatedRouteSnapshot, st
 		return router.parseUrl('/gate');
 	}
 
-	// If have token but I am at gate, go to home
-	if (firstSegment === 'gate') return router.parseUrl('/home');
+	// If have token but I am at gate, go to `r!` (restricted section)
+	if (firstSegment === 'gate') return router.parseUrl('/r!');
 
 	// If have token and trying to reach other known routes, just allow
 	return true;

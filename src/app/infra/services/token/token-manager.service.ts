@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDays, addHours, addMinutes } from 'date-fns';
+import { addDays } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -24,21 +24,20 @@ export class TokenManagerService {
 
 	tokenExpLeft$ = this._tokenExpLeft$.asObservable();
 
-	constructor() {}
+    /**
+     * FUNCTIONS
+     */
 
 	processToken(token: string | null = null): boolean {
-		console.log('Process Token');
-
-        // In-memory token
+		// In-memory token
 		if (token === null && this._tokenData !== null) {
-            if (this.isValid(this._tokenData)) {
-                this._tokenExpLeft$.next(this.calculateTokenExpLeft());
-                return true;
-            }
-            else {
-                this.clear();
-                return false;
-            }
+			if (this.isValid(this._tokenData)) {
+				this._tokenExpLeft$.next(this.calculateTokenExpLeft());
+				return true;
+			} else {
+				this.clear();
+				return false;
+			}
 		}
 
 		const tokenRead = token === null ? localStorage.getItem(`token:${environment.token.host}`) : token;
@@ -78,8 +77,7 @@ export class TokenManagerService {
 			// If `exp` was not defined in the server
 			// TODO: Delete this later
 			if (decodedToken && decodedToken?.exp === undefined) {
-				// const newExp = addDays(new Date(), 1);
-				const newExp = addMinutes(new Date(), 5);
+				const newExp = addDays(new Date(), 1);
 				decodedToken.exp = newExp.getTime() / 1000;
 			}
 

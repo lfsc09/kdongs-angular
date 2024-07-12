@@ -38,6 +38,18 @@
 @tailwind utilities;
 
 @layer utilities {
+    .navleft-router-link-active {
+        @apply bg-dongs-200 hover:bg-dongs-200;
+
+        & > span {
+            @apply text-dongs-600;
+        }
+
+        & > fa-icon {
+            @apply text-dongs-600;
+        }
+    }
+
 	fa-icon {
 		& svg {
 			@apply text-current;
