@@ -4,7 +4,7 @@ import { User } from './authentication.model';
 @Injectable()
 export class AuthenticationFakerService {
 	private users: User[];
-    public requestTime: number = 2500;
+    requestTime: number = 1300;
 
 	constructor() {
 		this.users = [

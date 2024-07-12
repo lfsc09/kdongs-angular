@@ -8,11 +8,10 @@ import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
+import { ViewportMatchDirective } from '../../../../infra/directives/viewport/viewport-match.directive';
 import { AuthenticationFakerService } from '../../../../infra/fakers/authentication/authentication-faker.service';
 import { ThemeManagerService } from '../../../../infra/services/theme/theme-manager.service';
 import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
-import { ViewportMatchDirective } from '../../../../infra/services/viewport/viewport-match.directive';
-import { ViewportSizes } from '../../../../infra/services/viewport/viewport.model';
 import { RandomParticlesProps } from './landing-page.model';
 
 @Component({
@@ -26,13 +25,13 @@ export class LandingPageComponent implements OnInit {
 	/**
 	 * SERVICES
 	 */
-	readonly formBuilderService = inject(FormBuilder);
-	readonly routerService = inject(Router);
-	readonly zone = inject(NgZone);
-	readonly ngParticlesService = inject(NgParticlesService);
-	readonly tokenManagerService = inject(TokenManagerService);
-	readonly themeManagerService = inject(ThemeManagerService);
-	readonly authenticationService = inject(AuthenticationFakerService);
+	private readonly formBuilderService = inject(FormBuilder);
+	private readonly routerService = inject(Router);
+	private readonly zone = inject(NgZone);
+	private readonly ngParticlesService = inject(NgParticlesService);
+	private readonly tokenManagerService = inject(TokenManagerService);
+	protected readonly themeManagerService = inject(ThemeManagerService);
+	private readonly authenticationService = inject(AuthenticationFakerService);
 
 	/**
 	 * SIGNALS
@@ -49,7 +48,6 @@ export class LandingPageComponent implements OnInit {
 		faMoon: faMoon,
 		faGamepad: faGamepad,
 	});
-	protected viewports = signal(ViewportSizes);
 	protected useDarkTheme = this.themeManagerService.darkTheme;
 	private inputLoginUsername = viewChild<ElementRef>('inputLoginUsername');
 
@@ -84,7 +82,7 @@ export class LandingPageComponent implements OnInit {
 			try {
 				const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
 				if (userToken) {
-					if (this.tokenManagerService.processToken(userToken)) this.routerService.navigate(['/home']);
+					if (this.tokenManagerService.processToken(userToken)) this.routerService.navigate(['/r!/home'], { replaceUrl: true });
 					else console.warn('showLogError');
 				} else {
 					this.loginForm.reset();

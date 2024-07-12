@@ -1,7 +1,7 @@
 export interface TokenData {
     userId: string;
     username: string;
-    user: string;
+    name: string;
     admin_flag: boolean;
     perms: string;
     configs: string;

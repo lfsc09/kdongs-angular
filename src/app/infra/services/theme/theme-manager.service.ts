@@ -5,11 +5,11 @@ import { Injectable, signal } from '@angular/core';
 })
 export class ThemeManagerService {
 
+    /**
+     * SIGNALS
+     */
     private _darkTheme = signal<boolean>(false);
-
     darkTheme = this._darkTheme.asReadonly();
-
-	constructor() {}
 
     invert() {
         this._darkTheme.update((previous) => !previous);
