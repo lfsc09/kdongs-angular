@@ -1,4 +1,4 @@
-<section class="fixed left-0 right-0 top-0 flex flex-row bg-slate-50/80 px-6 py-3 shadow-md backdrop-blur-[2px] dark:bg-slate-700/75">
+<section class="fixed left-0 right-0 top-0 flex h-20 flex-row items-center bg-slate-50/90 px-6 py-3 shadow-md backdrop-blur-[2px] dark:bg-slate-700/95">
 	<div class="flex select-none flex-row items-center gap-2">
 		<img
 			src="assets/kdongs-icon-round-447x448-noback.png"
@@ -7,21 +7,37 @@
 		/>
 		<span class="stroke font-kds-inter text-3xl text-dongs-500">Kdongs</span>
 	</div>
+	<button
+		type="button"
+		class="group/link ml-6 flex flex-row items-center gap-2 rounded-lg bg-slate-100 px-4 py-2 hover:brightness-95 dark:bg-slate-800 dark:hover:brightness-110"
+		(click)="handleNavLeftOpen()"
+	>
+		<fa-icon
+			class="text-slate-500 group-hover/link:text-dongs-500"
+			[icon]="icons().faBars"
+		/>
+		<code
+			class="ml-2 rounded-md bg-slate-200 px-2 py-1 text-xs font-bold text-slate-500 dark:bg-slate-700"
+			*viewportMatch="['TABLET_HORIZONTAL', 'LAPTOP', 'DESKTOP_1K', 'DESKTOP_2K']"
+		>
+			Ctrl + ;
+		</code>
+	</button>
 	<div class="ml-auto flex flex-row items-center gap-2">
 		<div class="relative flex flex-row items-center">
 			<button
 				type="button"
 				class="rounded-lg pl-1 pr-3 hover:bg-slate-100/80 hover:brightness-110 dark:hover:bg-slate-700 hover:dark:brightness-110"
-				(click)="handleOpen()"
+				(click)="handleUserMenuOpen()"
 			>
-				<div class="flex select-none flex-row items-center gap-0">
+				<div class="flex select-none flex-row items-center">
 					<ng-container *ngIf="tokenExpLeftPercentage$ | async as percent">
 						<app-kds-circular-progress
 							size="xs"
 							[percentage]="percent"
 							[warn]="percent < 25"
 						/>
-						<span class="text-sm font-semibold">{{ tokenManagerService.tokenData?.username ?? 'unknown' }}</span>
+						<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData?.username ?? 'unknown' }}</span>
 					</ng-container>
 				</div>
 			</button>
@@ -38,7 +54,7 @@
 							/>
 							<span class="flex flex-col items-end text-sm">
 								Change Theme
-								<span class="text-[.75rem] text-slate-300 dark:text-slate-500">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
+								<span class="text-[.75rem] text-slate-300 dark:text-slate-950">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
 							</span>
 						</li>
 						<li
