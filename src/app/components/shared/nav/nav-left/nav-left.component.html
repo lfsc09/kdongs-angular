@@ -1,0 +1,40 @@
+<section
+	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-slate-200/40 backdrop-blur-[2px] dark:bg-slate-700/40"
+	(click)="navLeftService.handleOpened()"
+></section>
+<section class="fixed bottom-0 left-0 top-0 z-[1001] w-[320px] bg-slate-50/90 px-6 py-6 shadow-md backdrop-blur-[4px] dark:bg-slate-700/90">
+	<div class="relative">
+		<fa-icon
+			[icon]="icons().faMagnifyingGlass"
+			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-slate-500"
+		/>
+		<input
+			type="text"
+			class="kds-input kds-input-sm w-full !pl-10 text-sm"
+			placeholder="Search"
+			#searchInput
+		/>
+	</div>
+	<hr class="kds-h-divider !my-6 text-slate-400" />
+	<ul class="cursor-pointer">
+		<!-- @for (module of navLeftService.modules(); track $index) {} -->
+		<li class="rounded-md px-4 py-2 font-medium hover:bg-slate-200 hover:brightness-105">
+			<a
+				routerLink="/r!/home"
+				class="flex flex-row justify-between"
+				routerLinkActive="navleft-router-link-active"
+			>
+				<span>Home</span>
+				<fa-icon [icon]="icons().faHouse" />
+			</a>
+		</li>
+		<li
+			class="flex flex-row justify-between rounded-md px-4 py-2 font-medium hover:bg-slate-200 hover:brightness-105"
+			routerLink="/r!/users"
+			routerLinkActive="navleft-router-link-active"
+		>
+			<span>Users</span>
+			<fa-icon [icon]="icons().faUsersGear" />
+		</li>
+	</ul>
+</section>
