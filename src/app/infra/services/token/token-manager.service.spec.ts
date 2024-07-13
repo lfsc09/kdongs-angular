@@ -60,12 +60,12 @@ describe('TokenManagerService', () => {
 	});
 
 	it('(clear) should clear token data of service', () => {
-		service['_token'] = 'justatesttoken';
-		service['_tokenData'] = {
+		service['_token'].set('justatesttoken');
+		service['_tokenData'].set({
 			username: 'test',
-		} as TokenData;
-		expect(service['_token']).toBe('justatesttoken');
-		expect(service['_tokenData'].username).toBe('test');
+		} as TokenData);
+		expect(service['_token']()).toBe('justatesttoken');
+		expect(service['_tokenData']()!.username).toBe('test');
 		service.clear();
 		expect(service.token).toBeNull();
 		expect(service.tokenData).toBeNull();

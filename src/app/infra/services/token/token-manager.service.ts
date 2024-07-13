@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { addDays } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
@@ -9,29 +9,25 @@ import { TokenData } from './token-manager.model';
 	providedIn: 'root',
 })
 export class TokenManagerService {
-	private _token: string | null = null;
-	private _tokenData: TokenData | null = null;
+    /**
+     * SIGNALS AND OBSERVABLES
+     */
+	private _token = signal<string | null>(null);
+	private _tokenData = signal<TokenData | null>(null);
 	// In miliseconds
 	private _tokenExpLeft$: BehaviorSubject<number> = new BehaviorSubject(0);
 
-	get token(): string | null {
-		return this._token;
-	}
-
-	get tokenData(): TokenData | null {
-		return this._tokenData;
-	}
-
+    token = this._token.asReadonly();
+    tokenData = this._tokenData.asReadonly();
 	tokenExpLeft$ = this._tokenExpLeft$.asObservable();
 
-    /**
-     * FUNCTIONS
-     */
-
+	/**
+	 * FUNCTIONS
+	 */
 	processToken(token: string | null = null): boolean {
 		// In-memory token
-		if (token === null && this._tokenData !== null) {
-			if (this.isValid(this._tokenData)) {
+		if (token === null && this._tokenData() !== null) {
+			if (this.isValid(this._tokenData() as TokenData)) {
 				this._tokenExpLeft$.next(this.calculateTokenExpLeft());
 				return true;
 			} else {
@@ -41,30 +37,28 @@ export class TokenManagerService {
 		}
 
 		const tokenRead = token === null ? localStorage.getItem(`token:${environment.token.host}`) : token;
-		this._tokenData = this.extractToken(tokenRead);
+		this._tokenData.set(this.extractToken(tokenRead));
 
-		if (this._tokenData !== null) {
+		if (this._tokenData() !== null && tokenRead !== null) {
 			// Only save in localStorage if token is from login
-			if (token !== null && tokenRead !== null) localStorage.setItem(`token:${environment.token.host}`, tokenRead);
-			this._token = tokenRead;
+			if (token !== null) localStorage.setItem(`token:${environment.token.host}`, tokenRead as string);
+			this._token.set(tokenRead);
 			this._tokenExpLeft$.next(this.calculateTokenExpLeft());
 			return true;
-		} else {
-			this.clear();
-			return false;
-		}
+		} else if (tokenRead !== null) this.clear();
+		return false;
 	}
 
 	clear(): void {
-		this._token = null;
-		this._tokenData = null;
+		this._token.set(null);
+		this._tokenData.set(null);
 		this._tokenExpLeft$.next(0);
 		localStorage.removeItem(`token:${environment.token.host}`);
 	}
 
 	private calculateTokenExpLeft(): number {
-		if (this._tokenData) {
-			const expLeft = (this._tokenData.exp ?? 0) * 1000 - new Date().getTime();
+		if (this._tokenData()) {
+			const expLeft = (this._tokenData()!.exp ?? 0) * 1000 - new Date().getTime();
 			return expLeft > 0 ? expLeft : 0;
 		}
 		return 0;

@@ -37,7 +37,7 @@
 							[percentage]="percent"
 							[warn]="percent < 25"
 						/>
-						<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData?.username ?? 'unknown' }}</span>
+						<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData()?.username ?? 'unknown' }}</span>
 					</ng-container>
 				</div>
 			</button>
