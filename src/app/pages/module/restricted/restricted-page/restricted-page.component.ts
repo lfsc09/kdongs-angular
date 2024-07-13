@@ -19,7 +19,7 @@ import { TokenManagerService } from '../../../../infra/services/token/token-mana
 		<router-outlet />
 	`,
 	host: {
-		'(document:keydown.Control.;)': 'handleOpenNavLeft()',
+		'(document:keydown.Control.;)': 'navLeftService.handleOpened()',
 	},
 })
 export class RestrictedPageComponent implements OnInit, OnDestroy {
@@ -38,18 +38,16 @@ export class RestrictedPageComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.tokenExpLeftSubscription = this.tokenManagerService.tokenExpLeft$.subscribe((expLeft: number) => {
-			this.clearTimeoutProcessToken = setTimeout(() => {
-				if (!this.tokenManagerService.processToken()) this.routerService.navigate(['/gate']);
-			}, environment.token.interval);
+			if (expLeft > 0) {
+				this.clearTimeoutProcessToken = setTimeout(() => {
+					if (!this.tokenManagerService.processToken()) this.routerService.navigate(['/gate']);
+				}, environment.token.interval);
+			} else this.routerService.navigate(['/gate']);
 		});
 	}
 
 	ngOnDestroy(): void {
-		this.tokenExpLeftSubscription!.unsubscribe();
+		this.tokenExpLeftSubscription?.unsubscribe();
 		clearTimeout(this.clearTimeoutProcessToken);
-	}
-
-	handleOpenNavLeft() {
-		this.navLeftService.handleOpened();
 	}
 }
