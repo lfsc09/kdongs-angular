@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +18,7 @@ import { RandomParticlesProps } from './landing-page.model';
 @Component({
 	selector: 'app-landing-page',
 	standalone: true,
-	imports: [ViewportMatchDirective, FontAwesomeModule, NgxParticlesModule, ReactiveFormsModule, KdsLoadingSpinnerComponent],
+	imports: [ViewportMatchDirective, FontAwesomeModule, NgxParticlesModule, ReactiveFormsModule, KdsLoadingSpinnerComponent, NgOptimizedImage],
 	providers: [AuthenticationFakerService],
 	templateUrl: './landing-page.component.html',
 })
@@ -49,7 +50,7 @@ export class LandingPageComponent implements OnInit {
 		faGamepad: faGamepad,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
-	private inputLoginUsername = viewChild<ElementRef>('inputLoginUsername');
+	protected inputLoginUsername = viewChild<ElementRef<HTMLInputElement>>('inputLoginUsername');
 
 	ngOnInit(): void {
 		this.zone.runOutsideAngular(() => {
@@ -67,6 +68,7 @@ export class LandingPageComponent implements OnInit {
 	 * Show/Hide Password
 	 */
 	showPassword = signal(false);
+
 	protected handlePasswordShow() {
 		this.showPassword.update((value) => !value);
 	}
@@ -76,6 +78,7 @@ export class LandingPageComponent implements OnInit {
 		username: ['', Validators.required],
 		password: ['', Validators.required],
 	});
+
 	protected async handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
 			this.loadingLoginForm.set(true);
@@ -118,6 +121,7 @@ export class LandingPageComponent implements OnInit {
 			};
 		}
 	}
+
 	private randomParticleProps: RandomParticlesProps = this.randomizeParticles();
 	particlesOptions = {
 		fpsLimit: 120,
