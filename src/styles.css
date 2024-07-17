@@ -39,14 +39,14 @@
 
 @layer utilities {
     .navleft-router-link-active {
-        @apply bg-dongs-200 hover:bg-dongs-200;
+        @apply bg-dongs-100 hover:!bg-dongs-100 dark:bg-dongs-500 dark:hover:!bg-dongs-500;
 
         & > span {
-            @apply text-dongs-600;
+            @apply text-dongs-400 dark:text-current;
         }
 
         & > fa-icon {
-            @apply text-dongs-600;
+            @apply text-dongs-400 dark:text-current;
         }
     }
 
