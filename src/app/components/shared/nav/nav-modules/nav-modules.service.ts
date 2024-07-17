@@ -4,7 +4,7 @@ import { TokenManagerService } from '../../../../infra/services/token/token-mana
 @Injectable({
 	providedIn: 'root',
 })
-export class NavLeftService {
+export class NavModulesService {
 	/**
 	 * SERVICES
 	 */

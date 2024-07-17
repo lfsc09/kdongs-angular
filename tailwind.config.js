@@ -210,7 +210,7 @@ module.exports = {
 
 				// Horizontal divider
 				'hr.kds-h-divider': {
-					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-current to-transparent opacity-75': {},
+					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent to-current opacity-75': {},
 				},
 
 				// Horizontal divider with text

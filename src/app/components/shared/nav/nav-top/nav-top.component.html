@@ -7,69 +7,27 @@
 		/>
 		<span class="stroke font-kds-inter text-3xl text-dongs-500">Kdongs</span>
 	</div>
-	<button
-		type="button"
-		class="group/link ml-6 flex flex-row items-center gap-2 rounded-lg bg-slate-100 px-4 py-2 hover:brightness-95 dark:bg-slate-800 dark:hover:brightness-110"
-		(click)="handleNavLeftOpen()"
-	>
-		<fa-icon
-			class="text-slate-500 group-hover/link:text-dongs-500"
-			[icon]="icons().faBars"
-		/>
-		<code
-			class="ml-2 rounded-md bg-slate-200 px-2 py-1 text-xs font-bold text-slate-500 dark:bg-slate-700"
-			*viewportMatch="['TABLET_HORIZONTAL', 'LAPTOP', 'DESKTOP_1K', 'DESKTOP_2K']"
-		>
-			Ctrl + ;
-		</code>
-	</button>
 	<div class="ml-auto flex flex-row items-center gap-2">
 		<div class="relative flex flex-row items-center">
 			<button
 				type="button"
-				class="rounded-lg pl-1 pr-3 hover:bg-slate-100/80 hover:brightness-110 dark:hover:bg-slate-700 hover:dark:brightness-110"
-				(click)="handleUserMenuOpen()"
+				class="rounded-lg pl-3 pr-1 hover:bg-slate-100 hover:brightness-100 dark:hover:bg-slate-700 hover:dark:brightness-110"
+				(click)="navModulesService.handleOpened()"
 			>
-				<div class="flex select-none flex-row items-center">
+				<div class="flex select-none flex-row items-center gap-1">
 					<ng-container *ngIf="tokenExpLeftPercentage$ | async as percent">
+						<div class="flex flex-col items-end gap-1">
+							<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData()?.username ?? 'unknown' }}</span>
+							<code class="rounded-md bg-slate-200 px-2 py-0.5 text-[.55rem] font-semibold text-slate-500 dark:bg-slate-800">Ctrl + ;</code>
+						</div>
 						<app-kds-circular-progress
 							size="xs"
 							[percentage]="percent"
 							[warn]="percent < 25"
 						/>
-						<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData()?.username ?? 'unknown' }}</span>
 					</ng-container>
 				</div>
 			</button>
-			@if (userMenuShow()) {
-				<div class="absolute right-0 top-[56px] w-[250px] rounded-md border bg-slate-50 shadow-md dark:border-slate-600 dark:bg-slate-700">
-					<ul class="cursor-pointer p-1 *:flex *:flex-row *:items-center *:justify-between">
-						<li
-							class="px-4 py-2 hover:bg-slate-100 hover:brightness-100 dark:hover:bg-slate-700 hover:dark:brightness-110"
-							(click)="themeManagerService.invert()"
-						>
-							<fa-icon
-								class="text-slate-400"
-								[icon]="icons().faCircleHalfStroke"
-							/>
-							<span class="flex flex-col items-end text-sm">
-								Change Theme
-								<span class="text-[.75rem] text-slate-300 dark:text-slate-950">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
-							</span>
-						</li>
-						<li
-							class="px-4 py-2 hover:bg-slate-100 hover:brightness-100 dark:hover:bg-slate-700 hover:dark:brightness-110"
-							(click)="handleLogout()"
-						>
-							<fa-icon
-								class="text-slate-400"
-								[icon]="icons().faPowerOff"
-							/>
-							<span class="text-sm">Logout</span>
-						</li>
-					</ul>
-				</div>
-			}
 		</div>
 	</div>
 </section>

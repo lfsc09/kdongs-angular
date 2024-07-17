@@ -2,19 +2,19 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { NavLeftComponent } from '../../../../components/shared/nav/nav-left/nav-left.component';
-import { NavLeftService } from '../../../../components/shared/nav/nav-left/nav-left.service';
+import { NavModulesComponent } from '../../../../components/shared/nav/nav-modules/nav-modules.component';
+import { NavModulesService } from '../../../../components/shared/nav/nav-modules/nav-modules.service';
 import { NavTopComponent } from '../../../../components/shared/nav/nav-top/nav-top.component';
 import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
 
 @Component({
 	selector: 'app-restricted-page',
 	standalone: true,
-	imports: [RouterOutlet, NavTopComponent, NavLeftComponent],
+	imports: [RouterOutlet, NavTopComponent, NavModulesComponent],
 	template: `
 		<app-nav-top />
-		@if (navLeftService.opened()) {
-			<app-nav-left />
+		@if (navModulesService.opened()) {
+			<app-nav-modules />
 		}
 		<router-outlet />
 	`,
@@ -28,7 +28,7 @@ export class RestrictedPageComponent implements OnInit, OnDestroy {
 	 */
 	private readonly tokenManagerService = inject(TokenManagerService);
 	private readonly routerService = inject(Router);
-	protected readonly navLeftService = inject(NavLeftService);
+	protected readonly navModulesService = inject(NavModulesService);
 
 	/**
 	 * SIGNALS AND OBSERVABLES
