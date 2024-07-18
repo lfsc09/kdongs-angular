@@ -4,7 +4,7 @@ import { User } from './authentication.model';
 @Injectable()
 export class AuthenticationFakerService {
 	private users: User[];
-    requestTime: number = 1300;
+	requestTime: number = 1300;
 
 	constructor() {
 		this.users = [
@@ -14,14 +14,16 @@ export class AuthenticationFakerService {
 				username: 'jacinto.pinto',
 				password: '123456',
 				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwidXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwiaG9zdCI6Imtkb25ncyIsImFkbWluX2ZsYWciOnRydWUsImlhdCI6NDUxNjIzOTAyMn0.81oWn-SEq3ZeqVYeb30u7KQOcMuIa_01Iwc9PXard7Y',
+				mods: '',
 			},
 			{
-				id: '7408cdcd-6a77-4533-b6d3-481904b467b2',
-				name: 'Tomas Turbando',
-				username: 'tomas.turbando',
-				password: '654321',
-				token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MDhjZGNkLTZhNzctNDUzMy1iNmQzLTQ4MTkwNGI0NjdiMiIsIm5hbWUiOiJUb21hcyBUdXJiYW5kbyIsInVzZXJuYW1lIjoidG9tYXMudHVyYmFuZG8iLCJob3N0Ijoia2RvbmdzIiwiYWRtaW5fZmxhZyI6ZmFsc2UsImlhdCI6NDUxNjIzOTAyMn0.g5Vl9J9LB7116ORU5K_G-BsXnEBtM-e3IHQFBwhwfbA',
-			},
+                id: '7408cdcd-6a77-4533-b6d3-481904b467b2',
+                name: 'Tomas Turbando',
+                username: 'tomas.turbando',
+                password: '654321',
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MDhjZGNkLTZhNzctNDUzMy1iNmQzLTQ4MTkwNGI0NjdiMiIsIm5hbWUiOiJUb21hcyBUdXJiYW5kbyIsInVzZXJuYW1lIjoidG9tYXMudHVyYmFuZG8iLCJob3N0Ijoia2RvbmdzIiwiYWRtaW5fZmxhZyI6ZmFsc2UsImlhdCI6NDUxNjIzOTAyMn0.g5Vl9J9LB7116ORU5K_G-BsXnEBtM-e3IHQFBwhwfbA',
+                mods: ''
+            },
 		];
 	}
 

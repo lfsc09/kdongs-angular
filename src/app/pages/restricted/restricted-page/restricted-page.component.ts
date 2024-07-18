@@ -1,11 +1,11 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { NavModulesComponent } from '../../../../components/shared/nav/nav-modules/nav-modules.component';
-import { NavModulesService } from '../../../../components/shared/nav/nav-modules/nav-modules.service';
-import { NavTopComponent } from '../../../../components/shared/nav/nav-top/nav-top.component';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { environment } from '../../../../environments/environment';
+import { NavModulesComponent } from '../../../components/nav/nav-modules/nav-modules.component';
+import { NavModulesService } from '../../../components/nav/nav-modules/nav-modules.service';
+import { NavTopComponent } from '../../../components/nav/nav-top/nav-top.component';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 
 @Component({
 	selector: 'app-restricted-page',
@@ -19,7 +19,7 @@ import { TokenManagerService } from '../../../../infra/services/token/token-mana
 		<router-outlet />
 	`,
 	host: {
-		'(document:keydown.Control.;)': 'navLeftService.handleOpened()',
+		'(document:keydown.Control.;)': 'navModulesService.handleOpen()',
 	},
 })
 export class RestrictedPageComponent implements OnInit, OnDestroy {

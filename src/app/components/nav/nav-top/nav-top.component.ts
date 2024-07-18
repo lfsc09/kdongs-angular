@@ -1,9 +1,9 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { map } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
-import { KdsCircularProgressComponent } from '../../kds/kds-circular-progress/kds-circular-progress.component';
+import { environment } from '../../../../environments/environment';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
+import { KdsCircularProgressComponent } from '../../shared/kds/kds-circular-progress/kds-circular-progress.component';
 import { NavModulesService } from '../nav-modules/nav-modules.service';
 
 @Component({

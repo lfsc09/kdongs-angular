@@ -1,8 +1,8 @@
 <section
-	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-slate-200/40 backdrop-blur-[2px] dark:bg-slate-700/40"
-	(click)="navModulesService.handleOpened()"
+	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-slate-200/40 backdrop-blur-[2px] dark:bg-slate-900/40"
+	(click)="navModulesService.handleClose()"
 ></section>
-<section class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] bg-slate-50/90 px-6 py-6 shadow-md backdrop-blur-[4px] dark:bg-slate-700/90">
+<section class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] bg-slate-50/90 px-6 py-6 shadow-md backdrop-blur-[4px] dark:bg-slate-900/90">
 	<div class="relative">
 		<fa-icon
 			[icon]="icons().faMagnifyingGlass"
@@ -11,7 +11,7 @@
 		<input
 			type="text"
 			class="kds-input kds-input-sm w-full !pl-10 text-sm"
-			placeholder="Search"
+			placeholder="Goto"
 			#searchInput
 		/>
 	</div>
@@ -22,7 +22,7 @@
 		>
 			<span class="flex flex-col items-start text-xs">
 				Change Theme
-				<span class="text-[.75rem] text-slate-300 dark:text-slate-800">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
+				<span class="text-[.75rem] font-semibold text-slate-300 dark:text-indigo-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
 			</span>
 			<fa-icon
 				[icon]="icons().faCircleHalfStroke"

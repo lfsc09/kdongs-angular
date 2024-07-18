@@ -8,11 +8,11 @@ import { faAnglesRight, faEye, faEyeSlash, faGamepad, faLightbulb, faMoon, faRig
 import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
-import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
-import { ViewportMatchDirective } from '../../../../infra/directives/viewport/viewport-match.directive';
-import { AuthenticationFakerService } from '../../../../infra/fakers/authentication/authentication-faker.service';
-import { ThemeManagerService } from '../../../../infra/services/theme/theme-manager.service';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { KdsLoadingSpinnerComponent } from '../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
+import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
+import { AuthenticationFakerService } from '../../../infra/fakers/authentication/authentication-faker.service';
+import { ThemeManagerService } from '../../../infra/services/theme/theme-manager.service';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 import { RandomParticlesProps } from './landing-page.model';
 
 @Component({

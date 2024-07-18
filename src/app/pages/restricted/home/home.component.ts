@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
-import { TypedMessageComponent } from '../../../../components/shared/typed-message/typed-message.component';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { TypedMessageComponent } from '../../../components/shared/typed-message/typed-message.component';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 
 @Component({
 	selector: 'app-home',
