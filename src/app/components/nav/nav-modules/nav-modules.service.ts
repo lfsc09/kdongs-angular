@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,15 +16,16 @@ export class NavModulesService {
 	private _opened: WritableSignal<boolean> = signal(true);
 	opened = this._opened.asReadonly();
 
-	modules = computed(() => [
-        
-    ]);
+	modules = computed(() => []);
 
-    /**
-     * FUNCTIONS
-     */
+	/**
+	 * FUNCTIONS
+	 */
 
-	handleOpened() {
-		this._opened.update((previous) => !previous);
+	handleOpen() {
+		if (!this._opened()) this._opened.set(true);
+	}
+	handleClose() {
+		this._opened.set(false);
 	}
 }

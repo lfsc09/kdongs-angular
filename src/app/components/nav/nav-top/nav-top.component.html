@@ -1,4 +1,4 @@
-<section class="fixed left-0 right-0 top-0 flex h-20 flex-row items-center bg-slate-50/90 px-6 py-3 shadow-md backdrop-blur-[2px] dark:bg-slate-700/95">
+<section class="fixed left-0 right-0 top-0 flex h-20 flex-row items-center bg-slate-50/90 px-6 py-3 shadow-md backdrop-blur-[2px] dark:bg-slate-800/95">
 	<div class="flex select-none flex-row items-center gap-2">
 		<img
 			src="assets/kdongs-icon-round-447x448-noback.png"
@@ -12,13 +12,13 @@
 			<button
 				type="button"
 				class="rounded-lg pl-3 pr-1 hover:bg-slate-100 hover:brightness-100 dark:hover:bg-slate-700 hover:dark:brightness-110"
-				(click)="navModulesService.handleOpened()"
+				(click)="navModulesService.handleOpen()"
 			>
 				<div class="flex select-none flex-row items-center gap-1">
 					<ng-container *ngIf="tokenExpLeftPercentage$ | async as percent">
 						<div class="flex flex-col items-end gap-1">
 							<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData()?.username ?? 'unknown' }}</span>
-							<code class="rounded-md bg-slate-200 px-2 py-0.5 text-[.55rem] font-semibold text-slate-500 dark:bg-slate-800">Ctrl + ;</code>
+							<code class="rounded-md bg-slate-200 px-2 py-0.5 text-[.55rem] font-semibold text-slate-500 dark:bg-slate-900">Ctrl + ;</code>
 						</div>
 						<app-kds-circular-progress
 							size="xs"

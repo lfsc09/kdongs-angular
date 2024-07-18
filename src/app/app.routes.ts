@@ -13,12 +13,12 @@ export const routes: Routes = [
             title: 'Gate',
         },
         title: titleResolver,
-		loadComponent: () => import('./pages/module/public/landing-page/landing-page.component').then((module) => module.LandingPageComponent),
+		loadComponent: () => import('./pages/public/landing-page/landing-page.component').then((module) => module.LandingPageComponent),
 		canActivate: [gatekeeperGuard],
 	},
 	{
 		path: 'r!',
-		loadComponent: () => import('./pages/module/restricted/restricted-page/restricted-page.component').then((module) => module.RestrictedPageComponent),
+		loadComponent: () => import('./pages/restricted/restricted-page/restricted-page.component').then((module) => module.RestrictedPageComponent),
 		canActivate: [gatekeeperGuard],
 		children: [
 			{
@@ -27,7 +27,7 @@ export const routes: Routes = [
                     title: 'Home',
                 },
                 title: titleResolver,
-				loadComponent: () => import('./pages/module/restricted/home/home.component').then((module) => module.HomeComponent),
+				loadComponent: () => import('./pages/restricted/home/home.component').then((module) => module.HomeComponent),
 			},
 			{
 				path: '**',

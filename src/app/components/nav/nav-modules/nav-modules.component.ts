@@ -2,15 +2,19 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, 
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleHalfStroke, faHouse, faMagnifyingGlass, faPowerOff, faUsersGear } from '@fortawesome/free-solid-svg-icons';
-import { ViewportMatchDirective } from '../../../../infra/directives/viewport/viewport-match.directive';
-import { ThemeManagerService } from '../../../../infra/services/theme/theme-manager.service';
-import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
+import { ThemeManagerService } from '../../../infra/services/theme/theme-manager.service';
+import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 import { NavModulesService } from './nav-modules.service';
 
 @Component({
 	selector: 'app-nav-modules',
 	standalone: true,
 	imports: [RouterLink, RouterLinkActive, ViewportMatchDirective, FontAwesomeModule],
+    host: {
+        '(document:keydown.Escape)': 'navModulesService.handleClose()',
+        '(document:keydown.Control.;)': 'handleInputFocus()'
+    },
 	templateUrl: './nav-modules.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -38,4 +42,11 @@ export class NavModulesComponent implements AfterViewInit {
 	ngAfterViewInit(): void {
 		this.searchInput()?.nativeElement.focus();
 	}
+
+    /**
+     * FUNCTIONS
+     */
+    handleInputFocus() {
+        this.searchInput()?.nativeElement.focus();
+    }
 }
