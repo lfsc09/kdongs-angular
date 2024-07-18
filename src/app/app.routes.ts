@@ -1,33 +1,38 @@
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
-import { gatekeeperGuard } from './gatekeeper.guard';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
+import { gatekeeperGuard } from './infra/guards/gatekeeper.guard';
+import { userRoutes } from './pages/restricted/users/users.routes';
 
-const titleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
-    return `${environment.title} - ${route.data['title']}`;
-}
+export const titleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
+	return `${environment.title} - ${route.data['title']}`;
+};
 
 export const routes: Routes = [
 	{
 		path: 'gate',
-        data: {
-            title: 'Gate',
-        },
-        title: titleResolver,
+		data: {
+			title: 'Gate',
+		},
+		title: titleResolver,
 		loadComponent: () => import('./pages/public/landing-page/landing-page.component').then((module) => module.LandingPageComponent),
-		canActivate: [gatekeeperGuard],
+		canMatch: [gatekeeperGuard],
 	},
 	{
 		path: 'r!',
 		loadComponent: () => import('./pages/restricted/restricted-page/restricted-page.component').then((module) => module.RestrictedPageComponent),
-		canActivate: [gatekeeperGuard],
+		canMatch: [gatekeeperGuard],
 		children: [
 			{
 				path: 'home',
-                data: {
-                    title: 'Home',
-                },
-                title: titleResolver,
+				data: {
+					title: 'Home',
+				},
+				title: titleResolver,
 				loadComponent: () => import('./pages/restricted/home/home.component').then((module) => module.HomeComponent),
+			},
+			{
+				path: 'users',
+				children: userRoutes,
 			},
 			{
 				path: '**',

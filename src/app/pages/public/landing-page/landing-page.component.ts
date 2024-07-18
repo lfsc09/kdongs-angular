@@ -1,4 +1,3 @@
-import { NgOptimizedImage } from '@angular/common';
 import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,29 +9,27 @@ import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 import { KdsLoadingSpinnerComponent } from '../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
-import { AuthenticationFakerService } from '../../../infra/fakers/authentication/authentication-faker.service';
+import { AuthenticationGatewayService } from '../../../infra/gateways/authentication/authentication-gateway.service';
 import { ThemeManagerService } from '../../../infra/services/theme/theme-manager.service';
-import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 import { RandomParticlesProps } from './landing-page.model';
 
 @Component({
 	selector: 'app-landing-page',
 	standalone: true,
-	imports: [ViewportMatchDirective, FontAwesomeModule, NgxParticlesModule, ReactiveFormsModule, KdsLoadingSpinnerComponent, NgOptimizedImage],
-	providers: [AuthenticationFakerService],
+	imports: [ViewportMatchDirective, FontAwesomeModule, NgxParticlesModule, ReactiveFormsModule, KdsLoadingSpinnerComponent],
+	providers: [AuthenticationGatewayService],
 	templateUrl: './landing-page.component.html',
 })
 export class LandingPageComponent implements OnInit {
 	/**
 	 * SERVICES
 	 */
-	private readonly formBuilderService = inject(FormBuilder);
 	private readonly routerService = inject(Router);
+	private readonly formBuilderService = inject(FormBuilder);
 	private readonly zone = inject(NgZone);
 	private readonly ngParticlesService = inject(NgParticlesService);
-	private readonly tokenManagerService = inject(TokenManagerService);
 	protected readonly themeManagerService = inject(ThemeManagerService);
-	private readonly authenticationService = inject(AuthenticationFakerService);
+	private readonly authenticationService = inject(AuthenticationGatewayService);
 
 	/**
 	 * SIGNALS
@@ -82,20 +79,18 @@ export class LandingPageComponent implements OnInit {
 	protected async handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
 			this.loadingLoginForm.set(true);
-			try {
-				const userToken = await this.authenticationService.findUserByEmailAndPassword(this.loginForm.value.username, this.loginForm.value.password);
-				if (userToken) {
-					if (this.tokenManagerService.processToken(userToken)) this.routerService.navigate(['/r!/home'], { replaceUrl: true });
-					else console.warn('showLogError');
-				} else {
+			const response = await this.authenticationService.runFake(this.loginForm.value.username, this.loginForm.value.password);
+			switch (response) {
+				case 'accept':
+					this.routerService.navigate(['/r!/home'], { replaceUrl: true });
+					break;
+				case 'deny':
 					this.loginForm.reset();
 					submittedForm.resetForm();
 					this.inputLoginUsername()?.nativeElement.focus();
-					console.warn('showLogError');
-				}
-			} catch (err: any) {
-				// TODO: Make service for LogManagement
-				console.error(err.message);
+					break;
+				case 'error':
+					break;
 			}
 			this.loadingLoginForm.set(false);
 		} else this.loginForm.markAllAsTouched();
