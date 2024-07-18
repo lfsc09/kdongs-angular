@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { TokenManagerService } from './infra/services/token/token-manager.service';
+import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
+import { TokenManagerService } from '../services/token/token-manager.service';
 
-export const gatekeeperGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-	const firstSegment = route?.url?.[0]?.path ?? '';
+export const gatekeeperGuard: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
+	const firstSegment = segments?.[0]?.path ?? '';
 	const isValidToken = inject(TokenManagerService).processToken();
 	const router = inject(Router);
 

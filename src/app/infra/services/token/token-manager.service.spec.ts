@@ -6,6 +6,7 @@ import { TokenManagerService } from './token-manager.service';
 
 describe('TokenManagerService', () => {
 	let service: TokenManagerService;
+    const jacintoToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsInVzZXJuYW1lIjoiamFjaW50by5waW50byIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwicGVybXMiOnsiVVNFUlNfQUNDRVNTIjp0cnVlLCJVU0VSU19SRUdJU1RFUiI6dHJ1ZSwiVVNFUlNfRURJVCI6dHJ1ZSwiVVNFUlNfU0RFTCI6dHJ1ZSwiSU5WRVNUTUVOVFNfQUNDRVNTIjp0cnVlLCJJTlZFU1RNRU5UU19SRUdJU1RFUiI6dHJ1ZSwiSU5WRVNUTUVOVFNfRURJVCI6dHJ1ZSwiSU5WRVNUTUVOVFNfSERFTCI6dHJ1ZSwiRVhQRU5TRVNfQUNDRVNTIjp0cnVlLCJFWFBFTlNFU19SRUdJU1RSQVRJT04iOnRydWUsIkVYUEVOU0VTX0VESVQiOnRydWUsIkVYUEVOU0VTX0hERUwiOnRydWV9LCJob3N0Ijoia2RvbmdzIiwiaWF0Ijo0NTE2MjM5MDIyfQ.6zSi31-JN-KPgfzutfETiMvA-IoQwiq1wTUN7oyijRw';
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
@@ -21,9 +22,7 @@ describe('TokenManagerService', () => {
 	});
 
 	it('(decode) should decode a jwt token', () => {
-		const decoded = service['decode'](
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwidXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwiaG9zdCI6Imtkb25ncyIsImFkbWluX2ZsYWciOnRydWUsImlhdCI6NDUxNjIzOTAyMn0.81oWn-SEq3ZeqVYeb30u7KQOcMuIa_01Iwc9PXard7Y',
-		);
+		const decoded = service['decode'](jacintoToken);
 		expect(decoded).not.toBeNull();
 		expect(decoded?.username).toBe('jacinto.pinto');
 	});
@@ -72,9 +71,7 @@ describe('TokenManagerService', () => {
 	});
 
 	it('(extractToken) should extract a valid token', () => {
-		const result = service['extractToken'](
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjNzVlYjI1LWJjOTktNDE1Yi1iZTVhLWM5N2RiNmRhNjkyOCIsIm5hbWUiOiJKYWNpbnRvIFBpbnRvIiwidXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwiaG9zdCI6Imtkb25ncyIsImFkbWluX2ZsYWciOnRydWUsImlhdCI6NDUxNjIzOTAyMn0.81oWn-SEq3ZeqVYeb30u7KQOcMuIa_01Iwc9PXard7Y',
-		);
+		const result = service['extractToken'](jacintoToken);
 		expect(result?.username).toBe('jacinto.pinto');
 	});
 

@@ -99,6 +99,6 @@ export class TokenManagerService {
 	 * Using jwt-decode.
 	 */
 	private decode(token: string | null): TokenData | null {
-		return jwtDecode(token ?? '');
+		return jwtDecode<TokenData | null>(token ?? '');
 	}
 }
