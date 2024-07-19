@@ -15,7 +15,6 @@ export class NavModulesService {
 	 */
 	private _opened: WritableSignal<boolean> = signal(true);
 	opened = this._opened.asReadonly();
-
 	modules = computed(() =>
 		[
 			{
