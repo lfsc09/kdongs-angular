@@ -32,7 +32,6 @@
 							class="kds-input"
 							[class.kds-input-error]="loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted"
 							formControlName="username"
-							autofocus
 							#usernameInputRef
 						/>
 						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted) {
