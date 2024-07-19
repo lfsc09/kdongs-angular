@@ -12,7 +12,9 @@
 			type="text"
 			class="kds-input kds-input-sm w-full !pl-10 text-sm"
 			placeholder="Goto"
-			#searchInput
+			(keyup.Enter)="handleEnter()"
+			[formControl]="gotoInput"
+			#gotoInputRef
 		/>
 	</div>
 	<ul class="my-4 flex cursor-pointer flex-col gap-0.5">
@@ -43,10 +45,11 @@
 	<hr class="kds-h-divider !h-px text-slate-400" />
 	<ul class="flex cursor-pointer flex-col gap-0.5">
 		@for (module of navModulesService.modules(); track module?.url) {
-			<li
+			<a
 				class="flex flex-row items-center justify-between rounded-md px-4 py-1 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
 				routerLink="{{ module!.url }}"
 				routerLinkActive="navleft-router-link-active"
+				(click)="navModulesService.handleClose()"
 			>
 				<span class="text-xs">{{ module!.title }}</span>
 				@if (module?.icon) {
@@ -55,7 +58,7 @@
 						size="xs"
 					/>
 				}
-			</li>
+			</a>
 		}
 	</ul>
 </section>

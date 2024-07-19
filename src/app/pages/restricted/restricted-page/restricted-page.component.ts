@@ -19,7 +19,7 @@ import { TokenManagerService } from '../../../infra/services/token/token-manager
 		<router-outlet />
 	`,
 	host: {
-		'(document:keydown.Control.;)': 'navModulesService.handleOpen()',
+		'(document:keyup.Control.;)': 'navModulesService.handleOpen()',
 	},
 })
 export class RestrictedPageComponent implements OnInit, OnDestroy {

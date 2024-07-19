@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
 	IconDefinition,
@@ -20,10 +21,10 @@ import { NavModulesService } from './nav-modules.service';
 @Component({
 	selector: 'app-nav-modules',
 	standalone: true,
-	imports: [RouterLink, RouterLinkActive, ViewportMatchDirective, FontAwesomeModule],
+	imports: [RouterLink, RouterLinkActive, ViewportMatchDirective, FontAwesomeModule, ReactiveFormsModule],
 	host: {
-		'(document:keydown.Escape)': 'navModulesService.handleClose()',
-		'(document:keydown.Control.;)': 'handleInputFocus()',
+		'(document:keyup.Escape)': 'navModulesService.handleClose()',
+		'(document:keyup.Control.;)': 'handleInputFocus()',
 	},
 	templateUrl: './nav-modules.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +36,7 @@ export class NavModulesComponent implements AfterViewInit {
 	protected readonly tokenManagerService = inject(TokenManagerService);
 	protected readonly themeManagerService = inject(ThemeManagerService);
 	protected readonly navModulesService = inject(NavModulesService);
+	private readonly router = inject(Router);
 
 	/**
 	 * SIGNALS AND OBSERVABLES
@@ -50,16 +52,28 @@ export class NavModulesComponent implements AfterViewInit {
 		faMagnifyingGlassChart: faMagnifyingGlassChart,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
-	protected searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+	protected gotoInput = new FormControl('');
+	protected gotoInputRef = viewChild<ElementRef<HTMLInputElement>>('gotoInputRef');
 
 	ngAfterViewInit(): void {
-		this.searchInput()?.nativeElement.focus();
+		this.gotoInputRef()?.nativeElement.focus();
 	}
 
 	/**
 	 * FUNCTIONS
 	 */
 	handleInputFocus() {
-		this.searchInput()?.nativeElement.focus();
+		this.gotoInputRef()?.nativeElement.focus();
+	}
+
+	handleEnter() {
+		if (this.gotoInput.value !== '') {
+			const segments = (this.gotoInput.value ?? '')
+				.trim()
+				.split(' ')
+				.filter((v) => !!v);
+			this.gotoInput.reset();
+			this.router.navigate(['/r!', ...segments]);
+		}
 	}
 }
