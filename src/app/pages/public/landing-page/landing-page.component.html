@@ -19,8 +19,8 @@
 			<form
 				class="mb-12 mt-20 px-4"
 				[formGroup]="loginForm"
-				#formLoginForm="ngForm"
-				(ngSubmit)="handleLoginFormSubmit(formLoginForm)"
+				#loginFormRef="ngForm"
+				(ngSubmit)="handleLoginFormSubmit(loginFormRef)"
 			>
 				<div class="flex flex-col gap-4">
 					<div class="kds-form-group-v">
@@ -30,12 +30,12 @@
 							name="username"
 							id="login-username"
 							class="kds-input"
-							[class.kds-input-error]="loginForm.controls.username.invalid && loginForm.controls.username.touched && formLoginForm.submitted"
+							[class.kds-input-error]="loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted"
 							formControlName="username"
 							autofocus
-							#inputLoginUsername
+							#usernameInputRef
 						/>
-						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched && formLoginForm.submitted) {
+						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted) {
 							<span class="kds-form-group-error">Invalid username</span>
 						}
 					</div>
@@ -47,7 +47,7 @@
 								name="password"
 								id="login-password"
 								class="kds-input w-full !pr-14"
-								[class.kds-input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched && formLoginForm.submitted"
+								[class.kds-input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched && loginFormRef.submitted"
 								formControlName="password"
 							/>
 							<button
@@ -62,7 +62,7 @@
 								/>
 							</button>
 						</div>
-						@if (loginForm.controls.password.invalid && loginForm.controls.password.touched && formLoginForm.submitted) {
+						@if (loginForm.controls.password.invalid && loginForm.controls.password.touched && loginFormRef.submitted) {
 							<span class="kds-form-group-error">Invalid password</span>
 						}
 					</div>
