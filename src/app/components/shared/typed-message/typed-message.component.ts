@@ -5,7 +5,7 @@ import Typed from 'typed.js';
 	selector: 'app-typed-message',
 	standalone: true,
 	imports: [],
-	template: ` <span #message></span> `,
+	template: ` <span #messageRef></span> `,
 })
 /**
  * Facade for Typed.js, additional documentation on: https://mattboldt.github.io/typed.js/docs/
@@ -27,11 +27,11 @@ export class TypedMessageComponent implements OnInit, OnDestroy {
 	/**
 	 * SIGNALS
 	 */
-	protected messageElementRef = viewChild<ElementRef>('message');
+	protected messageRef = viewChild<ElementRef>('messageRef');
 	private typedInstance: Typed | undefined;
 
 	ngOnInit(): void {
-		this.typedInstance = new Typed(this.messageElementRef()?.nativeElement, {
+		this.typedInstance = new Typed(this.messageRef()?.nativeElement, {
 			strings: this.strings(),
 			typeSpeed: this.typeSpeed(),
 			startDelay: this.startDelay(),

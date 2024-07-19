@@ -47,7 +47,7 @@ export class LandingPageComponent implements OnInit {
 		faGamepad: faGamepad,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
-	protected inputLoginUsername = viewChild<ElementRef<HTMLInputElement>>('inputLoginUsername');
+	protected usernameInputRef = viewChild<ElementRef<HTMLInputElement>>('usernameInputRef');
 
 	ngOnInit(): void {
 		this.zone.runOutsideAngular(() => {
@@ -87,7 +87,7 @@ export class LandingPageComponent implements OnInit {
 				case 'deny':
 					this.loginForm.reset();
 					submittedForm.resetForm();
-					this.inputLoginUsername()?.nativeElement.focus();
+					this.usernameInputRef()?.nativeElement.focus();
 					break;
 				case 'error':
 					break;
