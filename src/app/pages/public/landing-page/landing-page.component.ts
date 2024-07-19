@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,7 +20,7 @@ import { RandomParticlesProps } from './landing-page.model';
 	providers: [AuthenticationGatewayService],
 	templateUrl: './landing-page.component.html',
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
 	/**
 	 * SERVICES
 	 */
@@ -55,6 +55,10 @@ export class LandingPageComponent implements OnInit {
 				await loadSlim(engine);
 			});
 		});
+	}
+
+	ngAfterViewInit(): void {
+		this.usernameInputRef()?.nativeElement.focus();
 	}
 
 	/**
