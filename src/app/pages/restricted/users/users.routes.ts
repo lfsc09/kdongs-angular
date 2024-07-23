@@ -7,6 +7,7 @@ export const userRoutes: Routes = [
 		path: '',
 		data: {
 			title: 'Users',
+            shouldRouteExec: true,
 			permission: 'USERS_ACCESS',
 		},
 		title: titleResolver,
