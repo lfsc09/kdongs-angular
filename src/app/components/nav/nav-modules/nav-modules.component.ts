@@ -4,11 +4,11 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
 	IconDefinition,
+	faAngleRight,
 	faChartPie,
 	faCircleHalfStroke,
 	faCreditCard,
 	faHouse,
-	faMagnifyingGlass,
 	faMagnifyingGlassChart,
 	faPowerOff,
 	faUsersGear,
@@ -44,7 +44,7 @@ export class NavModulesComponent implements AfterViewInit {
 	protected icons = signal<{ [key: string]: IconDefinition }>({
 		faPowerOff: faPowerOff,
 		faCircleHalfStroke: faCircleHalfStroke,
-		faMagnifyingGlass: faMagnifyingGlass,
+		faAngleRight: faAngleRight,
 		faHouse: faHouse,
 		faUsersGear: faUsersGear,
 		faChartPie: faChartPie,
@@ -52,28 +52,45 @@ export class NavModulesComponent implements AfterViewInit {
 		faMagnifyingGlassChart: faMagnifyingGlassChart,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
-	protected gotoInput = new FormControl('');
-	protected gotoInputRef = viewChild<ElementRef<HTMLInputElement>>('gotoInputRef');
+	protected runInput = new FormControl('');
+	protected runInputRef = viewChild<ElementRef<HTMLInputElement>>('runInputRef');
+	protected runError = signal<string>('');
 
 	ngAfterViewInit(): void {
-		this.gotoInputRef()?.nativeElement.focus();
+		this.runInputRef()?.nativeElement.focus();
 	}
 
 	/**
 	 * FUNCTIONS
 	 */
 	handleInputFocus() {
-		this.gotoInputRef()?.nativeElement.focus();
+		this.runInputRef()?.nativeElement.focus();
 	}
 
 	handleEnter() {
-		if (this.gotoInput.value !== '') {
-			const segments = (this.gotoInput.value ?? '')
-				.trim()
-				.split(' ')
-				.filter((v) => !!v);
-			this.gotoInput.reset();
-			this.router.navigate(['/r!', ...segments]);
+		if (!this.runInput.value) return;
+
+		const segments = (this.runInput.value ?? '')
+			.trim()
+			.split(' ')
+			.filter((v) => !!v);
+		if (segments.length === 1 && segments[0] === 'logout') {
+			this.tokenManagerService.clear();
+			return;
+		} else if (segments.length === 1 && segments[0] === 'light') {
+			this.themeManagerService.goLight();
+            this.runInput.reset('');
+            this.runError.set('');
+		} else if (segments.length === 1 && segments[0] === 'dark') {
+            this.themeManagerService.goDark();
+            this.runInput.reset('');
+            this.runError.set('');
+		} else {
+			const execRoute = ['/r!', ...segments];
+			if (this.navModulesService.isExecutableRoute(this.router.createUrlTree(execRoute).toString())) {
+				this.router.navigate(execRoute);
+				this.navModulesService.handleClose();
+			} else this.runError.set('Invalid Command!');
 		}
 	}
 }

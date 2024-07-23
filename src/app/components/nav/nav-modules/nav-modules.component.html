@@ -5,18 +5,21 @@
 <section class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] bg-slate-50/90 px-6 py-6 shadow-md backdrop-blur-[4px] dark:bg-slate-900/90">
 	<div class="relative">
 		<fa-icon
-			[icon]="icons()['faMagnifyingGlass']"
-			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-slate-500"
+			[icon]="icons()['faAngleRight']"
+			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-dongs-500 dark:text-indigo-500"
 		/>
 		<input
 			type="text"
 			class="kds-input kds-input-sm w-full !pl-10 text-sm"
-			placeholder="Goto"
+			placeholder="Run"
 			(keyup.Enter)="handleEnter()"
-			[formControl]="gotoInput"
-			#gotoInputRef
+			[formControl]="runInput"
+			#runInputRef
 		/>
 	</div>
+	@if (runError()) {
+		<span class="text-xs text-red-400">{{ runError() }}</span>
+	}
 	<ul class="my-4 flex cursor-pointer flex-col gap-0.5">
 		<li
 			class="flex flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
@@ -24,7 +27,7 @@
 		>
 			<span class="flex flex-col items-start text-xs">
 				Change Theme
-				<span class="text-[.75rem] font-semibold text-slate-300 dark:text-indigo-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
+				<span class="text-[.75rem] text-gray-300 dark:text-indigo-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
 			</span>
 			<fa-icon
 				[icon]="icons()['faCircleHalfStroke']"
@@ -46,7 +49,7 @@
 	<ul class="flex cursor-pointer flex-col gap-0.5">
 		@for (module of navModulesService.modules(); track module?.url) {
 			<a
-				class="flex flex-row items-center justify-between rounded-md px-4 py-1 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
+				class="flex flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
 				routerLink="{{ module!.url }}"
 				routerLinkActive="navleft-router-link-active"
 				(click)="navModulesService.handleClose()"

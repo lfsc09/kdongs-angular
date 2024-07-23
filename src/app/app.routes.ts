@@ -26,6 +26,7 @@ export const routes: Routes = [
 				path: 'home',
 				data: {
 					title: 'Home',
+                    shouldRouteExec: true
 				},
 				title: titleResolver,
 				loadComponent: () => import('./pages/restricted/home/home.component').then((module) => module.HomeComponent),
