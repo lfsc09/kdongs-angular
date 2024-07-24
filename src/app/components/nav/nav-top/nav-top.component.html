@@ -5,7 +5,20 @@
 			alt="logo"
 			class="h-14"
 		/>
-		<span class="stroke font-kds-inter text-3xl text-dongs-500">Kdongs</span>
+		<div class="flex flex-row items-end">
+			<span
+				class="stroke cursor-pointer font-kds-inter text-3xl text-dongs-500"
+				routerLink="/r!"
+			>
+				Kdongs
+			</span>
+			@if (breadcrumbs().length > 0) {
+				@for (segment of breadcrumbs(); track $index) {
+					<code class="px-1.5 text-slate-500">/</code>
+					<span class="inline-block max-w-36 text-ellipsis overflow-hidden whitespace-nowrap text-slate-500">{{ segment }}</span>
+				}
+			}
+		</div>
 	</div>
 	<div class="ml-auto flex flex-row items-center gap-2">
 		<div class="relative flex flex-row items-center">
