@@ -7,11 +7,11 @@ export const userRoutes: Routes = [
 		path: '',
 		data: {
 			title: 'Users',
-            shouldRouteExec: true,
+			shouldRouteExec: true,
 			permission: 'USERS_ACCESS',
 		},
 		title: titleResolver,
-		loadComponent: () => import('./users.component').then((module) => module.UsersComponent),
+		loadComponent: () => import('./users-list/users-list.component').then((module) => module.UsersListComponent),
 		canMatch: [permissionGuard],
 	},
 	{ path: '**', redirectTo: '', pathMatch: 'full' },
