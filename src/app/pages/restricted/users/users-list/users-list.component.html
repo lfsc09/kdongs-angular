@@ -42,7 +42,11 @@
 				</div>
 			</div>
 			<div class="boder-zinc-300/40 flex-1 border-x shadow-sm dark:border-slate-50/10">
-				@if (usersDatapool().length) {
+				@if (loading()) {
+                    <div class="flex h-full w-full items-center justify-center">
+                        <kds-loading-infinite size="lg" />
+                    </div>
+                } @else if (kdsDatapoolService.flowControls().filteredRowsCount) {
 					<div></div>
 				} @else {
 					<div class="flex h-full w-full items-center justify-center">
@@ -73,7 +77,7 @@
 					<div class="flex flex-row items-center gap-2">
 						<span
 							class="font-mono text-sm"
-							[class.line-through]="usersDatapool().length === 0"
+							[class.line-through]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 							>show</span
 						>
 						<input
@@ -81,14 +85,14 @@
 							class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
 							min="5"
 							step="5"
-							[disabled]="usersDatapool().length === 0"
+							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 						/>
 					</div>
 					<div class="flex flex-row items-center">
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="usersDatapool().length === 0"
+							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -98,7 +102,7 @@
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="usersDatapool().length === 0"
+							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -110,7 +114,7 @@
 								type="number"
 								class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
 								min="1"
-								[disabled]="usersDatapool().length === 0"
+								[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 							/>
 							<span class="font-mono text-sm">of</span>
 							<span class="rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().pagesCount }}</span>
@@ -118,7 +122,7 @@
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="usersDatapool().length === 0"
+							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -128,7 +132,7 @@
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="usersDatapool().length === 0"
+							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
