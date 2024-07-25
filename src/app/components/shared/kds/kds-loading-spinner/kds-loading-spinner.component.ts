@@ -32,7 +32,6 @@ export class KdsLoadingSpinnerComponent {
 	 * SIGNALS
 	 */
 	size = input<'sm' | 'md' | 'lg'>('sm');
-	position = input<'start' | 'center' | 'end'>('center');
 	color = input<'white' | 'dongs'>('white');
 
 	/**
