@@ -1,0 +1,143 @@
+<main class="min-h-screen bg-zinc-50 dark:bg-slate-900">
+	<section class="z-2 flex min-h-screen flex-row items-stretch gap-0 px-10 pt-20 desktop-2k:container">
+		<div class="relative my-8 flex min-h-[600px] w-full flex-col">
+			<div
+				class="sticky top-20 flex h-14 flex-row items-center justify-center border border-zinc-300/40 bg-zinc-200/90 px-4 py-2 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+			>
+				<div class="absolute left-6">
+					<span class="select-none font-mono text-xl">System users</span>
+				</div>
+				<div class="flex flex-row gap-4">
+					<button
+						type="button"
+						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+					>
+						<fa-icon
+							class="mr-2 group-hover/link:text-dongs-500"
+							[icon]="icons().faSquareCheck"
+						/>
+						<span class="font-medium group-hover/link:text-dongs-500">Select</span>
+					</button>
+					<button
+						type="button"
+						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+					>
+						<fa-icon
+							class="mr-2 group-hover/link:text-dongs-500"
+							[icon]="icons().faFilter"
+							size="sm"
+						/>
+						<span class="font-medium group-hover/link:text-dongs-500">Filter</span>
+					</button>
+					<button
+						type="button"
+						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+					>
+						<fa-icon
+							class="mr-2 group-hover/link:text-dongs-500"
+							[icon]="icons().faPlus"
+						/>
+						<span class="font-medium group-hover/link:text-dongs-500">New</span>
+					</button>
+				</div>
+			</div>
+			<div class="boder-zinc-300/40 flex-1 border-x shadow-sm dark:border-slate-50/10">
+				@if (usersDatapool().length) {
+					<div></div>
+				} @else {
+					<div class="flex h-full w-full items-center justify-center">
+						<div class="flex flex-row items-center gap-16">
+							<img
+								src="assets/kds-nothing-to-show.svg"
+								class="h-64 select-none"
+							/>
+							<span class="font-mono text-6xl text-gray-300 dark:text-gray-700">No data</span>
+						</div>
+					</div>
+				}
+			</div>
+			<div
+				class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between border border-zinc-300/40 bg-zinc-200/90 p-4 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+			>
+				<div>
+					@if (kdsDatapoolService.flowControls().filteredRowsCount !== kdsDatapoolService.flowControls().rowsCount) {
+						<span class="mr-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().filteredRowsCount }}</span>
+						<span class="font-mono text-sm">filtered rows from</span>
+						<span class="ml-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().rowsCount }}</span>
+					} @else {
+						<span class="mr-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().rowsCount }}</span>
+						<span class="font-mono text-sm">rows</span>
+					}
+				</div>
+				<div class="flex flex-row items-center gap-10">
+					<div class="flex flex-row items-center gap-2">
+						<span
+							class="font-mono text-sm"
+							[class.line-through]="usersDatapool().length === 0"
+							>show</span
+						>
+						<input
+							type="number"
+							class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
+							min="5"
+							step="5"
+							[disabled]="usersDatapool().length === 0"
+						/>
+					</div>
+					<div class="flex flex-row items-center">
+						<button
+							type="button"
+							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
+							[disabled]="usersDatapool().length === 0"
+						>
+							<fa-icon
+								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+								[icon]="icons().faAnglesLeft"
+							/>
+						</button>
+						<button
+							type="button"
+							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
+							[disabled]="usersDatapool().length === 0"
+						>
+							<fa-icon
+								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+								[icon]="icons().faAngleLeft"
+							/>
+						</button>
+						<div class="mx-2 flex flex-row items-center gap-2">
+							<input
+								type="number"
+								class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
+								min="1"
+								[disabled]="usersDatapool().length === 0"
+							/>
+							<span class="font-mono text-sm">of</span>
+							<span class="rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().pagesCount }}</span>
+						</div>
+						<button
+							type="button"
+							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
+							[disabled]="usersDatapool().length === 0"
+						>
+							<fa-icon
+								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+								[icon]="icons().faAngleRight"
+							/>
+						</button>
+						<button
+							type="button"
+							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
+							[disabled]="usersDatapool().length === 0"
+						>
+							<fa-icon
+								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+								[icon]="icons().faAnglesRight"
+							/>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
