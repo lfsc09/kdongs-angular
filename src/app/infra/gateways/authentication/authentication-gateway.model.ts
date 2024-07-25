@@ -1,1 +1,1 @@
-export type Response = string | null;
+export type RunResponse = string | null;

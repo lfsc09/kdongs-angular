@@ -1,3 +1,5 @@
+import { RunResponse } from "../app/infra/gateways/authentication/authentication-gateway.model";
+
 interface User {
 	username: string;
 	password: string;
@@ -33,7 +35,7 @@ export class AuthenticationFaker {
 		return Math.trunc(Math.random() * 10) > 8;
 	}
 
-	static findUserByEmailAndPassword(username: string | null | undefined, password: string | null | undefined): Promise<string | null> {
+	static findUserByEmailAndPassword(username: string | null | undefined, password: string | null | undefined): Promise<RunResponse> {
 		let user = this.users.find((user) => username === user.username && password === user.password);
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
