@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthenticationFaker } from '../../../../fakers/authentication-faker';
 import { TokenManagerService } from '../../services/token/token-manager.service';
-import { Response } from './authentication-gateway.model';
+import { RunResponse } from './authentication-gateway.model';
 
 @Injectable()
 export class AuthenticationGatewayService {
@@ -9,21 +9,21 @@ export class AuthenticationGatewayService {
 
 	async runFake(username: string | null | undefined, password: string | null | undefined): Promise<'accept' | 'deny' | 'error'> {
 		try {
-			const token: Response = await AuthenticationFaker.findUserByEmailAndPassword(username, password);
+			const token: RunResponse = await AuthenticationFaker.findUserByEmailAndPassword(username, password);
 			if (token) {
 				if (this.tokenManagerService.processToken(token)) return 'accept';
 				else {
-                    console.warn('showLogError on invalid token');
-                    return 'deny';
-                }
+					console.warn('showLogError on invalid token');
+					return 'deny';
+				}
 			} else {
 				console.warn('showLogError for invalid user data');
-                return 'deny';
+				return 'deny';
 			}
 		} catch (err: any) {
 			// TODO: Make service for LogManagement
 			console.error(err.message);
 		}
-        return 'error';
+		return 'error';
 	}
 }
