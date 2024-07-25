@@ -1,16 +1,18 @@
 <section
-	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-slate-200/40 backdrop-blur-[2px] dark:bg-slate-900/40"
+	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-zinc-200/40 backdrop-blur-[2px] dark:bg-slate-900/80"
 	(click)="navModulesService.handleClose()"
 ></section>
-<section class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] bg-slate-50/90 px-6 py-6 shadow-md backdrop-blur-[4px] dark:bg-slate-900/90">
+<section
+	class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] border-l border-slate-900/10 bg-zinc-50/90 px-6 py-6 backdrop-blur-[4px] dark:border-slate-50/10 dark:bg-slate-900/95"
+>
 	<div class="relative">
 		<fa-icon
 			[icon]="icons()['faAngleRight']"
-			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-dongs-500 dark:text-indigo-500"
+			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-slate-500"
 		/>
 		<input
 			type="text"
-			class="kds-input kds-input-sm w-full !pl-10 text-sm"
+			class="kds-input kds-input-sm w-full !pl-10 font-mono text-xs !leading-5"
 			placeholder="Run"
 			(keyup.Enter)="handleEnter()"
 			[formControl]="runInput"
@@ -22,12 +24,12 @@
 	}
 	<ul class="my-4 flex cursor-pointer flex-col gap-0.5">
 		<li
-			class="flex flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
 			(click)="themeManagerService.invert()"
 		>
 			<span class="flex flex-col items-start text-xs">
 				Change Theme
-				<span class="text-[.75rem] text-gray-300 dark:text-indigo-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
+				<span class="font-mono text-[.70rem] text-slate-400 dark:text-dongs-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
 			</span>
 			<fa-icon
 				[icon]="icons()['faCircleHalfStroke']"
@@ -35,7 +37,7 @@
 			/>
 		</li>
 		<li
-			class="flex flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-red-400 hover:bg-zinc-100 active:scale-95 dark:hover:bg-slate-700"
 			(click)="tokenManagerService.clear()"
 		>
 			<span class="text-xs">Logout</span>
@@ -49,7 +51,7 @@
 	<ul class="flex cursor-pointer flex-col gap-0.5">
 		@for (module of navModulesService.modules(); track module?.url) {
 			<a
-				class="flex flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-slate-100 hover:brightness-100 *:dark:text-current dark:hover:bg-slate-700 hover:dark:brightness-110"
+				class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:-translate-x-2 hover:bg-zinc-100 *:dark:text-current dark:hover:bg-slate-700"
 				routerLink="{{ module!.url }}"
 				routerLinkActive="navleft-router-link-active"
 				(click)="navModulesService.handleClose()"

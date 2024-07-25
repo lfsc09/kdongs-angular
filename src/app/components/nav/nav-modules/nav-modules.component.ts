@@ -79,12 +79,12 @@ export class NavModulesComponent implements AfterViewInit {
 			return;
 		} else if (segments.length === 1 && segments[0] === 'light') {
 			this.themeManagerService.goLight();
-            this.runInput.reset('');
-            this.runError.set('');
+			this.runInput.reset('');
+			this.runError.set('');
 		} else if (segments.length === 1 && segments[0] === 'dark') {
-            this.themeManagerService.goDark();
-            this.runInput.reset('');
-            this.runError.set('');
+			this.themeManagerService.goDark();
+			this.runInput.reset('');
+			this.runError.set('');
 		} else {
 			const execRoute = ['/r!', ...segments];
 			if (this.navModulesService.isExecutableRoute(this.router.createUrlTree(execRoute).toString())) {
