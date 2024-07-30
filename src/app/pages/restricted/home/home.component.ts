@@ -19,7 +19,7 @@ export class HomeComponent {
 	 */
 	protected helloMessage = computed(() => {
 		let user: string | undefined;
-		user = this.tokenManagerService.tokenData()?.name ?? 'Unknown';
+		user = this.tokenManagerService.tokenData()?.userFullname ?? 'Unknown';
 		return [
 			`Hello <span class="font-mono text-lg font-medium text-dongs-500">${user}</span><span class="text-xl">&#9996;</span>`,
 			`What shall we do today..^1000 I dunno about you but I'll have great weak <span class="text-xl">&#9994;</span>^5000`,
