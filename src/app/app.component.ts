@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeManagerService } from './infra/services/theme/theme-manager.service';
 
@@ -7,18 +8,17 @@ import { ThemeManagerService } from './infra/services/theme/theme-manager.servic
 	standalone: true,
 	imports: [RouterOutlet],
 	templateUrl: './app.component.html',
-    host: {
-        '[class.dark]': 'useDarkTheme()'
-    }
 })
 export class AppComponent {
 	/**
 	 * SERVICES
 	 */
 	private readonly themeManagerService = inject(ThemeManagerService);
+	private readonly documentService = inject(DOCUMENT);
 
-	/**
-	 * SIGNALS AND
-	 */
-	protected useDarkTheme = this.themeManagerService.darkTheme;
+	constructor() {
+		effect(() => {
+			this.documentService.body.classList.toggle('dark', this.themeManagerService.darkTheme());
+		});
+	}
 }
