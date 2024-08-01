@@ -1,5 +1,6 @@
 export interface DatapoolUser {
 	id: string;
+	inactive_flag: boolean;
 	admin_flag: boolean;
 	username: string;
 	name: string;
@@ -7,15 +8,15 @@ export interface DatapoolUser {
 }
 
 export interface GetDatapool {
-	datapool: DatapoolUser[];
+	pagePool: DatapoolUser[];
 	pagesCount: number;
-	rowsCount: number;
-	filteredRowsCount: number;
+	itemsCount: number;
+	filteredItemsCount: number;
 }
 
 export type GetDatapoolResponse = GetDatapool | null;
 
 export interface GetDatapoolRequest {
 	currPageIdx: number;
-	rowsPerPage: number;
+	itemsPerPage: number;
 }
