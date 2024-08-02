@@ -1,7 +1,13 @@
 import { Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBan, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBan } from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * OBS:
+ *
+ * Keeps in mind that using HTML `<dialog>` does not process click on backdrop for auto-closing the dialog.
+ * In fact click on the backdrop are considered as clicks on the Dialog itself.
+ */
 @Component({
 	selector: 'kds-boolean-dialog',
 	standalone: true,
@@ -14,22 +20,20 @@ import { faBan, faCheck } from '@fortawesome/free-solid-svg-icons';
 			<ng-content>
 				<p>Are you sure about this?</p>
 			</ng-content>
-			<div class="mt-4 flex flex-row items-center gap-2">
+			<div class="mt-6 flex flex-row items-center justify-between">
 				<button
 					type="button"
-					class="group/link flex flex-1 flex-row items-center justify-between rounded-lg bg-zinc-100 px-3 py-1.5 text-sm hover:text-dongs-500 transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-800"
-					(click)="handleOk()"
-				>
-					Yes
-					<fa-icon [icon]="icons().faCheck" class="group-hover/link:text-dongs-500"></fa-icon>
-				</button>
-				<button
-					type="button"
-					class="group/link flex flex-1 flex-row items-center justify-between rounded-lg bg-zinc-50 px-3 py-1.5 text-sm hover:text-red-400 transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+					class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm text-red-400 active:scale-95 dark:bg-slate-900"
 					(click)="handleCancel()"
 				>
 					Cancel
-					<fa-icon [icon]="icons().faBan" class="group-hover/link:text-red-400"></fa-icon>
+				</button>
+				<button
+					type="button"
+					class="flex flex-row items-center rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-semibold text-dongs-500 active:scale-95 dark:bg-slate-800"
+					(click)="handleOk()"
+				>
+					Yes
 				</button>
 			</div>
 		</dialog>
@@ -40,7 +44,6 @@ export class KdsBooleanDialogComponent<T> {
 	 * SIGNALS
 	 */
 	protected icons = signal({
-		faCheck: faCheck,
 		faBan: faBan,
 	});
 	dialogRef = viewChild<ElementRef<HTMLDialogElement>>('dialogRef');
