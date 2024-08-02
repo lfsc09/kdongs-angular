@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 
@@ -15,8 +15,8 @@ export class NavModulesService {
 	/**
 	 * SIGNALS
 	 */
-	private _opened: WritableSignal<boolean> = signal(false);
-	opened = this._opened.asReadonly();
+	private _open = signal<boolean>(false);
+	open = this._open.asReadonly();
 	modules = computed(() =>
 		[
 			{
@@ -68,16 +68,16 @@ export class NavModulesService {
 	/**
 	 * FUNCTIONS
 	 */
-	handleOpen() {
-		if (!this._opened()) this._opened.set(true);
+	handleOpen(): void {
+		if (!this._open()) this._open.set(true);
 	}
 
-	handleClose() {
-		this._opened.set(false);
+	handleClose(): void {
+		this._open.set(false);
 	}
 
 	// Check if the route given to navigate is valid
-	isExecutableRoute(route: string) {
+	isExecutableRoute(route: string): boolean {
 		return this._routesRegexp().some((rRegExp) => rRegExp.test(route));
 	}
 

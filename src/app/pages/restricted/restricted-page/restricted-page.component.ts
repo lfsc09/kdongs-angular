@@ -13,7 +13,7 @@ import { TokenManagerService } from '../../../infra/services/token/token-manager
 	imports: [RouterOutlet, NavTopComponent, NavModulesComponent],
 	template: `
 		<app-nav-top />
-		@if (navModulesService.opened()) {
+		@if (navModulesService.open()) {
 			<app-nav-modules />
 		}
 		<router-outlet />
