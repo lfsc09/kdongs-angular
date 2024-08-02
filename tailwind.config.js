@@ -212,6 +212,9 @@ module.exports = {
 				'hr.kds-h-divider': {
 					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent to-current opacity-75': {},
 				},
+                'hr.kds-h-divider-inverted': {
+					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-l from-transparent to-current opacity-75': {},
+				},
 
 				// Horizontal divider with text
 				'div.kds-h-divider-text': {
