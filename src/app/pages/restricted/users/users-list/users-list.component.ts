@@ -1,24 +1,30 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, signal, untracked, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faFilter, faPlus, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
-import { KdsDatapoolService } from '../../../../components/shared/kds/kds-datapool/kds-datapool.service';
-import { KdsLoadingInfiniteComponent } from '../../../../components/shared/kds/kds-loading-infinite/kds-loading-infinite.component';
-import { UsersGatewayService } from '../../../../infra/gateways/users/users-gateway.service';
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faEye, faEyeSlash, faFilter, faGear, faPen, faPlus, faShare } from '@fortawesome/free-solid-svg-icons';
+import { KdsBooleanDialogComponent } from '../../../../components/shared/kds/kds-boolean-dialog/kds-boolean-dialog.component';
+import { KdsDatapool } from '../../../../components/shared/kds/kds-datapool/kds-datapool.model';
+import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { DatapoolUser } from '../../../../infra/gateways/users/users-gateway.model';
+import { UsersGatewayService } from '../../../../infra/gateways/users/users-gateway.service';
+import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
+import { UsersListFilterComponent } from './users-list-filter/users-list-filter.component';
 
 @Component({
 	selector: 'app-users-list',
 	standalone: true,
-	imports: [FontAwesomeModule, RouterLink, KdsLoadingInfiniteComponent],
-	providers: [KdsDatapoolService, UsersGatewayService],
+	imports: [FontAwesomeModule, RouterLink, KdsLoadingSpinnerComponent, KdsBooleanDialogComponent, UsersListFilterComponent],
+	providers: [UsersGatewayService],
 	templateUrl: './users-list.component.html',
+	host: {
+		'(document:keyup.Control./)': 'handleFilterDialogToogle()',
+	},
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	/**
 	 * SERVICES
 	 */
-	protected readonly kdsDatapoolService = inject(KdsDatapoolService);
+	protected readonly tokenManagerService = inject(TokenManagerService);
 	private readonly usersGatewayService = inject(UsersGatewayService);
 
 	/**
@@ -27,18 +33,78 @@ export class UsersListComponent implements OnInit {
 	protected icons = signal({
 		faPlus: faPlus,
 		faFilter: faFilter,
-		faSquareCheck: faSquareCheck,
 		faAngleLeft: faAngleLeft,
 		faAngleRight: faAngleRight,
 		faAnglesLeft: faAnglesLeft,
 		faAnglesRight: faAnglesRight,
+		faGear: faGear,
+		faShare: faShare,
+		faPen: faPen,
+		faEye: faEye,
+		faEyeSlash: faEyeSlash,
 	});
-    protected loading = signal<boolean>(false);
+	/**
+	 * Deactivation/Reactivation dialog
+	 */
+	protected confirmDialogRef = viewChild<KdsBooleanDialogComponent<string>>('confirmDialogRef');
+	protected confirmDialogData = signal<{ type: 'deactivate' | 'reactivate'; userId: string; username: string } | null>(null);
+	/**
+	 * Filter dialog
+	 */
+	protected filterDialogOpen = signal<boolean>(false);
 
-	async ngOnInit(): Promise<void> {
-		this.loading.set(true);
-		const response = await this.usersGatewayService.getDatapoolFake({ currPageIdx: 0, rowsPerPage: 5 });
-		this.loading.set(false);
-		if (response) this.kdsDatapoolService.newDataReceived<DatapoolUser>(response);
+	constructor() {
+		super();
+		effect(async () => {
+			untracked(() => this.loadingDatapool.set(true));
+			const response = await this.usersGatewayService.getDatapoolFake(this.triggerControls());
+			if (response) this.updateKdsDatapool(response);
+			untracked(() => this.loadingDatapool.set(false));
+		});
 	}
+
+	/**
+	 * FUNCTIONS
+	 */
+
+    /**
+	 * Deactivation/Reactivation dialog
+	 */
+	protected handleConfirmDeactivate(userId: string): void {
+		const username = this.datapool().pagePool.find((u) => u.id === userId)?.username;
+		if (username) {
+			this.confirmDialogData.set({
+				type: 'deactivate',
+				userId,
+				username,
+			});
+			this.confirmDialogRef()?.dialogRef()?.nativeElement.showModal();
+		} else console.warn('User not found in table');
+	}
+
+	protected handleConfirmReactivate(userId: string): void {
+		const username = this.datapool().pagePool.find((u) => u.id === userId)?.username;
+		if (username) {
+			this.confirmDialogData.set({
+				type: 'reactivate',
+				userId,
+				username,
+			});
+			this.confirmDialogRef()?.dialogRef()?.nativeElement.showModal();
+		} else console.warn('User not found in table');
+	}
+
+	protected handleConfirmation(userId: string | null | undefined): void {
+		if (userId) {
+			if (this.confirmDialogData()?.type === 'deactivate') console.log(`Delete the fucker ${userId}`);
+			else if (this.confirmDialogData()?.type === 'reactivate') console.log(`Reactivate the fucker ${userId}`);
+		}
+	}
+
+    /**
+	 * Filter dialog
+	 */
+    protected handleFilterDialogToogle(): void {
+        this.filterDialogOpen.update((currState) => !currState);
+    }
 }

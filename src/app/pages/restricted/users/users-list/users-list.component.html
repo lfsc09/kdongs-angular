@@ -2,52 +2,128 @@
 	<section class="z-2 flex min-h-screen flex-row items-stretch gap-0 px-10 pt-20 desktop-2k:container">
 		<div class="relative my-8 flex min-h-[600px] w-full flex-col">
 			<div
-				class="sticky top-20 flex h-14 flex-row items-center justify-center border border-zinc-300/40 bg-zinc-200/90 px-4 py-2 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+				class="sticky top-20 flex h-14 flex-row items-center justify-center rounded-t-sm border border-zinc-300/40 bg-zinc-200/90 px-4 py-2 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
 			>
 				<div class="absolute left-6">
 					<span class="select-none font-mono text-xl">System users</span>
+					@if (itemsSelected() > 0) {
+						<span class="ml-2 select-none font-mono text-sm text-dongs-500 dark:text-dongs-300">({{ itemsSelected() }} selected)</span>
+					}
 				</div>
 				<div class="flex flex-row gap-4">
 					<button
 						type="button"
-						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 disabled:hover:translate-y-0 disabled:active:scale-100 dark:bg-slate-900"
+						[disabled]="datapool().metadata.filteredItemsCount === 0"
+						(click)="handleFilterDialogToogle()"
 					>
 						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
-							[icon]="icons().faSquareCheck"
-						/>
-						<span class="font-medium group-hover/link:text-dongs-500">Select</span>
-					</button>
-					<button
-						type="button"
-						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
-					>
-						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
+							class="mr-2 group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
 							[icon]="icons().faFilter"
 							size="sm"
 						/>
-						<span class="font-medium group-hover/link:text-dongs-500">Filter</span>
+						<span
+							class="flex flex-row items-center gap-2 font-medium group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+						>
+							Filter
+							<code
+								class="rounded-md bg-slate-200 px-2 text-[.55rem] font-semibold text-slate-500 group-disabled/link:bg-gray-200 group-disabled/link:text-gray-300 dark:bg-slate-700 dark:text-slate-300 group-disabled/link:dark:bg-gray-800 group-disabled/link:dark:text-gray-600"
+								>Ctrl + /</code
+							>
+						</span>
 					</button>
-					<button
-						type="button"
-						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
-					>
-						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
-							[icon]="icons().faPlus"
-						/>
-						<span class="font-medium group-hover/link:text-dongs-500">New</span>
-					</button>
+					@if (tokenManagerService.tokenData()?.perms?.['USERS_NEW']) {
+						<button
+							type="button"
+							class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-1 active:scale-95 dark:bg-slate-900"
+							routerLink="/new"
+						>
+							<fa-icon
+								class="mr-2 group-hover/link:text-dongs-500"
+								[icon]="icons().faPlus"
+							/>
+							<span class="font-medium group-hover/link:text-dongs-500">New</span>
+						</button>
+					}
 				</div>
 			</div>
 			<div class="boder-zinc-300/40 flex-1 border-x shadow-sm dark:border-slate-50/10">
-				@if (loading()) {
-                    <div class="flex h-full w-full items-center justify-center">
-                        <kds-loading-infinite size="lg" />
-                    </div>
-                } @else if (kdsDatapoolService.flowControls().filteredRowsCount) {
-					<div></div>
+				@if (loadingDatapool()) {
+					<div class="flex h-full w-full items-center justify-center">
+						<kds-loading-spinner
+							size="xl"
+							color="zinc"
+						/>
+					</div>
+				} @else if (datapool().metadata.filteredItemsCount > 0) {
+					<table class="w-full">
+						<thead>
+							<tr class="*:border-b *:border-zinc-300/40 *:p-4 dark:*:border-slate-50/[0.06]">
+								<th class="text-right">User</th>
+								<th class="text-right">Name</th>
+								<th class="text-right">Email</th>
+							</tr>
+						</thead>
+						<tbody class="text-sm">
+							@for (user of datapool().pagePool; track user.id) {
+								<tr
+									class="group/row *:border-b *:border-zinc-300/40 *:px-4 *:py-3 dark:*:border-slate-50/[0.06]"
+									[class]="{
+										'*:border-b-0': $last,
+										'*:text-gray-300': user.inactive_flag,
+										'dark:*:text-gray-600': user.inactive_flag,
+									}"
+								>
+									<td class="relative text-right">
+										<div class="absolute bottom-0 left-4 top-0 flex flex-row items-center opacity-0 group-hover/row:opacity-100">
+											<div class="flex flex-row items-center rounded-lg border border-dashed border-zinc-300/40 dark:border-slate-50/30">
+												<button
+													type="button"
+													class="group/link flex flex-row items-center bg-transparent px-3 py-1.5 active:scale-95"
+													routerLink="/{{ user.id }}"
+												>
+													<fa-icon
+														[icon]="icons().faShare"
+														class="group-hover/link:text-dongs-500"
+													></fa-icon>
+												</button>
+												@if (tokenManagerService.tokenData()?.perms?.['USERS_EDIT']) {
+													<button
+														type="button"
+														class="group/link flex flex-row items-center bg-transparent px-3 py-1.5 active:scale-95"
+														routerLink="/{{ user.id }}/edit"
+													>
+														<fa-icon
+															[icon]="icons().faPen"
+															class="group-hover/link:text-dongs-500"
+														></fa-icon>
+													</button>
+												}
+												@if (tokenManagerService.tokenData()?.perms?.['USERS_SDEL'] && tokenManagerService.tokenData()?.userId !== user.id) {
+													<button
+														type="button"
+														class="group/link flex flex-row items-center bg-transparent px-3 py-1.5 active:scale-95"
+														(click)="user.inactive_flag ? handleConfirmReactivate(user.id) : handleConfirmDeactivate(user.id)"
+													>
+														<fa-icon
+															[icon]="user.inactive_flag ? icons().faEye : icons().faEyeSlash"
+															class="group-hover/link:text-dongs-500"
+														></fa-icon>
+													</button>
+												}
+											</div>
+										</div>
+										@if (user.admin_flag) {
+											<span class="mr-1 rounded-lg bg-dongs-500 px-2 py-0.5 text-xs text-white">admin</span>
+										}
+										{{ user.username }}
+									</td>
+									<td class="text-right">{{ user.name }}</td>
+									<td class="text-right">{{ user.email }}</td>
+								</tr>
+							}
+						</tbody>
+					</table>
 				} @else {
 					<div class="flex h-full w-full items-center justify-center">
 						<div class="flex flex-row items-center gap-16">
@@ -61,38 +137,25 @@
 				}
 			</div>
 			<div
-				class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between border border-zinc-300/40 bg-zinc-200/90 p-4 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+				class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between rounded-b-sm border border-zinc-300/40 bg-zinc-200/90 p-4 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
 			>
 				<div>
-					@if (kdsDatapoolService.flowControls().filteredRowsCount !== kdsDatapoolService.flowControls().rowsCount) {
-						<span class="mr-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().filteredRowsCount }}</span>
+					@if (datapool().metadata.filteredItemsCount !== datapool().metadata.itemsCount) {
+						<span class="mr-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.filteredItemsCount }}</span>
 						<span class="font-mono text-sm">filtered rows from</span>
-						<span class="ml-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().rowsCount }}</span>
+						<span class="ml-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.itemsCount }}</span>
 					} @else {
-						<span class="mr-2 rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().rowsCount }}</span>
+						<span class="mr-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.itemsCount }}</span>
 						<span class="font-mono text-sm">rows</span>
 					}
 				</div>
-				<div class="flex flex-row items-center gap-10">
-					<div class="flex flex-row items-center gap-2">
-						<span
-							class="font-mono text-sm"
-							[class.line-through]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
-							>show</span
-						>
-						<input
-							type="number"
-							class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
-							min="5"
-							step="5"
-							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
-						/>
-					</div>
+				<div class="flex flex-row items-center gap-6">
 					<div class="flex flex-row items-center">
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
+							[disabled]="datapool().metadata.pagesCount <= 1"
+							(click)="firstPage()"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -102,7 +165,8 @@
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
+							[disabled]="datapool().metadata.pagesCount <= 1"
+							(click)="previousPage()"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -110,19 +174,19 @@
 							/>
 						</button>
 						<div class="mx-2 flex flex-row items-center gap-2">
-							<input
-								type="number"
-								class="kds-input kds-input-sm h-full w-20 text-center font-mono text-sm disabled:bg-transparent disabled:dark:border-slate-700"
-								min="1"
-								[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
-							/>
+							<span class="rounded-md bg-zinc-50 px-3 py-1 text-center font-mono text-sm dark:bg-slate-900">
+								{{ 0 }}
+							</span>
 							<span class="font-mono text-sm">of</span>
-							<span class="rounded-md bg-zinc-50 px-2 py-1 font-mono text-sm dark:bg-slate-900">{{ kdsDatapoolService.flowControls().pagesCount }}</span>
+							<span class="rounded-md bg-zinc-50 px-3 py-1 text-center font-mono text-sm dark:bg-slate-900">
+								{{ datapool().metadata.pagesCount }}
+							</span>
 						</div>
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
+							[disabled]="datapool().metadata.pagesCount <= 1"
+							(click)="nextPage()"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -132,7 +196,8 @@
 						<button
 							type="button"
 							class="group/link rounded-md px-3 py-1.5 active:scale-90 disabled:active:scale-100"
-							[disabled]="kdsDatapoolService.flowControls().filteredRowsCount === 0"
+							[disabled]="datapool().metadata.pagesCount <= 1"
+							(click)="lastPage()"
 						>
 							<fa-icon
 								class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
@@ -145,3 +210,23 @@
 		</div>
 	</section>
 </main>
+@if (filterDialogOpen()) {
+	<app-users-list-filter [(open)]="filterDialogOpen" />
+}
+<kds-boolean-dialog
+	[inputData]="confirmDialogData()?.userId"
+	(dialogClose)="handleConfirmation($event)"
+	#confirmDialogRef
+>
+	@if (confirmDialogData()?.type === 'deactivate') {
+		<p>
+			Inactivate<span class="ml-2 mr-1 font-semibold text-dongs-500">{{ confirmDialogData()?.username }}</span
+			>?
+		</p>
+	} @else if (confirmDialogData()?.type === 'reactivate') {
+		<p>
+			Reactivate<span class="ml-2 mr-1 font-semibold text-dongs-500">{{ confirmDialogData()?.username }}</span
+			>?
+		</p>
+	}
+</kds-boolean-dialog>
