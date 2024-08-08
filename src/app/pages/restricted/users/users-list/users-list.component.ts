@@ -9,6 +9,7 @@ import { DatapoolUser } from '../../../../infra/gateways/users/users-gateway.mod
 import { UsersGatewayService } from '../../../../infra/gateways/users/users-gateway.service';
 import { TokenManagerService } from '../../../../infra/services/token/token-manager.service';
 import { UsersListFilterComponent } from './users-list-filter/users-list-filter.component';
+import { UsersListFilterOutput } from './users-list-filter/users-list-filter.model';
 
 @Component({
 	selector: 'app-users-list',
@@ -51,14 +52,15 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	/**
 	 * Filter dialog
 	 */
-	protected filterDialogOpen = signal<boolean>(false);
+	protected filterDialogOpen = signal<boolean>(true);
 
 	constructor() {
 		super();
 		effect(async () => {
 			untracked(() => this.loadingDatapool.set(true));
 			const response = await this.usersGatewayService.getDatapoolFake(this.triggerControls());
-			if (response) this.updateKdsDatapool(response);
+            // TODO: Maybe also update `currPageIdx` if requested page was invalid and corrected by API
+			if (response) untracked(() => this.updateKdsDatapool(response));
 			untracked(() => this.loadingDatapool.set(false));
 		});
 	}
@@ -106,5 +108,9 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	 */
     protected handleFilterDialogToogle(): void {
         this.filterDialogOpen.update((currState) => !currState);
+    }
+
+    protected handleReceiveFilterDialogData(data: UsersListFilterOutput): void {
+        this.updateTriggerControls(data.currPageIdx, data.itemsPerPage);
     }
 }
