@@ -170,6 +170,11 @@ module.exports = {
 					'&.kds-input-sm': {
 						'@apply leading-tight': {},
 					},
+
+                    // Input extra small size
+					'&.kds-input-xs': {
+						'@apply leading-none': {},
+					},
 				},
 
 				// Checkbox wrapper
