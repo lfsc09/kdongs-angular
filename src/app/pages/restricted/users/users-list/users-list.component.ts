@@ -56,12 +56,16 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 
 	constructor() {
 		super();
+        // TODO: Cleanup for multiple requests 
 		effect(async () => {
 			untracked(() => this.loadingDatapool.set(true));
 			const response = await this.usersGatewayService.getDatapoolFake(this.triggerControls());
-            // TODO: Maybe also update `currPageIdx` if requested page was invalid and corrected by API
-			if (response) untracked(() => this.updateKdsDatapool(response));
-			untracked(() => this.loadingDatapool.set(false));
+			// TODO: Maybe also update `currPageIdx` if requested page was invalid and corrected by API
+            untracked(() => {
+                if (response) this.updateKdsDatapool(response);
+                else this.resetKdsDatapool();
+                this.loadingDatapool.set(false);
+            });
 		});
 	}
 
@@ -69,7 +73,7 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	 * FUNCTIONS
 	 */
 
-    /**
+	/**
 	 * Deactivation/Reactivation dialog
 	 */
 	protected handleConfirmDeactivate(userId: string): void {
@@ -103,14 +107,14 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 		}
 	}
 
-    /**
+	/**
 	 * Filter dialog
 	 */
-    protected handleFilterDialogToogle(): void {
-        this.filterDialogOpen.update((currState) => !currState);
-    }
+	protected handleFilterDialogToogle(): void {
+		this.filterDialogOpen.update((currState) => !currState);
+	}
 
-    protected handleReceiveFilterDialogData(data: UsersListFilterOutput): void {
-        this.updateTriggerControls(data.currPageIdx, data.itemsPerPage);
-    }
+	protected handleReceiveFilterDialogData(data: UsersListFilterOutput): void {
+		this.updateTriggerControls(data.currPageIdx, data.itemsPerPage);
+	}
 }
