@@ -5,7 +5,7 @@ export class KdsDatapool<T> {
 	 * SIGNALS
 	 */
 	protected loadingDatapool = signal<boolean>(false);
-    protected itemsSelected = signal<number>(0);
+	protected itemsSelected = signal<number>(0);
 	private _datapool = signal<KdsDatapoolData<T>>({
 		metadata: {
 			pagesCount: 0,
@@ -48,7 +48,7 @@ export class KdsDatapool<T> {
 	}
 
 	previousPage() {
-        const pagesCount = this.datapool().metadata.pagesCount;
+		const pagesCount = this.datapool().metadata.pagesCount;
 		this._triggerControls.update((currState) => {
 			let currPageIdx = currState.currPageIdx - 1;
 			if (currPageIdx < 0) currPageIdx = pagesCount - 1;
@@ -64,20 +64,16 @@ export class KdsDatapool<T> {
 	}
 
 	lastPage() {
-        const pagesCount = this.datapool().metadata.pagesCount;
+		const pagesCount = this.datapool().metadata.pagesCount;
 		this._triggerControls.update((currState) => ({ ...currState, currPageIdx: pagesCount - 1 }));
 	}
 
-	gotoPage(currPage: number) {
-        const pagesCount = this.datapool().metadata.pagesCount;
-		let currPageIdx = currPage - 1;
-		if (currPageIdx < 0) currPageIdx = 0;
-		else if (currPageIdx > pagesCount - 1) currPageIdx = pagesCount - 1;
-		this._triggerControls.update((currState) => ({ ...currState, currPageIdx }));
-	}
-
-	updateItemsPerPage(itemsPerPage: number) {
-		this._triggerControls.update((currState) => ({ ...currState, itemsPerPage }));
+	updateTriggerControls(currPageIdx: number, itemsPerPage: number) {
+		const pagesCount = this.datapool().metadata.pagesCount;
+		let itemsPerPageChanged: boolean = this._triggerControls().itemsPerPage !== itemsPerPage;
+		let newCurrPageIdx = itemsPerPageChanged ? 0 : currPageIdx < 0 ? 0 : currPageIdx > pagesCount - 1 ? pagesCount - 1 : currPageIdx;
+		let currPageIdxChanged: boolean = this._triggerControls().currPageIdx !== newCurrPageIdx;
+		if (currPageIdxChanged || itemsPerPageChanged) this._triggerControls.set({ currPageIdx: newCurrPageIdx, itemsPerPage });
 	}
 }
 
