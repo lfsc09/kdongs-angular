@@ -1,4 +1,4 @@
-import { GetDatapoolRequest, GetDatapoolResponse } from '../app/infra/gateways/users/users-gateway.model';
+import { GetUsersDatapoolRequest, GetUsersDatapoolResponse } from '../app/infra/gateways/users/users-gateway.model';
 
 interface User {
 	id: string;
@@ -43,19 +43,20 @@ export class UsersFaker {
 		{ id: '23b135c7-7109-4051-84ff-a3bdc241cf7d', inactive_flag: true, admin_flag: false, username: 'scashfordd', name: 'Sherwin Cashford', email: 'scashfordd@google.ca' },
 		{ id: 'f1e1c4c7-5244-4de3-8608-e00ae0f83305', inactive_flag: false, admin_flag: false, username: 'akennerknechte', name: 'Angelika Kennerknecht', email: 'akennerknechte@istockphoto.com' },
 	];
+    
 	private static requestFakeTime: number = 1300;
 
 	private static fakeFailRequest(): boolean {
 		return Math.trunc(Math.random() * 10) > 8;
 	}
 
-	static getDatapool(request: GetDatapoolRequest): Promise<GetDatapoolResponse> {
+	static getUsersDatapool(request: GetUsersDatapoolRequest): Promise<GetUsersDatapoolResponse> {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				if (this.fakeFailRequest()) reject(new Error('Request Failed'));
 				else {
 					const startIndex = request.currPageIdx * request.itemsPerPage;
-					const response: GetDatapoolResponse = {
+					const response: GetUsersDatapoolResponse = {
 						pagePool: this.users.slice(startIndex, startIndex + request.itemsPerPage),
 						pagesCount: Math.ceil(this.users.length / request.itemsPerPage),
 						itemsCount: this.users.length,
