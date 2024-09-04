@@ -7,16 +7,16 @@ export interface DatapoolUser {
 	email: string;
 }
 
-export interface GetDatapool {
+export interface GetUsersDatapool {
 	pagePool: DatapoolUser[];
 	pagesCount: number;
 	itemsCount: number;
 	filteredItemsCount: number;
 }
 
-export type GetDatapoolResponse = GetDatapool | null;
+export type GetUsersDatapoolResponse = GetUsersDatapool | null;
 
-export interface GetDatapoolRequest {
+export interface GetUsersDatapoolRequest {
 	currPageIdx: number;
 	itemsPerPage: number;
 }

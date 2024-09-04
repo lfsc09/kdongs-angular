@@ -59,7 +59,7 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
         // TODO: Cleanup for multiple requests 
 		effect(async () => {
 			untracked(() => this.loadingDatapool.set(true));
-			const response = await this.usersGatewayService.getDatapoolFake(this.triggerControls());
+			const response = await this.usersGatewayService.getUsersDatapoolFake(this.triggerControls());
 			// TODO: Maybe also update `currPageIdx` if requested page was invalid and corrected by API
             untracked(() => {
                 if (response) this.updateKdsDatapool(response);
