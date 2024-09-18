@@ -1,6 +1,7 @@
 import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 import { gatekeeperGuard } from './infra/guards/gatekeeper.guard';
+import { myInvestmentsRoutes } from './pages/restricted/my-investments/my-investments.routes';
 import { userRoutes } from './pages/restricted/users/users.routes';
 
 export const titleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
@@ -26,7 +27,7 @@ export const routes: Routes = [
 				path: 'home',
 				data: {
 					title: 'Home',
-                    shouldRouteExec: true
+					shouldRouteExec: true,
 				},
 				title: titleResolver,
 				loadComponent: () => import('./pages/restricted/home/home.component').then((module) => module.HomeComponent),
@@ -34,6 +35,10 @@ export const routes: Routes = [
 			{
 				path: 'users',
 				children: userRoutes,
+			},
+			{
+				path: 'investments',
+				children: myInvestmentsRoutes,
 			},
 			{
 				path: '**',
