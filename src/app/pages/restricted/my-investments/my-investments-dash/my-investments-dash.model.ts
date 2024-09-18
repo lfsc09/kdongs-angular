@@ -7,6 +7,7 @@ export type SelectableWalletsMap_Value = { input_balance_percentage_of: string; 
 export type SelectableWallets = Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>;
 
 export type UserPreferences = {
-	selectedWallets: string[];
-	currencyToShow: SelectableCurrency;
+	selected_wallets: string[];
+	currency_to_show: SelectableCurrency;
+    panel_to_show: Panel;
 };

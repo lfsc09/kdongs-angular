@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, LowerCasePipe, PercentPipe } from '@angular/common';
 import { Component, effect, inject, signal, untracked } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faChartBar, faCheck, faFileInvoiceDollar, faPlus, faRotate, faTimeline } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { Panel, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key,
 @Component({
 	selector: 'app-my-investments-dash',
 	standalone: true,
-	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, KdsLoadingSpinnerComponent],
+	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent],
 	providers: [MyInvestmentsGatewayService],
 	templateUrl: './my-investments-dash.component.html',
 })
@@ -32,9 +32,9 @@ export class MyInvestmentsDashComponent {
 		faTimeline: faTimeline,
 		faFileInvoiceDollar: faFileInvoiceDollar,
 	});
-	protected selected_panel = signal<Panel>('performance');
+	protected selected_panel = signal<Panel | null>(null);
 	protected selected_wallets = signal<SelectableWallets>(new Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>());
-	protected selected_currency = signal<SelectableCurrency>('WALLET');
+	protected selected_currency = signal<SelectableCurrency | null>(null);
 	protected loadingWallets = signal<boolean>(false);
 	private _wallets = signal<Wallet[]>([]);
 	protected wallets = this._wallets.asReadonly();
@@ -44,11 +44,9 @@ export class MyInvestmentsDashComponent {
 			untracked(() => this.loadingWallets.set(true));
 			const response = await this.myInvestmentsGatewayService.getWalletsFake();
 			untracked(() => {
-				if (response) {
-					this._wallets.set(response.data);
-					this.readUserPreferences();
-				}
+				if (response) this._wallets.set(response.data);
 				this.loadingWallets.set(false);
+				this.readUserPreferences();
 			});
 		});
 	}
@@ -58,6 +56,7 @@ export class MyInvestmentsDashComponent {
 	 */
 	handleDetailPanelChange(panel: Panel): void {
 		this.selected_panel.set(panel);
+		this.writeUserPreferences();
 	}
 
 	/**
@@ -68,17 +67,24 @@ export class MyInvestmentsDashComponent {
 
 		if (preferences) {
 			const parsedPreferences: UserPreferences = JSON.parse(preferences);
-			this.handleUpdateSelectedWallets(parsedPreferences.selectedWallets);
-			this.selected_currency.set(parsedPreferences.currencyToShow);
-		} else this.handleUpdateSelectedWallets();
+			this.handleUpdateSelectedWallets(parsedPreferences.selected_wallets);
+			this.selected_currency.set(parsedPreferences.currency_to_show);
+			this.selected_panel.set(parsedPreferences.panel_to_show);
+		} else {
+            this.handleUpdateSelectedWallets();
+            this.selected_currency.set('WALLET');
+			this.selected_panel.set('performance');
+        }
+        this.writeUserPreferences();
 	}
 
 	writeUserPreferences(): void {
 		localStorage.setItem(
 			'investments-preferences',
 			JSON.stringify({
-				selectedWallets: [...this.selected_wallets().keys()],
-				currencyToShow: this.selected_currency(),
+				selected_wallets: [...this.selected_wallets().keys()],
+				currency_to_show: this.selected_currency(),
+				panel_to_show: this.selected_panel(),
 			} as UserPreferences),
 		);
 	}
@@ -129,7 +135,6 @@ export class MyInvestmentsDashComponent {
 			console.error('Failed to get the first wallet to select.');
 		}
 		this.selected_wallets.set(selectedWalletMap);
-		this.writeUserPreferences();
 	}
 
 	handleSelectMoreWallets(event: MouseEvent, selectedWalletId: string): void {
@@ -144,5 +149,6 @@ export class MyInvestmentsDashComponent {
 			}
 			this.handleUpdateSelectedWallets(selectedWalletIds);
 		} else this.handleUpdateSelectedWallets([selectedWalletId]);
+        this.writeUserPreferences();
 	}
 }
