@@ -24,7 +24,7 @@
 	}
 	<ul class="my-4 flex cursor-pointer flex-col gap-0.5">
 		<li
-			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
 			(click)="themeManagerService.invert()"
 		>
 			<span class="flex flex-col items-start text-xs">
@@ -37,7 +37,7 @@
 			/>
 		</li>
 		<li
-			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium *:text-red-400 hover:bg-zinc-100 active:scale-95 dark:hover:bg-slate-700"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-red-400 hover:bg-zinc-100 active:scale-95 dark:hover:bg-slate-700"
 			(click)="tokenManagerService.clear()"
 		>
 			<span class="text-xs">Logout</span>
@@ -48,10 +48,10 @@
 		</li>
 	</ul>
 	<hr class="kds-h-divider !h-px text-slate-400" />
-	<ul class="flex cursor-pointer flex-col gap-0.5">
+	<ul class="flex cursor-pointer flex-col gap-1.5">
 		@for (module of navModulesService.modules(); track module?.url) {
 			<a
-				class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:-translate-x-2 hover:bg-zinc-100 *:dark:text-current dark:hover:bg-slate-700"
+				class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
 				routerLink="{{ module!.url }}"
 				routerLinkActive="navleft-router-link-active"
 				(click)="navModulesService.handleClose()"
