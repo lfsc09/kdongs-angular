@@ -1,4 +1,4 @@
-import { GetWalletsResponse } from '../app/infra/gateways/my-investments/my-investments-gateway.model';
+import { GetWalletsResponse } from '../app/infra/gateways/investments/investments-gateway.model';
 
 interface Wallet {
 	wallet_id: string;

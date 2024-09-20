@@ -3,22 +3,23 @@ import { Component, effect, inject, signal, untracked } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faChartBar, faCheck, faFileInvoiceDollar, faPlus, faRotate, faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
-import { Wallet } from '../../../../infra/gateways/my-investments/my-investments-gateway.model';
-import { MyInvestmentsGatewayService } from '../../../../infra/gateways/my-investments/my-investments-gateway.service';
-import { Panel, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './my-investments-dash.model';
+import { Wallet } from '../../../../infra/gateways/investments/investments-gateway.model';
+import { InvestmentsGatewayService } from '../../../../infra/gateways/investments/investments-gateway.service';
+import { Panel, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
+import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
 
 @Component({
-	selector: 'app-my-investments-dash',
+	selector: 'app-investments-dash',
 	standalone: true,
-	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent],
-	providers: [MyInvestmentsGatewayService],
-	templateUrl: './my-investments-dash.component.html',
+	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent, PerformanceIndicatorsComponent],
+	providers: [InvestmentsGatewayService],
+	templateUrl: './investments-dash.component.html',
 })
-export class MyInvestmentsDashComponent {
+export class InvestmentsDashComponent {
 	/**
 	 * SERVICES
 	 */
-	private readonly myInvestmentsGatewayService = inject(MyInvestmentsGatewayService);
+	private readonly investmentsGatewayService = inject(InvestmentsGatewayService);
 
 	/**
 	 * SIGNALS
@@ -42,7 +43,7 @@ export class MyInvestmentsDashComponent {
 	constructor() {
 		effect(async () => {
 			untracked(() => this.loadingWallets.set(true));
-			const response = await this.myInvestmentsGatewayService.getWalletsFake();
+			const response = await this.investmentsGatewayService.getWalletsFake();
 			untracked(() => {
 				if (response) this._wallets.set(response.data);
 				this.loadingWallets.set(false);
@@ -71,11 +72,11 @@ export class MyInvestmentsDashComponent {
 			this.selected_currency.set(parsedPreferences.currency_to_show);
 			this.selected_panel.set(parsedPreferences.panel_to_show);
 		} else {
-            this.handleUpdateSelectedWallets();
-            this.selected_currency.set('WALLET');
+			this.handleUpdateSelectedWallets();
+			this.selected_currency.set('WALLET');
 			this.selected_panel.set('performance');
-        }
-        this.writeUserPreferences();
+		}
+		this.writeUserPreferences();
 	}
 
 	writeUserPreferences(): void {
@@ -149,6 +150,6 @@ export class MyInvestmentsDashComponent {
 			}
 			this.handleUpdateSelectedWallets(selectedWalletIds);
 		} else this.handleUpdateSelectedWallets([selectedWalletId]);
-        this.writeUserPreferences();
+		this.writeUserPreferences();
 	}
 }
