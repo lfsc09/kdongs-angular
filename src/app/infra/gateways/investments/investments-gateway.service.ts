@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { InvestmentsFaker } from '../../../../fakers/investments-faker';
-import { GetWalletsResponse } from './my-investments-gateway.model';
+import { GetWalletsResponse } from './investments-gateway.model';
 
 @Injectable()
-export class MyInvestmentsGatewayService {
+export class InvestmentsGatewayService {
 	async getWalletsFake(): Promise<GetWalletsResponse> {
 		try {
 			const response = await InvestmentsFaker.getWallets();
