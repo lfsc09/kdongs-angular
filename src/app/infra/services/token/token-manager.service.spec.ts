@@ -6,7 +6,7 @@ import { TokenManagerService } from './token-manager.service';
 
 describe('TokenManagerService', () => {
 	let service: TokenManagerService;
-    const jacintoToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3Yzc1ZWIyNS1iYzk5LTQxNWItYmU1YS1jOTdkYjZkYTY5MjgiLCJ1c2VyVXNlcm5hbWUiOiJqYWNpbnRvLnBpbnRvIiwidXNlckZ1bGxuYW1lIjoiSmFjaW50byBQaW50byIsInBlcm1zIjp7IlVTRVJTX0FDQ0VTUyI6dHJ1ZSwiVVNFUlNfTkVXIjp0cnVlLCJVU0VSU19FRElUIjp0cnVlLCJVU0VSU19TREVMIjp0cnVlLCJJTlZFU1RNRU5UU19BQ0NFU1MiOnRydWUsIklOVkVTVE1FTlRTX05FVyI6dHJ1ZSwiSU5WRVNUTUVOVFNfRURJVCI6dHJ1ZSwiSU5WRVNUTUVOVFNfSERFTCI6dHJ1ZSwiRVhQRU5TRVNfQUNDRVNTIjp0cnVlLCJFWFBFTlNFU19ORVciOnRydWUsIkVYUEVOU0VTX0VESVQiOnRydWUsIkVYUEVOU0VTX0hERUwiOnRydWV9LCJob3N0Ijoia2RvbmdzIiwiaWF0Ijo0NTE2MjM5MDIyfQ.JonsbF-LoyrUwftwTS_bBqSOjDHFXTvb3YtK0LRlWpc';
+    const jacintoToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3Yzc1ZWIyNS1iYzk5LTQxNWItYmU1YS1jOTdkYjZkYTY5MjgiLCJ1c2VyRW1haWwiOiJqYWNpbnRvLnBpbnRvQGdtYWlsLmNvbSIsInVzZXJGdWxsbmFtZSI6IkphY2ludG8gUGludG8iLCJwZXJtcyI6eyJVU0VSU19BQ0NFU1MiOnRydWUsIlVTRVJTX05FVyI6dHJ1ZSwiVVNFUlNfRURJVCI6dHJ1ZSwiVVNFUlNfU0RFTCI6dHJ1ZSwiSU5WRVNUTUVOVFNfQUNDRVNTIjp0cnVlLCJJTlZFU1RNRU5UU19ORVciOnRydWUsIklOVkVTVE1FTlRTX0VESVQiOnRydWUsIklOVkVTVE1FTlRTX0hERUwiOnRydWUsIkVYUEVOU0VTX0FDQ0VTUyI6dHJ1ZSwiRVhQRU5TRVNfTkVXIjp0cnVlLCJFWFBFTlNFU19FRElUIjp0cnVlLCJFWFBFTlNFU19IREVMIjp0cnVlfSwiaG9zdCI6Imtkb25ncyIsImlhdCI6NDUxNjIzOTAyMn0.BEuJ2myqC3C20VsHCe7zRHp5lKCvm39vv1nD2d2tH6w';
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('TokenManagerService', () => {
 	it('(decode) should decode a jwt token', () => {
 		const decoded = service['decode'](jacintoToken);
 		expect(decoded).not.toBeNull();
-		expect(decoded?.userUsername).toBe('jacinto.pinto');
+		expect(decoded?.userEmail).toBe('jacinto.pinto@gmail.com');
 	});
 
 	it('(decode) should not decode a jwt token', () => {
@@ -61,10 +61,10 @@ describe('TokenManagerService', () => {
 	it('(clear) should clear token data of service', () => {
 		service['_token'].set('justatesttoken');
 		service['_tokenData'].set({
-			userUsername: 'test',
+			userEmail: 'test',
 		} as TokenData);
 		expect(service['_token']()).toBe('justatesttoken');
-		expect(service['_tokenData']()!.userUsername).toBe('test');
+		expect(service['_tokenData']()!.userEmail).toBe('test');
 		service.clear();
 		expect(service.token).toBeNull();
 		expect(service.tokenData).toBeNull();
@@ -72,7 +72,7 @@ describe('TokenManagerService', () => {
 
 	it('(extractToken) should extract a valid token', () => {
 		const result = service['extractToken'](jacintoToken);
-		expect(result?.userUsername).toBe('jacinto.pinto');
+		expect(result?.userEmail).toBe('jacinto.pinto@gmail.com');
 	});
 
 	it('(extractToken) should return "null"', () => {

@@ -1,6 +1,6 @@
 export interface TokenData {
 	userId: string;
-	userUsername: string;
+	userEmail: string;
 	userFullname: string;
 	perms: { [key: string]: boolean };
 	configs: string;

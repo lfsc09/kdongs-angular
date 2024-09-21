@@ -24,18 +24,18 @@
 			>
 				<div class="flex flex-col gap-4">
 					<div class="kds-form-group-v">
-						<label for="login-username">Username</label>
+						<label for="login-email">Email</label>
 						<input
 							type="text"
-							name="username"
-							id="login-username"
+							name="email"
+							id="login-email"
 							class="kds-input"
-							[class.kds-input-error]="loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted"
-							formControlName="username"
-							#usernameInputRef
+							[class.kds-input-error]="loginForm.controls.email.invalid && loginForm.controls.email.touched && loginFormRef.submitted"
+							formControlName="email"
+							#emailInputRef
 						/>
-						@if (loginForm.controls.username.invalid && loginForm.controls.username.touched && loginFormRef.submitted) {
-							<span class="kds-form-group-error">Invalid username</span>
+						@if (loginForm.controls.email.invalid && loginForm.controls.email.touched && loginFormRef.submitted) {
+							<span class="kds-form-group-error">Invalid email</span>
 						}
 					</div>
 					<div class="kds-form-group-v">
