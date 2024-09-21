@@ -7,6 +7,7 @@ import {
 	faAngleRight,
 	faChartPie,
 	faCircleHalfStroke,
+	faCircleUser,
 	faCreditCard,
 	faHouse,
 	faMagnifyingGlassChart,
@@ -50,6 +51,7 @@ export class NavModulesComponent implements AfterViewInit {
 		faChartPie: faChartPie,
 		faCreditCard: faCreditCard,
 		faMagnifyingGlassChart: faMagnifyingGlassChart,
+		faCircleUser: faCircleUser,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
 	protected runInput = new FormControl('');

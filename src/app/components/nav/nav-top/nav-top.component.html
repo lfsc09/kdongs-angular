@@ -31,16 +31,24 @@
 			>
 				<div class="flex select-none flex-row items-center gap-1">
 					<ng-container *ngIf="tokenExpLeftPercentage$ | async as percent">
-						<div class="flex flex-col items-end gap-1">
-							<span class="text-xs font-semibold">&#64;{{ tokenManagerService.tokenData()?.userUsername ?? 'unknown' }}</span>
+						<div
+							class="flex flex-col items-end gap-1"
+							*viewportMatch="['TABLET_VERTICAL', 'TABLET_HORIZONTAL', 'LAPTOP', 'DESKTOP_1K', 'DESKTOP_2K']"
+						>
 							<code class="rounded-md bg-slate-200 px-2 py-0.5 text-[.55rem] font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">Ctrl + ;</code>
 						</div>
-						<app-kds-circular-progress
-							class="transition group-hover/menu:scale-125"
-							size="xs"
-							[percentage]="percent"
-							[warn]="percent < 25"
-						/>
+						<div class="relative transition group-hover/menu:scale-110">
+							<fa-icon
+								[icon]="icons().faCaretDown"
+								class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-dongs-500"
+								size="xs"
+							></fa-icon>
+							<app-kds-circular-progress
+								size="sm"
+								[percentage]="percent"
+								[warn]="percent < 25"
+							/>
+						</div>
 					</ng-container>
 				</div>
 			</button>
