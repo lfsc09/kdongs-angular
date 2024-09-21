@@ -47,7 +47,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 		faGamepad: faGamepad,
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
-	protected usernameInputRef = viewChild<ElementRef<HTMLInputElement>>('usernameInputRef');
+	protected emailInputRef = viewChild<ElementRef<HTMLInputElement>>('emailInputRef');
 
 	ngOnInit(): void {
 		this.zone.runOutsideAngular(() => {
@@ -58,7 +58,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.usernameInputRef()?.nativeElement.focus();
+		this.emailInputRef()?.nativeElement.focus();
 	}
 
 	/**
@@ -76,14 +76,14 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 
 	protected loadingLoginForm = signal(false);
 	protected loginForm = this.formBuilderService.group({
-		username: ['', Validators.required],
+		email: ['', [Validators.required, Validators.email]],
 		password: ['', Validators.required],
 	});
 
 	protected async handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
 			this.loadingLoginForm.set(true);
-			const response = await this.authenticationService.runFake(this.loginForm.value.username, this.loginForm.value.password);
+			const response = await this.authenticationService.runFake(this.loginForm.value.email, this.loginForm.value.password);
 			switch (response) {
 				case 'accept':
 					this.routerService.navigate(['/r!/home'], { replaceUrl: true });
@@ -91,7 +91,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 				case 'deny':
 					this.loginForm.reset();
 					submittedForm.resetForm();
-					this.usernameInputRef()?.nativeElement.focus();
+					this.emailInputRef()?.nativeElement.focus();
 					break;
 				case 'error':
 					break;
