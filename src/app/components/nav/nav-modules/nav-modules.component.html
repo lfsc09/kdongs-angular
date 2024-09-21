@@ -3,9 +3,20 @@
 	(click)="navModulesService.handleClose()"
 ></section>
 <section
-	class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] border-l border-slate-900/10 bg-zinc-50/90 px-6 py-6 backdrop-blur-[4px] dark:border-slate-50/10 dark:bg-slate-900/95"
+	class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] border-l border-slate-900/10 bg-zinc-50/90 px-6 pb-6 pt-6 backdrop-blur-[4px] dark:border-slate-50/10 dark:bg-slate-900/95"
 >
-	<div class="relative">
+	<div class="flex select-none flex-row items-center justify-start gap-3">
+		<fa-icon
+			[icon]="icons()['faCircleUser']"
+			class="text-dongs-400/90"
+			size="2xl"
+		></fa-icon>
+		<div class="flex flex-col justify-center gap-0.5">
+			<span class="text-sm font-semibold text-dongs-500">{{ tokenManagerService.tokenData()?.userFullname ?? 'unknown' }}</span>
+			<span class="text-xs text-slate-500">{{ tokenManagerService.tokenData()?.userEmail ?? 'unknown' }}</span>
+		</div>
+	</div>
+	<div class="relative mt-4">
 		<fa-icon
 			[icon]="icons()['faAngleRight']"
 			class="absolute bottom-0 left-0 top-0 flex items-center px-3 text-slate-500"
@@ -19,10 +30,11 @@
 			#runInputRef
 		/>
 	</div>
+	<hr class="kds-h-divider !h-px text-slate-400" />
 	@if (runError()) {
 		<span class="text-xs text-red-400">{{ runError() }}</span>
 	}
-	<ul class="my-4 flex cursor-pointer flex-col gap-0.5">
+	<ul class="flex cursor-pointer flex-col gap-0.5">
 		<li
 			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
 			(click)="themeManagerService.invert()"

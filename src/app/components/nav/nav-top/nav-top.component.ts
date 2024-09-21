@@ -1,8 +1,11 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, filter, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
 import { TokenManagerService } from '../../../infra/services/token/token-manager.service';
 import { KdsCircularProgressComponent } from '../../shared/kds/kds-circular-progress/kds-circular-progress.component';
 import { NavModulesService } from '../nav-modules/nav-modules.service';
@@ -10,7 +13,7 @@ import { NavModulesService } from '../nav-modules/nav-modules.service';
 @Component({
 	selector: 'app-nav-top',
 	standalone: true,
-	imports: [RouterLink, KdsCircularProgressComponent, AsyncPipe, CommonModule],
+	imports: [FontAwesomeModule, RouterLink, KdsCircularProgressComponent, AsyncPipe, CommonModule, ViewportMatchDirective],
 	templateUrl: './nav-top.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -25,6 +28,9 @@ export class NavTopComponent implements OnInit, OnDestroy {
 	/**
 	 * SIGNALS AND OBSERVABLES
 	 */
+	protected icons = signal({
+		faCaretDown: faCaretDown,
+	});
 	protected tokenExpLeftPercentage$ = this.tokenManagerService.tokenExpLeft$.pipe(map((value: number) => (value / environment.token.lifespan) * 100));
 	private routerEventSubscription: Subscription | undefined;
 	protected breadcrumbs = signal<string[]>(this.urlToBreadcrumbs(this.router.url));
