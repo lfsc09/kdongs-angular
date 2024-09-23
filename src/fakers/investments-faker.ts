@@ -1,33 +1,37 @@
-import { GetWalletsResponse } from '../app/infra/gateways/investments/investments-gateway.model';
-
-interface Wallet {
-	wallet_id: string;
-	wallet_currency: string;
-	wallet_name: string;
-	wallet_last_updated: string;
-	wallet_input_balance: number;
-	wallet_current_balance: number;
-	wallet_profit_in_curncy: number;
-	wallet_profit_in_perc: number;
-}
-
-interface SelectedWallets {
-	title: string;
-	total_currency: string;
-	total_input_balance: number;
-	total_current_balance: number;
-	total_profit_in_curncy: number;
-	total_profit_in_perc: number;
-}
+import { GetPerformanceResponse, GetWalletsResponse, PerformanceData, Wallet } from '../app/infra/gateways/investments/investments-gateway.model';
 
 export class InvestmentsFaker {
-	private static selectedWallets: SelectedWallets = {
-		title: 'All Wallets',
-		total_currency: 'BRL',
-		total_input_balance: 310000,
-		total_current_balance: 357000,
-		total_profit_in_curncy: 357000 - 310000,
-		total_profit_in_perc: (357000 - 310000) / 310000,
+	private static selectedWalletsPerformance: PerformanceData = {
+		indicators: {
+			profit_in_curncy: 15000,
+			profit_in_perc: 0.0529,
+			timeframe_begin: '2023-02-04',
+			timeframe_end: '2024-04-29',
+			number_of_assets_total: 10,
+			number_of_assets_total_positive: 10,
+			number_of_assets_total_negative: 0,
+			number_of_assets_active: 4,
+            number_of_assets_active_positive: 4,
+			number_of_assets_active_negative: 0,
+			expectancy: 1028.75,
+			historic_low: 0,
+			historic_high: 15000,
+			avg_cost: 0,
+			avg_tax: 182.94,
+			breakeven: 0,
+			edge: 1,
+			avg_profit: 1028.75,
+			avg_loss: 0,
+		},
+		indicatorsComparison: {
+			profit_in_curncy: 47000,
+			profit_in_perc: 0.2,
+			expectancy: 1900,
+			avg_cost: 0,
+			avg_tax: 264.85,
+			avg_profit: 1900,
+			avg_loss: 0,
+		},
 	};
 
 	private static wallets: Wallet[] = [
@@ -66,6 +70,20 @@ export class InvestmentsFaker {
 				else {
 					const response: GetWalletsResponse = {
 						data: this.wallets,
+					};
+					resolve(response);
+				}
+			}, this.requestFakeTime);
+		});
+	}
+
+	static getPerformance(): Promise<GetPerformanceResponse> {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				if (this.fakeFailRequest()) reject(new Error('Request Failed'));
+				else {
+					const response: GetPerformanceResponse = {
+						data: this.selectedWalletsPerformance,
 					};
 					resolve(response);
 				}
