@@ -15,10 +15,6 @@ export interface GetWallets {
 }
 export type GetWalletsResponse = GetWallets | null;
 
-export interface PerformanceData {
-	indicators: PerformanceIndicators;
-	indicatorsComparison: PerformanceIndicatorsTotal;
-}
 export interface PerformanceIndicators {
 	profit_in_curncy: number;
 	profit_in_perc: number;
@@ -28,7 +24,7 @@ export interface PerformanceIndicators {
 	number_of_assets_total_positive: number;
 	number_of_assets_total_negative: number;
 	number_of_assets_active: number;
-    number_of_assets_active_positive: number;
+	number_of_assets_active_positive: number;
 	number_of_assets_active_negative: number;
 	expectancy: number;
 	historic_low: number;
@@ -49,10 +45,25 @@ export interface PerformanceIndicatorsTotal {
 	avg_profit: number;
 	avg_loss: number;
 }
-export type GetPerformanceRequest = {
-	wallets: string[];
-};
+export interface PerformanceWalletDataPoint {
+	date: number;
+	gross_profit: number;
+	net_profit: number;
+	days_to_profit: number;
+}
+export interface PerformanceWalletSeries {
+	name: string;
+	series: PerformanceWalletDataPoint[];
+}
+export interface PerformanceData {
+	indicators: PerformanceIndicators;
+	indicatorsComparison: PerformanceIndicatorsTotal;
+	walletsSeries: PerformanceWalletSeries[];
+}
 export interface GetPerformance {
 	data: PerformanceData;
 }
 export type GetPerformanceResponse = GetPerformance | null;
+export type GetPerformanceRequest = {
+	wallets: string[];
+};
