@@ -6,33 +6,38 @@
 				<span class="text-[.7rem] text-white">{{ data().indicators.timeframe_begin | date: 'MMM yyyy' }} - {{ data().indicators.timeframe_end | date: 'MMM yyyy' }}</span>
 			</div>
 		</span>
-		<div class="flex flex-row">
-			<div
-				class="flex flex-row items-center rounded-l-lg border-r border-dashed bg-zinc-50 px-3 py-2 text-xs dark:bg-slate-900"
-				[class]="{
-					'bg-dongs-200/40': compareWithTotal(),
-				}"
-			>
-				<span class="font-medium capitalize text-dongs-500">{{ compareWithTotal() ? 'on' : 'off' }}</span>
-			</div>
-			<div class="group/info relative flex">
-				<div class="absolute -bottom-2 right-0 z-[200] hidden w-64 translate-y-full rounded-md border border-gray-600/40 bg-gray-500 p-2 group-hover/info:block">
-					<div class="flex flex-col gap-1">
-						<p class="font-kds-mono text-xs leading-normal text-white">Compare the data against all your wallets summed.</p>
-					</div>
+		<div class="group/info relative rounded-lg bg-zinc-50 dark:bg-slate-900">
+			<div class="absolute -left-2 top-0 z-[200] hidden w-64 -translate-x-full rounded-md border border-gray-600/40 bg-gray-500 p-2 group-hover/info:block">
+				<div class="flex flex-col gap-1">
+					<p class="font-kds-mono text-xs leading-normal text-white">
+						<fa-icon
+							[icon]="icons().faCircleInfo"
+							class="mr-1 text-xs text-white"
+						></fa-icon>
+						Compare the data against all your wallets summed.
+					</p>
 				</div>
-				<button
-					type="button"
-					class="group/btn flex select-none flex-row items-center justify-center rounded-r-lg bg-zinc-50 px-3 py-2 text-sm transition-transform active:scale-95 dark:bg-slate-900"
-					(click)="handleCompareWithTotalChange()"
+			</div>
+			<button
+				type="button"
+				class="group/btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2 transition-transform active:scale-95"
+				(click)="handleCompareWithTotalChange()"
+			>
+				<span
+					class="text-xs font-medium capitalize text-dongs-500"
+					[class]="{
+						'bg-dongs-200/40': compareWithTotal(),
+					}"
+					>{{ compareWithTotal() ? 'On' : 'Off' }}</span
 				>
+				<div class="flex flex-1 flex-row items-center justify-end text-sm">
 					<fa-icon
 						[icon]="icons().faArrowRightArrowLeft"
 						class="mr-2 group-hover/btn:text-dongs-500"
 					></fa-icon>
 					<span class="font-medium group-hover/btn:text-dongs-500">Compare Total</span>
-				</button>
-			</div>
+				</div>
+			</button>
 		</div>
 	</div>
 	<div class="grid grid-cols-8 gap-4">
