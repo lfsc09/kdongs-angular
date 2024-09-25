@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown, faArrowRightArrowLeft, faArrowUp, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowRightArrowLeft, faArrowUp, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Currency, PerformanceData } from '../../../../../infra/gateways/investments/investments-gateway.model';
 
 @Component({
@@ -18,7 +18,7 @@ export class PerformanceIndicatorsComponent {
 	data = input.required<PerformanceData>();
 	protected icons = signal({
 		faArrowRightArrowLeft: faArrowRightArrowLeft,
-		faInfo: faInfo,
+		faCircleInfo: faCircleInfo,
 		faArrowDown: faArrowDown,
 		faArrowUp: faArrowUp,
 	});
