@@ -7,11 +7,12 @@ import { Currency, PerformanceData, Wallet } from '../../../../infra/gateways/in
 import { InvestmentsGatewayService } from '../../../../infra/gateways/investments/investments-gateway.service';
 import { Section, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
 import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
+import { PerformanceEvolutionComponent } from './performance-evolution/performance-evolution.component';
 
 @Component({
 	selector: 'app-investments-dash',
 	standalone: true,
-	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent, PerformanceIndicatorsComponent],
+	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent, PerformanceIndicatorsComponent, PerformanceEvolutionComponent],
 	providers: [InvestmentsGatewayService],
 	templateUrl: './investments-dash.component.html',
 })

@@ -39,17 +39,17 @@
 @tailwind utilities;
 
 @layer utilities {
-    .navleft-router-link-active {
-        @apply bg-dongs-100 hover:!bg-dongs-100 dark:bg-dongs-500 dark:hover:!bg-dongs-500;
+	.navleft-router-link-active {
+		@apply bg-dongs-100 hover:!bg-dongs-100 dark:bg-dongs-500 dark:hover:!bg-dongs-500;
 
-        & > span {
-            @apply text-dongs-400 dark:text-current;
-        }
+		& > span {
+			@apply text-dongs-400 dark:text-current;
+		}
 
-        & > fa-icon {
-            @apply text-dongs-400 dark:text-current;
-        }
-    }
+		& > fa-icon {
+			@apply text-dongs-400 dark:text-current;
+		}
+	}
 
 	fa-icon {
 		& svg {
@@ -60,4 +60,13 @@
 			}
 		}
 	}
+
+	.billboard-lines-thick {
+        stroke-width: 2px !important;
+	}
+    
+    .billboard-lines-dashed {
+        stroke-dasharray: 4 6;
+        stroke-width: 2px !important;
+    }
 }
