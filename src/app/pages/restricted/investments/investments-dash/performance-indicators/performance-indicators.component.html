@@ -247,13 +247,33 @@
 		<div class="flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Breakeven</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
-				<span class="text-[.7rem]">{{ data().indicators.breakeven | percent: '0.0-2' }}</span>
+				<kds-gauge
+					[value]="data().indicators.breakeven * 100"
+					[colorMeter]="[
+						{ threshold: 50, stroke: 'stroke-dongs-500', fill: 'fill-dongs-500' },
+						{ threshold: 75, stroke: 'stroke-amber-500', fill: 'fill-amber-500' },
+						{ threshold: 100, stroke: 'stroke-red-500', fill: 'fill-red-500' },
+					]"
+					size="sm"
+				>
+					{{ data().indicators.breakeven | percent: '0.0-2' }}
+				</kds-gauge>
 			</div>
 		</div>
 		<div class="flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Edge</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
-				<span class="text-[.7rem]">{{ data().indicators.edge | percent: '0.0-2' }}</span>
+				<kds-gauge
+					[value]="data().indicators.edge * 100"
+					size="sm"
+					[colorMeter]="[
+						{ threshold: 50, stroke: 'stroke-red-500', fill: 'fill-red-500' },
+						{ threshold: 75, stroke: 'stroke-amber-500', fill: 'fill-amber-500' },
+						{ threshold: 100, stroke: 'stroke-dongs-500', fill: 'fill-dongs-500' },
+					]"
+				>
+					{{ data().indicators.edge | percent: '0.0-2' }}
+				</kds-gauge>
 			</div>
 		</div>
 		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
