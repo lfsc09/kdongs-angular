@@ -210,6 +210,15 @@
 									[data]="performanceData()!"
 								/>
 							}
+							@if (performanceData() === null || performanceData()?.walletsSeries === undefined) {
+								<div class="flex h-72 flex-col gap-6 rounded-lg border border-zinc-300/40 bg-zinc-100 p-4 dark:border-slate-50/[0.06]">
+									<div class="flex h-full w-full items-center justify-center">
+										<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to load Evolution</div>
+									</div>
+								</div>
+							} @else {
+								<app-performance-evolution [currencyOnUse]="currencyOnUse()" [data]="performanceData()!.walletsSeries" />
+							}
 						}
 					}
 				</section>
