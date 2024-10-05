@@ -1,4 +1,37 @@
+import { Signal } from '@angular/core';
+import { Observable } from 'rxjs';
+
+/**
+ * GATEWAY DEFINITION
+ */
+export interface IInvestmentsGatewayService {
+	loading: Signal<boolean>;
+	getInvestmentsPerformance(request: GetInvestmentsPerformanceRequest): Observable<GetInvestmentsPerformanceResponse>;
+}
+
+/**
+ * BASE TYPES/INTERFACES
+ */
 export type Currency = 'BRL' | 'USD' | 'EUR';
+
+/**
+ * GATEWAY METHODS
+ */
+
+/**
+ * For Method: @method getInvestmentsPerformance()
+ */
+export type GetInvestmentsPerformanceRequest = {
+	wallets: string[];
+	wallets_info?: boolean;
+};
+export type GetInvestmentsPerformanceResponse = IInvestmentsPerformance | null;
+
+export interface IInvestmentsPerformance {
+	wallets?: Wallet[];
+	performance: PerformanceData;
+	selected_wallets: string[];
+}
 
 export interface Wallet {
 	wallet_id: string;
@@ -10,10 +43,12 @@ export interface Wallet {
 	wallet_profit_in_curncy: number;
 	wallet_profit_in_perc: number;
 }
-export interface GetWallets {
-	data: Wallet[];
+
+export interface PerformanceData {
+	indicators: PerformanceIndicators;
+	indicatorsComparison: PerformanceIndicatorsTotal;
+	walletsSeries: PerformanceWalletSeries[];
 }
-export type GetWalletsResponse = GetWallets | null;
 
 export interface PerformanceIndicators {
 	profit_in_curncy: number;
@@ -45,25 +80,13 @@ export interface PerformanceIndicatorsTotal {
 	avg_profit: number;
 	avg_loss: number;
 }
+export interface PerformanceWalletSeries {
+	name: string;
+	series: PerformanceWalletDataPoint[];
+}
 export interface PerformanceWalletDataPoint {
 	date: number;
 	gross_profit: number;
 	net_profit: number;
 	days_to_profit: number;
 }
-export interface PerformanceWalletSeries {
-	name: string;
-	series: PerformanceWalletDataPoint[];
-}
-export interface PerformanceData {
-	indicators: PerformanceIndicators;
-	indicatorsComparison: PerformanceIndicatorsTotal;
-	walletsSeries: PerformanceWalletSeries[];
-}
-export interface GetPerformance {
-	data: PerformanceData;
-}
-export type GetPerformanceResponse = GetPerformance | null;
-export type GetPerformanceRequest = {
-	wallets: string[];
-};
