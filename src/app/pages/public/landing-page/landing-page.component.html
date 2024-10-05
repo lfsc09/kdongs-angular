@@ -71,7 +71,7 @@
 							class="group/go kds-button kds-button-sm w-full bg-green-600 text-white hover:brightness-110 tablet-h:w-1/3"
 						>
 							Go
-							@if (loadingLoginForm()) {
+							@if (gatewayLoading()) {
 								<kds-loading-spinner class="ml-auto" />
 							} @else {
 								<fa-icon

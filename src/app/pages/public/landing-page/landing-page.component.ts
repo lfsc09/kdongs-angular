@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, InjectionToken, NgZone, OnDestroy, OnInit, Signal, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -7,20 +7,29 @@ import { faAnglesRight, faEye, faEyeSlash, faGamepad, faLightbulb, faMoon, faRig
 import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Engine, MoveDirection, OutMode } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
+import { Subscription } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { KdsLoadingSpinnerComponent } from '../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
-import { AuthenticationGatewayService } from '../../../infra/gateways/authentication/authentication-gateway.service';
+import { IAuthenticationGatewayService } from '../../../infra/gateways/authentication/authentication-gateway.model';
 import { ThemeManagerService } from '../../../infra/services/theme/theme-manager.service';
 import { RandomParticlesProps } from './landing-page.model';
+
+const tokenIAuthenticationGatewayService = new InjectionToken<IAuthenticationGatewayService>('IAuthenticationGatewayService');
 
 @Component({
 	selector: 'app-landing-page',
 	standalone: true,
 	imports: [ViewportMatchDirective, FontAwesomeModule, NgxParticlesModule, ReactiveFormsModule, KdsLoadingSpinnerComponent],
-	providers: [AuthenticationGatewayService],
+	providers: [
+		{
+			provide: tokenIAuthenticationGatewayService,
+			useClass: environment.authenticationGatewayService,
+		},
+	],
 	templateUrl: './landing-page.component.html',
 })
-export class LandingPageComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 	/**
 	 * SERVICES
 	 */
@@ -29,7 +38,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 	private readonly zone = inject(NgZone);
 	private readonly ngParticlesService = inject(NgParticlesService);
 	protected readonly themeManagerService = inject(ThemeManagerService);
-	private readonly authenticationService = inject(AuthenticationGatewayService);
+	private readonly authenticationService = inject(tokenIAuthenticationGatewayService);
 
 	/**
 	 * SIGNALS
@@ -48,6 +57,17 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 	});
 	protected useDarkTheme = this.themeManagerService.darkTheme;
 	protected emailInputRef = viewChild<ElementRef<HTMLInputElement>>('emailInputRef');
+	protected showPassword = signal(false);
+	protected gatewayLoading: Signal<boolean> = this.authenticationService.loading;
+	private authenticationSubscription: Subscription | undefined;
+
+	/**
+	 * FORM VARS
+	 */
+	protected loginForm = this.formBuilderService.group({
+		email: ['', [Validators.required, Validators.email]],
+		password: ['', Validators.required],
+	});
 
 	ngOnInit(): void {
 		this.zone.runOutsideAngular(() => {
@@ -61,42 +81,36 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 		this.emailInputRef()?.nativeElement.focus();
 	}
 
+	ngOnDestroy(): void {
+		this.authenticationSubscription?.unsubscribe;
+	}
+
 	/**
 	 * LOGIN FORM
 	 */
-
-	/**
-	 * Show/Hide Password
-	 */
-	showPassword = signal(false);
-
 	protected handlePasswordShow() {
 		this.showPassword.update((value) => !value);
 	}
 
-	protected loadingLoginForm = signal(false);
-	protected loginForm = this.formBuilderService.group({
-		email: ['', [Validators.required, Validators.email]],
-		password: ['', Validators.required],
-	});
-
-	protected async handleLoginFormSubmit(submittedForm: any) {
+	protected handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
-			this.loadingLoginForm.set(true);
-			const response = await this.authenticationService.runFake(this.loginForm.value.email, this.loginForm.value.password);
-			switch (response) {
-				case 'accept':
-					this.routerService.navigate(['/r!/home'], { replaceUrl: true });
-					break;
-				case 'deny':
-					this.loginForm.reset();
-					submittedForm.resetForm();
-					this.emailInputRef()?.nativeElement.focus();
-					break;
-				case 'error':
-					break;
-			}
-			this.loadingLoginForm.set(false);
+			this.authenticationSubscription = this.authenticationService.loginUser({ email: this.loginForm.value.email, password: this.loginForm.value.password }).subscribe({
+				next: (response) => {
+					switch (response) {
+						case 'accept':
+							this.routerService.navigate(['/r!/home'], { replaceUrl: true });
+							break;
+						case 'deny':
+							this.loginForm.reset();
+							submittedForm.resetForm();
+							this.emailInputRef()?.nativeElement.focus();
+							break;
+					}
+				},
+				error: (error: Error) => {
+					console.error(error.message);
+				},
+			});
 		} else this.loginForm.markAllAsTouched();
 	}
 

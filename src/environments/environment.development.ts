@@ -1,3 +1,4 @@
+import { AuthenticationGatewayFakeService } from '../app/infra/gateways/authentication/authentication-gateway-fake.service';
 import { InvestmentsGatewayFakeService } from '../app/infra/gateways/investments/investments-gateway-fake.service';
 
 export const environment = {
@@ -11,4 +12,5 @@ export const environment = {
 		interval: 5000,
 	},
 	investmentsGatewayService: InvestmentsGatewayFakeService,
+	authenticationGatewayService: AuthenticationGatewayFakeService,
 };
