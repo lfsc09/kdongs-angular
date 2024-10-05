@@ -7,7 +7,7 @@
 				type="button"
 				class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 				routerLink="/new"
-				[disabled]="this.loadingWallets()"
+				[disabled]="gatewayLoading()"
 			>
 				<fa-icon
 					class="mr-2 group-hover/link:text-dongs-500"
@@ -15,28 +15,28 @@
 				/>
 				<span class="font-medium group-hover/link:text-dongs-500">New Wallet</span>
 			</button>
-			@if (this.loadingWallets()) {
+			@if (gatewayLoading() && (wallets()?.length ?? 0) === 0) {
 				<div class="flex h-full w-full items-center justify-center">
 					<kds-loading-spinner
 						size="xl"
 						color="zinc"
 					/>
 				</div>
-			} @else if (this.wallets() === null) {
+			} @else if (wallets() === null) {
 				<div class="flex h-full w-full items-center justify-center">
 					<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to Load</div>
 				</div>
-			} @else if (this.wallets()!.length === 0) {
+			} @else if (wallets()!.length === 0) {
 				<div class="flex h-full w-full items-center justify-center">
 					<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">No Wallets</div>
 				</div>
 			} @else {
-				@for (wallet of this.wallets(); track wallet.wallet_id) {
+				@for (wallet of wallets(); track wallet.wallet_id) {
 					<div
 						class="cursor-pointer select-none rounded-lg border border-zinc-300/40 p-4 dark:border-slate-50/[0.06]"
 						[class]="{
-							'ring-2': this.selectedWallets().has(wallet.wallet_id),
-							'ring-dongs-400/65': this.selectedWallets().has(wallet.wallet_id),
+							'ring-2': selectedWallets().has(wallet.wallet_id),
+							'ring-dongs-400/65': selectedWallets().has(wallet.wallet_id),
 						}"
 						(click)="handleSelectMoreWallets($event, wallet.wallet_id)"
 					>
@@ -51,7 +51,7 @@
 									<span class="text-[.7rem]">{{ wallet.wallet_last_updated | date: 'dd/MM/yy HH:mm' }}</span>
 								</div>
 							</div>
-							@if (this.selectedWallets().has(wallet.wallet_id)) {
+							@if (selectedWallets().has(wallet.wallet_id)) {
 								<div class="flex flex-col items-center justify-center px-2">
 									<fa-icon
 										class="text-dongs-500"
@@ -70,11 +70,11 @@
 									</span>
 									<div
 										class="h-0.5 w-full rounded-full bg-zinc-300/60"
-										[class.opacity-0]="!this.selectedWallets().has(wallet.wallet_id)"
+										[class.opacity-0]="!selectedWallets().has(wallet.wallet_id)"
 									>
 										<div
 											class="h-[2.5px] rounded-full bg-amber-400"
-											[style.width]="this.selectedWallets().get(wallet.wallet_id)?.input_balance_percentage_of"
+											[style.width]="selectedWallets().get(wallet.wallet_id)?.input_balance_percentage_of"
 										></div>
 									</div>
 								</div>
@@ -105,11 +105,11 @@
 										</span>
 										<div
 											class="h-0.5 w-full rounded-full bg-zinc-300/60"
-											[class.opacity-0]="!this.selectedWallets().has(wallet.wallet_id)"
+											[class.opacity-0]="!selectedWallets().has(wallet.wallet_id)"
 										>
 											<div
 												class="h-[2.5px] rounded-full bg-amber-400"
-												[style.width]="this.selectedWallets().get(wallet.wallet_id)?.profit_percentage_of"
+												[style.width]="selectedWallets().get(wallet.wallet_id)?.profit_percentage_of"
 											></div>
 										</div>
 									</div>
@@ -127,8 +127,8 @@
 						type="button"
 						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
-							'ring-2': this.selectedSection() === 'performance',
-							'ring-dongs-500/65': this.selectedSection() === 'performance',
+							'ring-2': selectedSection() === 'performance',
+							'ring-dongs-500/65': selectedSection() === 'performance',
 						}"
 						(click)="handleDetailPanelChange('performance')"
 					>
@@ -142,8 +142,8 @@
 						type="button"
 						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
-							'ring-2': this.selectedSection() === 'balance_history',
-							'ring-dongs-500/65': this.selectedSection() === 'balance_history',
+							'ring-2': selectedSection() === 'balance_history',
+							'ring-dongs-500/65': selectedSection() === 'balance_history',
 						}"
 						(click)="handleDetailPanelChange('balance_history')"
 					>
@@ -157,8 +157,8 @@
 						type="button"
 						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
-							'ring-2': this.selectedSection() === 'assets',
-							'ring-dongs-500/65': this.selectedSection() === 'assets',
+							'ring-2': selectedSection() === 'assets',
+							'ring-dongs-500/65': selectedSection() === 'assets',
 						}"
 						(click)="handleDetailPanelChange('assets')"
 					>
@@ -187,7 +187,7 @@
 					</div>
 				</div>
 			</menu>
-			@if (this.loadingSections()) {
+			@if (gatewayLoading()) {
 				<div class="flex h-full w-full items-center justify-center">
 					<kds-loading-spinner
 						size="xl"
@@ -217,7 +217,10 @@
 									</div>
 								</div>
 							} @else {
-								<app-performance-evolution [currencyOnUse]="currencyOnUse()" [data]="performanceData()!.walletsSeries" />
+								<app-performance-evolution
+									[currencyOnUse]="currencyOnUse()"
+									[data]="performanceData()!.walletsSeries"
+								/>
 							}
 						}
 					}

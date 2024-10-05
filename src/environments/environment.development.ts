@@ -1,5 +1,8 @@
+import { InvestmentsGatewayFakeService } from '../app/infra/gateways/investments/investments-gateway-fake.service';
+
 export const environment = {
-    title: 'Kdongs',
+	production: false,
+	title: 'Kdongs',
 	token: {
 		host: 'kdongs',
 		// lifespan of "1d" (miliseconds)
@@ -7,4 +10,5 @@ export const environment = {
 		// re-process token interval (miliseconds)
 		interval: 5000,
 	},
+	investmentsGatewayService: InvestmentsGatewayFakeService,
 };

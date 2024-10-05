@@ -1,26 +1,44 @@
-import { CurrencyPipe, DatePipe, LowerCasePipe, PercentPipe } from '@angular/common';
-import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
+import { AsyncPipe, CurrencyPipe, DatePipe, LowerCasePipe, PercentPipe } from '@angular/common';
+import { Component, InjectionToken, OnDestroy, OnInit, Signal, computed, inject, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faChartBar, faCheck, faFileInvoiceDollar, faPlus, faRotate, faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
-import { Currency, PerformanceData, Wallet } from '../../../../infra/gateways/investments/investments-gateway.model';
-import { InvestmentsGatewayService } from '../../../../infra/gateways/investments/investments-gateway.service';
+import { Currency, GetInvestmentsPerformanceRequest, IInvestmentsGatewayService, PerformanceData, Wallet } from '../../../../infra/gateways/investments/investments-gateway.model';
 import { Section, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
-import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
 import { PerformanceEvolutionComponent } from './performance-evolution/performance-evolution.component';
+import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
+
+const tokenIInvestmentsGatewayService = new InjectionToken<IInvestmentsGatewayService>('IInvestmentsGatewayService');
 
 @Component({
 	selector: 'app-investments-dash',
 	standalone: true,
-	imports: [FontAwesomeModule, CurrencyPipe, PercentPipe, DatePipe, LowerCasePipe, KdsLoadingSpinnerComponent, PerformanceIndicatorsComponent, PerformanceEvolutionComponent],
-	providers: [InvestmentsGatewayService],
+	imports: [
+		FontAwesomeModule,
+		AsyncPipe,
+		CurrencyPipe,
+		PercentPipe,
+		DatePipe,
+		LowerCasePipe,
+		KdsLoadingSpinnerComponent,
+		PerformanceIndicatorsComponent,
+		PerformanceEvolutionComponent,
+	],
+	providers: [
+		{
+			provide: tokenIInvestmentsGatewayService,
+			useClass: environment.investmentsGatewayService,
+		},
+	],
 	templateUrl: './investments-dash.component.html',
 })
-export class InvestmentsDashComponent {
+export class InvestmentsDashComponent implements OnInit, OnDestroy {
 	/**
 	 * SERVICES
 	 */
-	private readonly investmentsGatewayService = inject(InvestmentsGatewayService);
+	private readonly investmentsGatewayService = inject(tokenIInvestmentsGatewayService);
 
 	/**
 	 * SIGNALS
@@ -38,60 +56,45 @@ export class InvestmentsDashComponent {
 	protected selectedWallets = signal<SelectableWallets>(new Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>());
 	protected selectedCurrency = signal<SelectableCurrency | null>(null);
 	protected currencyOnUse = computed<Currency>(() => {
-		if (this.selectedCurrency() === null) return 'BRL';
+		if (this.selectedCurrency() === null || this.selectedWallets().size === 0) return 'BRL';
 		else if (this.selectedCurrency() === 'WALLET') {
-			const selectedWalletIds = Array.from(this.selectedWallets().keys());
-			if (this.wallets() === null || selectedWalletIds.length === 0) return 'BRL';
-			if (selectedWalletIds.length === 1) {
-				for (let wallet of this.wallets()!) {
-					if (wallet.wallet_id === selectedWalletIds[0]) return wallet.wallet_currency;
-				}
-			}
+			let moreFrequentCurrency: { [key: string]: number } = {};
+			this.selectedWallets().forEach((sWValue) => {
+				if (!(sWValue!.currency in moreFrequentCurrency)) moreFrequentCurrency[sWValue!.currency] = 0;
+				moreFrequentCurrency[sWValue!.currency] += 1;
+			});
+			return Object.entries(moreFrequentCurrency).reduce((highest, curr) => (curr[1] > highest[1] ? curr : highest))[0] as Currency;
 		}
 		return this.selectedCurrency() as Currency;
 	});
-	protected loadingWallets = signal<boolean>(false);
-	protected loadingSections = signal<boolean>(false);
+	protected gatewayLoading: Signal<boolean> = this.investmentsGatewayService.loading;
+	private investmentsSubscription: Subscription | undefined;
 	private _wallets = signal<Wallet[] | null>([]);
 	protected wallets = this._wallets.asReadonly();
 	private _performanceData = signal<PerformanceData | null>({} as PerformanceData);
 	protected performanceData = this._performanceData.asReadonly();
 
-	constructor() {
-		effect(async () => {
-			untracked(() => this.loadingWallets.set(true));
-			const responseWallets = await this.investmentsGatewayService.getWalletsFake();
-			untracked(() => {
-				this._wallets.set(responseWallets ? responseWallets.data : responseWallets);
-				this.loadingWallets.set(false);
-				this.readUserPreferences();
+	ngOnInit(): void {
+		this.readUserPreferences();
+		if (this.selectedSection() === 'performance') {
+			this.pullPerformanceData({
+				wallets: Array.from(this.selectedWallets().keys()),
+				wallets_info: true,
 			});
-			if (this.selectedWallets().size > 0) {
-				untracked(() => this.loadingSections.set(true));
-				if (this.selectedSection() === 'performance') {
-					let httpParams = { wallets: Array.from(this.selectedWallets().keys()) };
-					const responsePerformance = await this.investmentsGatewayService.getPerformanceFake(httpParams);
-					untracked(() => {
-						this._performanceData.set(responsePerformance ? responsePerformance.data : responsePerformance);
-						this.loadingSections.set(false);
-					});
-				}
-			}
-		});
+		}
+	}
+
+	ngOnDestroy(): void {
+		this.investmentsSubscription?.unsubscribe();
 	}
 
 	/**
 	 * FUNCTIONS
 	 */
-	handleDetailPanelChange(section: Section): void {
-		this.selectedSection.set(section);
-		this.writeUserPreferences();
-	}
-
 	/**
 	 * Setup user selectables like, which wallets and the currency to show.
 	 */
-	readUserPreferences(): void {
+	private readUserPreferences(): void {
 		const preferences = localStorage.getItem('investments-preferences');
 
 		if (preferences) {
@@ -100,14 +103,14 @@ export class InvestmentsDashComponent {
 			this.selectedCurrency.set(parsedPreferences.currency_to_show);
 			this.selectedSection.set(parsedPreferences.section_to_show);
 		} else {
-			this.handleUpdateSelectedWallets();
+			this.handleUpdateSelectedWallets([]);
 			this.selectedCurrency.set('WALLET');
 			this.selectedSection.set('performance');
 		}
 		this.writeUserPreferences();
 	}
 
-	writeUserPreferences(): void {
+	private writeUserPreferences(): void {
 		localStorage.setItem(
 			'investments-preferences',
 			JSON.stringify({
@@ -118,60 +121,61 @@ export class InvestmentsDashComponent {
 		);
 	}
 
+	protected handleDetailPanelChange(section: Section): void {
+		this.selectedSection.set(section);
+		this.writeUserPreferences();
+		if (section === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
+	}
+
 	/**
-	 * Update the in memory Map of the selected wallets, also the localStorage data.
+	 * Update the in memory Map of the selected wallets.
 	 * This Map will have the wallet_id as the key `SelectableWalletsMap_Key`, and an object as value `SelectableWalletsMap_Value`.
-	 * This object will have the calculation of percentages for each selected wallet.
+	 * This object will also have the calculation of percentages for each selected wallet, if wallets data are available.
 	 *
 	 * If only 1 wallet is selected, it will hold the percentage of this wallet against the sum of all the user wallets.
 	 * If multiple wallets are selected, it will hold the percentage of the wallet against the sum of all the selected wallets.
 	 */
-	handleUpdateSelectedWallets(selectedWalletsIds: string[] = []): void {
-		if (this.wallets() === null) {
+	private handleUpdateSelectedWallets(selectedWalletsIds: string[]): void {
+		if (this.wallets() === null || selectedWalletsIds.length === 0) {
 			this.selectedWallets.set(new Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>());
 			return;
 		}
 
-		let confirmedSelectedWalletIds: string[];
-		if (selectedWalletsIds.length > 0) {
-			// Check if selected wallets still exist in wallets list, unexistent ones will be filtered out
-			confirmedSelectedWalletIds = selectedWalletsIds.filter((presumedWalletId) => this.wallets()!.some((wallet) => wallet.wallet_id === presumedWalletId));
-		} else {
-			confirmedSelectedWalletIds = this.wallets()!.length > 0 ? [this.wallets()![0].wallet_id] : [];
-		}
-
 		let selectedWalletMap = new Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>();
-		if (confirmedSelectedWalletIds.length > 0) {
-			// Calculate the percentages of `input_balance` and `profit` for the selected wallets
+		// Calculate the percentages of `input_balance` and `profit` for the selected wallets
+		if (this.wallets()!.length > 0) {
 			let input_balance_sum = 0;
 			let profit_sum = 0;
-			if (confirmedSelectedWalletIds.length === 1) {
+			if (selectedWalletsIds.length === 1) {
 				this.wallets()!.forEach((wallet) => {
 					input_balance_sum += wallet.wallet_input_balance;
 					profit_sum += wallet.wallet_profit_in_curncy;
 				});
 			} else {
 				this.wallets()!
-					.filter((w) => confirmedSelectedWalletIds.includes(w.wallet_id))
+					.filter((w) => selectedWalletsIds.includes(w.wallet_id))
 					.forEach((wallet) => {
 						input_balance_sum += wallet.wallet_input_balance;
 						profit_sum += wallet.wallet_profit_in_curncy;
 					});
 			}
-			for (let confirmedSelectedWalletId of confirmedSelectedWalletIds) {
-				const wallet_idx = this.wallets()!.findIndex((wallet) => wallet.wallet_id === confirmedSelectedWalletId);
-				selectedWalletMap.set(confirmedSelectedWalletId, {
+			for (let selectedWalletId of selectedWalletsIds) {
+				const wallet_idx = this.wallets()!.findIndex((wallet) => wallet.wallet_id === selectedWalletId);
+				selectedWalletMap.set(selectedWalletId, {
 					input_balance_percentage_of: ((this.wallets()![wallet_idx].wallet_input_balance / input_balance_sum) * 100).toFixed(2).concat('%'),
 					profit_percentage_of: ((this.wallets()![wallet_idx].wallet_profit_in_curncy / profit_sum) * 100).toFixed(2).concat('%'),
+					currency: this.wallets()![wallet_idx].wallet_currency,
 				});
 			}
-		} else {
-			console.error('Failed to get the first wallet to select.');
+		}
+		// At initial load, will not have wallets data to calculate percentages
+		else {
+			for (let selectedWalletId of selectedWalletsIds) selectedWalletMap.set(selectedWalletId, null);
 		}
 		this.selectedWallets.set(selectedWalletMap);
 	}
 
-	handleSelectMoreWallets(event: MouseEvent, selectedWalletId: string): void {
+	protected handleSelectMoreWallets(event: MouseEvent, selectedWalletId: string): void {
 		// Selecting multiple wallets with Ctrl
 		if (event.ctrlKey) {
 			let selectedWalletIds: string[];
@@ -184,5 +188,23 @@ export class InvestmentsDashComponent {
 			this.handleUpdateSelectedWallets(selectedWalletIds);
 		} else this.handleUpdateSelectedWallets([selectedWalletId]);
 		this.writeUserPreferences();
+		if (this.selectedSection() === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
+	}
+
+	private pullPerformanceData(request: GetInvestmentsPerformanceRequest): void {
+		this.investmentsSubscription = this.investmentsGatewayService.getInvestmentsPerformance(request).subscribe({
+			next: (response) => {
+				if (response?.performance === undefined || response?.selected_wallets === undefined) console.error('Data integrity error on Performance Section');
+				if (response?.wallets) this._wallets.set(response.wallets);
+				this._performanceData.set(response!.performance);
+				// If available force update data on the selected wallets
+				this.handleUpdateSelectedWallets(response!.selected_wallets);
+				this.writeUserPreferences();
+			},
+			error: (error: Error) => {
+				console.error(error.message);
+				this._performanceData.set(null);
+			},
+		});
 	}
 }
