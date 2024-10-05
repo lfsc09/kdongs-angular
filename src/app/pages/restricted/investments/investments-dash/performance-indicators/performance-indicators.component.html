@@ -23,13 +23,7 @@
 				class="group/btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2 transition-transform active:scale-95"
 				(click)="handleCompareWithTotalChange()"
 			>
-				<span
-					class="text-xs font-medium capitalize text-dongs-500"
-					[class]="{
-						'bg-dongs-200/40': compareWithTotal(),
-					}"
-					>{{ compareWithTotal() ? 'On' : 'Off' }}</span
-				>
+				<span class="text-xs font-medium capitalize text-dongs-500">{{ compareWithTotal() ? 'On' : 'Off' }}</span>
 				<div class="flex flex-1 flex-row items-center justify-end text-sm">
 					<fa-icon
 						[icon]="icons().faArrowRightArrowLeft"
@@ -41,9 +35,9 @@
 		</div>
 	</div>
 	<div class="grid grid-cols-8 gap-4">
-		<div class="col-span-2 row-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">N° of Assets</span>
-			<div class="flex w-full flex-1 flex-col justify-center gap-2">
+			<div class="flex w-full flex-1 flex-col justify-start gap-2">
 				<div class="flex flex-col gap-0.5">
 					<div class="flex flex-row justify-between gap-2">
 						<span class="text-xs font-bold">Total:</span>
@@ -74,23 +68,389 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Expectancy</span>
+			<div class="flex w-full flex-1 flex-col justify-start gap-1">
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row justify-between gap-2">
+						<span class="text-xs font-medium">By Asset</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.expectancy_by_asset"
+										[value]="data().indicators.expectancy_by_asset"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.expectancy_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500">
+									[{{ data().indicatorsComparison.expectancy_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.expectancy_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+					<div class="flex flex-row justify-between gap-2">
+						<span class="ml-4 text-xs">Avg. Days:</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_days_by_asset"
+										[value]="data().indicators.avg_days_by_asset"
+										[inverse]="true"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+						}
+					</div>
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Day:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.expectancy_by_day"
+									[value]="data().indicators.expectancy_by_day"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Month:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.expectancy_by_month"
+									[value]="data().indicators.expectancy_by_month"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500">
+								[{{ data().indicatorsComparison.expectancy_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Quarter:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.expectancy_by_quarter"
+									[value]="data().indicators.expectancy_by_quarter"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500">
+								[{{ data().indicatorsComparison.expectancy_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Year:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.expectancy_by_year"
+									[value]="data().indicators.expectancy_by_year"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500">
+								[{{ data().indicatorsComparison.expectancy_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-red-400">Avg. Costs</span>
+			<div class="flex w-full flex-1 flex-col justify-start gap-1">
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row justify-between gap-2">
+						<span class="text-xs font-medium">By Asset</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_cost_by_asset"
+										[value]="data().indicators.avg_cost_by_asset"
+										[inverse]="true"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500">
+									[{{ data().indicatorsComparison.avg_cost_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+					<div class="flex flex-row justify-between gap-2">
+						<span class="ml-4 text-xs">Avg. Days:</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_days_by_asset"
+										[value]="data().indicators.avg_days_by_asset"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+						}
+					</div>
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Day:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_cost_by_day"
+									[value]="data().indicators.avg_cost_by_day"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Month:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_cost_by_month"
+									[value]="data().indicators.avg_cost_by_month"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Quarter:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_cost_by_quarter"
+									[value]="data().indicators.avg_cost_by_quarter"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500">
+								[{{ data().indicatorsComparison.avg_cost_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Year:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_cost_by_year"
+									[value]="data().indicators.avg_cost_by_year"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-red-400">Avg. Taxes</span>
+			<div class="flex w-full flex-1 flex-col justify-start gap-1">
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row justify-between gap-2">
+						<span class="text-xs font-medium">By Asset</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_tax_by_asset"
+										[value]="data().indicators.avg_tax_by_asset"
+										[inverse]="true"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500">
+									[{{ data().indicatorsComparison.avg_tax_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+					<div class="flex flex-row justify-between gap-2">
+						<span class="ml-4 text-xs">Avg. Days:</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-center justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_days_by_asset"
+										[value]="data().indicators.avg_days_by_asset"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
+						}
+					</div>
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Day:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_tax_by_day"
+									[value]="data().indicators.avg_tax_by_day"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Month:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_tax_by_month"
+									[value]="data().indicators.avg_tax_by_month"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Quarter:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_tax_by_quarter"
+									[value]="data().indicators.avg_tax_by_quarter"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500">
+								[{{ data().indicatorsComparison.avg_tax_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+				<div class="flex flex-row items-center justify-between gap-2">
+					<span class="text-xs font-medium">By Year:</span>
+					@if (compareWithTotal()) {
+						<div class="flex flex-col items-center justify-center">
+							<div class="flex flex-row items-center gap-2">
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.avg_tax_by_year"
+									[value]="data().indicators.avg_tax_by_year"
+									[inverse]="true"
+									size="xs"
+								/>
+								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+							</div>
+							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						</div>
+					} @else {
+						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					}
+				</div>
+			</div>
+		</div>
 		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-lg border border-zinc-300/40 bg-zinc-50 p-4 desktop-2k:col-span-1 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Profits</span>
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Profit Balance</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
 				@if (compareWithTotal()) {
 					<div class="flex flex-col items-center justify-center">
 						<div class="flex flex-row items-center gap-2">
-							@if (data().indicators.profit_in_perc > data().indicatorsComparison.profit_in_perc) {
-								<fa-icon
-									[icon]="icons().faArrowUp"
-									class="text-xs text-emerald-600"
-								></fa-icon>
-							} @else if (data().indicators.profit_in_perc < data().indicatorsComparison.profit_in_perc) {
-								<fa-icon
-									[icon]="icons().faArrowDown"
-									class="text-xs text-red-500"
-								></fa-icon>
-							}
+							<kds-comparison-arrow
+								[baseValue]="data().indicatorsComparison.profit_in_perc"
+								[value]="data().indicators.profit_in_perc"
+								size="xs"
+							/>
 							<span
 								class="text-[.7rem]"
 								[class]="{
@@ -106,17 +466,11 @@
 					<div class="flex flex-col items-center justify-center">
 						<div class="flex flex-row items-center gap-2">
 							@if (compareWithTotal()) {
-								@if (data().indicators.profit_in_curncy > data().indicatorsComparison.profit_in_curncy) {
-									<fa-icon
-										[icon]="icons().faArrowUp"
-										class="text-xs text-emerald-600"
-									></fa-icon>
-								} @else if (data().indicators.profit_in_curncy < data().indicatorsComparison.profit_in_curncy) {
-									<fa-icon
-										[icon]="icons().faArrowDown"
-										class="text-xs text-red-500"
-									></fa-icon>
-								}
+								<kds-comparison-arrow
+									[baseValue]="data().indicatorsComparison.profit_in_curncy"
+									[value]="data().indicators.profit_in_curncy"
+									size="xs"
+								/>
 							}
 							<span
 								class="text-xs"
@@ -152,98 +506,6 @@
 				}
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Expectancy</span>
-			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
-				@if (compareWithTotal()) {
-					<div class="flex flex-col items-center justify-center">
-						<div class="flex flex-row items-center gap-2">
-							@if (data().indicators.expectancy > data().indicatorsComparison.expectancy) {
-								<fa-icon
-									[icon]="icons().faArrowUp"
-									class="text-xs text-emerald-600"
-								></fa-icon>
-							} @else if (data().indicators.expectancy < data().indicatorsComparison.expectancy) {
-								<fa-icon
-									[icon]="icons().faArrowDown"
-									class="text-xs text-red-500"
-								></fa-icon>
-							}
-							<span class="text-[.7rem]">{{ data().indicators.expectancy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-						</div>
-						<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.expectancy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
-					</div>
-				} @else {
-					<span class="text-[.7rem]">{{ data().indicators.expectancy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-				}
-			</div>
-		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Historic</span>
-			<div class="flex w-full flex-1 flex-col justify-center gap-1">
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">High</span>
-					<span class="text-[.7rem]">{{ data().indicators.historic_high | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-				</div>
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">Low</span>
-					<span class="text-[.7rem]">{{ data().indicators.historic_low | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Avg. Expenses</span>
-			<div class="flex w-full flex-1 flex-col justify-center gap-1">
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">Costs</span>
-					@if (compareWithTotal()) {
-						<div class="flex flex-col items-end justify-center">
-							<div class="flex flex-row items-center gap-2">
-								@if (data().indicators.avg_cost > data().indicatorsComparison.avg_cost) {
-									<fa-icon
-										[icon]="icons().faArrowUp"
-										class="text-xs text-red-500"
-									></fa-icon>
-								} @else if (data().indicators.avg_cost < data().indicatorsComparison.avg_cost) {
-									<fa-icon
-										[icon]="icons().faArrowDown"
-										class="text-xs text-emerald-600"
-									></fa-icon>
-								}
-								<span class="text-[.7rem]">{{ data().indicators.avg_cost | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
-						</div>
-					} @else {
-						<span class="text-[.7rem]">{{ data().indicators.avg_cost | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-					}
-				</div>
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">Taxes</span>
-					@if (compareWithTotal()) {
-						<div class="flex flex-col items-end justify-center">
-							<div class="flex flex-row items-center gap-2">
-								@if (data().indicators.avg_tax > data().indicatorsComparison.avg_tax) {
-									<fa-icon
-										[icon]="icons().faArrowUp"
-										class="text-xs text-red-500"
-									></fa-icon>
-								} @else if (data().indicators.avg_tax < data().indicatorsComparison.avg_tax) {
-									<fa-icon
-										[icon]="icons().faArrowDown"
-										class="text-xs text-emerald-600"
-									></fa-icon>
-								}
-								<span class="text-[.7rem]">{{ data().indicators.avg_tax | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
-						</div>
-					} @else {
-						<span class="text-[.7rem]">{{ data().indicators.avg_tax | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-					}
-				</div>
-			</div>
-		</div>
 		<div class="flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Breakeven</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
@@ -277,57 +539,109 @@
 			</div>
 		</div>
 		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Avg.</span>
-			<div class="flex w-full flex-1 flex-col justify-center gap-1">
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">Profit</span>
-					@if (compareWithTotal()) {
-						<div class="flex flex-col items-end justify-center">
-							<div class="flex flex-row items-center gap-2">
-								@if (data().indicators.avg_profit > data().indicatorsComparison.avg_profit) {
-									<fa-icon
-										[icon]="icons().faArrowUp"
-										class="text-xs text-emerald-600"
-										size="sm"
-									></fa-icon>
-								} @else if (data().indicators.avg_profit < data().indicatorsComparison.avg_profit) {
-									<fa-icon
-										[icon]="icons().faArrowDown"
-										class="text-xs text-red-500"
-										size="sm"
-									></fa-icon>
-								}
-								<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Profits & Losses</span>
+			<div class="flex w-full flex-1 flex-col justify-start gap-2">
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Total Profit</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-end justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.total_profit"
+										[value]="data().indicators.total_profit"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
-						</div>
-					} @else {
-						<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-					}
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Avg. Profit</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-end justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_profit"
+										[value]="data().indicators.avg_profit"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
 				</div>
-				<div class="flex flex-row items-center justify-between gap-2">
-					<span class="text-xs font-medium">Loss</span>
-					@if (compareWithTotal()) {
-						<div class="flex flex-col items-end justify-center">
-							<div class="flex flex-row items-center gap-2">
-								@if (data().indicators.avg_loss > data().indicatorsComparison.avg_loss) {
-									<fa-icon
-										[icon]="icons().faArrowUp"
-										class="text-xs text-red-500"
-									></fa-icon>
-								} @else if (data().indicators.avg_loss < data().indicatorsComparison.avg_loss) {
-									<fa-icon
-										[icon]="icons().faArrowDown"
-										class="text-xs text-emerald-600"
-									></fa-icon>
-								}
-								<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Total Loss</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-end justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.total_loss"
+										[value]="data().indicators.total_loss"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
-						</div>
-					} @else {
-						<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
-					}
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Avg. Loss</span>
+						@if (compareWithTotal()) {
+							<div class="flex flex-col items-end justify-center">
+								<div class="flex flex-row items-center gap-2">
+									<kds-comparison-arrow
+										[baseValue]="data().indicatorsComparison.avg_loss"
+										[value]="data().indicators.avg_loss"
+										[inverse]="true"
+										size="xs"
+									/>
+									<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+								</div>
+								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							</div>
+						} @else {
+							<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Historic</span>
+			<div class="flex w-full flex-1 flex-col justify-start gap-2">
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Highest Balance</span>
+						<span class="text-[.7rem]">{{ data().indicators.historic_high | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					</div>
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Lowest Balance</span>
+						<span class="text-[.7rem]">{{ data().indicators.historic_low | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					</div>
+				</div>
+				<div class="flex flex-col gap-0.5">
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Highest Profit</span>
+						<span class="text-[.7rem]">{{ data().indicators.highest_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					</div>
+					<div class="flex flex-row items-center justify-between gap-2">
+						<span class="text-xs font-medium">Highest Loss</span>
+						<span class="text-[.7rem]">{{ data().indicators.highest_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
+					</div>
 				</div>
 			</div>
 		</div>
