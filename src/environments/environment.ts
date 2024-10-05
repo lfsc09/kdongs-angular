@@ -1,3 +1,4 @@
+import { AuthenticationGatewayService } from '../app/infra/gateways/authentication/authentication-gateway.service';
 import { InvestmentsGatewayService } from '../app/infra/gateways/investments/investments-gateway.service';
 
 export const environment = {
@@ -11,4 +12,5 @@ export const environment = {
 		interval: 300000,
 	},
 	investmentsGatewayService: InvestmentsGatewayService,
+	authenticationGatewayService: AuthenticationGatewayService,
 };
