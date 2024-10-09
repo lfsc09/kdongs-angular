@@ -2,7 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faBarsStaggered } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, filter, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
@@ -29,7 +29,7 @@ export class NavTopComponent implements OnInit, OnDestroy {
 	 * SIGNALS AND OBSERVABLES
 	 */
 	protected icons = signal({
-		faCaretDown: faCaretDown,
+		faBarsStaggered: faBarsStaggered,
 	});
 	protected tokenExpLeftPercentage$ = this.tokenManagerService.tokenExpLeft$.pipe(map((value: number) => (value / environment.token.lifespan) * 100));
 	private routerEventSubscription: Subscription | undefined;
