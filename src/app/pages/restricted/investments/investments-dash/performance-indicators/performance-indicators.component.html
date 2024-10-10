@@ -454,8 +454,8 @@
 							<span
 								class="text-[.7rem]"
 								[class]="{
-									'text-emerald-600': 0.75 > 0,
-									'text-red-500': 0.75 < 0,
+									'text-emerald-600': data().indicators.profit_in_perc > 0,
+									'text-red-500': data().indicators.profit_in_perc < 0,
 								}"
 							>
 								{{ data().indicators.profit_in_perc | percent: '0.0-2' }}
@@ -475,8 +475,8 @@
 							<span
 								class="text-xs"
 								[class]="{
-									'text-emerald-600': 5000 > 0,
-									'text-red-500': 5000 < 0,
+									'text-emerald-600': data().indicators.profit_in_curncy > 0,
+									'text-red-500': data().indicators.profit_in_curncy < 0,
 								}"
 							>
 								{{ data().indicators.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}
@@ -488,8 +488,8 @@
 					<span
 						class="text-[.7rem]"
 						[class]="{
-							'text-emerald-600': 0.75 > 0,
-							'text-red-500': 0.75 < 0,
+							'text-emerald-600': data().indicators.profit_in_perc > 0,
+							'text-red-500': data().indicators.profit_in_perc < 0,
 						}"
 					>
 						{{ data().indicators.profit_in_perc | percent: '0.0-2' }}
@@ -497,8 +497,8 @@
 					<span
 						class="text-xs"
 						[class]="{
-							'text-emerald-600': 5000 > 0,
-							'text-red-500': 5000 < 0,
+							'text-emerald-600': data().indicators.profit_in_curncy > 0,
+							'text-red-500': data().indicators.profit_in_curncy < 0,
 						}"
 					>
 						{{ data().indicators.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}
