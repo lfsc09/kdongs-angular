@@ -53,8 +53,8 @@ export interface PerformanceData {
 export interface PerformanceIndicators {
 	profit_in_curncy: number;
 	profit_in_perc: number;
-	timeframe_begin: string;
-	timeframe_end: string;
+	local_date_begin: string;
+	local_date_end: string;
 	avg_days_by_asset: number;
 	number_of_assets_total: number;
 	number_of_assets_total_positive: number;
@@ -81,17 +81,17 @@ export interface PerformanceIndicators {
 	avg_tax_by_year: number;
 	breakeven: number;
 	edge: number;
-    total_profit: number;
+	total_profit: number;
 	avg_profit: number;
-    highest_profit: number;
-    total_loss: number;
+	highest_profit: number;
+	total_loss: number;
 	avg_loss: number;
-    highest_loss: number;
+	highest_loss: number;
 }
 export interface PerformanceIndicatorsTotal {
 	profit_in_curncy: number;
 	profit_in_perc: number;
-    avg_days_by_asset: number;
+	avg_days_by_asset: number;
 	expectancy_by_asset: number;
 	expectancy_by_day: number;
 	expectancy_by_month: number;
@@ -109,7 +109,7 @@ export interface PerformanceIndicatorsTotal {
 	avg_tax_by_year: number;
 	total_profit: number;
 	avg_profit: number;
-    total_loss: number;
+	total_loss: number;
 	avg_loss: number;
 }
 export interface PerformanceWalletSeries {
@@ -117,7 +117,8 @@ export interface PerformanceWalletSeries {
 	series: PerformanceWalletDataPoint[];
 }
 export interface PerformanceWalletDataPoint {
-	date: number;
+	local_exit_date: number;
+	input_value: number;
 	gross_profit: number;
 	net_profit: number;
 	days_to_profit: number;

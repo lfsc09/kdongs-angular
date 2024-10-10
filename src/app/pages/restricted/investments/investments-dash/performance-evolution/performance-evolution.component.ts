@@ -2,7 +2,7 @@ import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { formatCurrency, formatDate } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCaretDown, faChartLine, faCircleInfo, faCodeMerge, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCircleInfo, faCodeMerge, faEye } from '@fortawesome/free-solid-svg-icons';
 import bb, { areaSpline, spline } from 'billboard.js';
 import cloneDeep from 'lodash.clonedeep';
 import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../infra/gateways/investments/investments-gateway.model';
@@ -36,10 +36,10 @@ export class PerformanceEvolutionComponent {
 	// 30 days in milliseconds
 	private thirdyDaysMS = 2592000000;
 	private forecastTimes = 2;
-    private tendenciesValues = {
-        shorter: { short: 5, long: 20 },
-        longer: { short: 21, long: 100 },
-    };
+	private tendenciesValues = {
+		shorter: { short: 5, long: 20 },
+		longer: { short: 21, long: 100 },
+	};
 
 	/**
 	 * VARS
@@ -52,6 +52,9 @@ export class PerformanceEvolutionComponent {
 				tick: {
 					format: (value: string | number) => {
 						return formatDate(value, 'MMM yy', 'en_US');
+					},
+					culling: {
+						lines: false,
 					},
 				},
 			},
@@ -109,7 +112,6 @@ export class PerformanceEvolutionComponent {
 		faCaretDown: faCaretDown,
 		faCodeMerge: faCodeMerge,
 		faCircleInfo: faCircleInfo,
-		faChartLine: faChartLine,
 		faEye: faEye,
 	});
 	protected unifyDatasets = signal<boolean>(true);
@@ -121,7 +123,7 @@ export class PerformanceEvolutionComponent {
 			// Merge wallets evolution
 			if (this.unifyDatasets()) {
 				let unifiedSeries = this.generateUnifiedDataset();
-				unifiedSeries.sort((a: PerformanceWalletDataPoint, b: PerformanceWalletDataPoint) => a.date - b.date);
+				unifiedSeries.sort((a: PerformanceWalletDataPoint, b: PerformanceWalletDataPoint) => a.local_exit_date - b.local_exit_date);
 				// Generate comparison of Net & Gross profit
 				if (this.compareNetGross()) {
 					chartDataConfig = this.generateUnifiedNetGrossCompareChart(unifiedSeries);
@@ -149,12 +151,12 @@ export class PerformanceEvolutionComponent {
 	/**
 	 * FUNCTIONS
 	 */
-	handleUnifyDatasets(): void {
+	protected handleUnifyDatasets(): void {
 		this.unifyDatasets.update((state) => !state);
 		this.compareNetGross.set(false);
 	}
 
-	handleCompareNetGross(): void {
+	protected handleCompareNetGross(): void {
 		this.compareNetGross.update((state) => !state);
 	}
 
@@ -163,26 +165,26 @@ export class PerformanceEvolutionComponent {
 		for (let wallet of this.data()) {
 			for (let dataPoint of wallet.series) {
 				// Merge wallet assets into a Map, to merge equal dates to same dataPoint
-				if (unifiedSeriesMap.has(dataPoint.date)) {
-					const previousMapValue = unifiedSeriesMap.get(dataPoint.date);
-					unifiedSeriesMap.set(dataPoint.date, {
+				if (unifiedSeriesMap.has(dataPoint.local_exit_date)) {
+					const previousMapValue = unifiedSeriesMap.get(dataPoint.local_exit_date);
+					unifiedSeriesMap.set(dataPoint.local_exit_date, {
 						...dataPoint,
 						gross_profit: previousMapValue!.gross_profit + dataPoint.gross_profit,
 						net_profit: previousMapValue!.net_profit + dataPoint.net_profit,
 						days_to_profit: previousMapValue!.days_to_profit + dataPoint.days_to_profit,
 					});
-				} else unifiedSeriesMap.set(dataPoint.date, { ...dataPoint });
+				} else unifiedSeriesMap.set(dataPoint.local_exit_date, { ...dataPoint });
 			}
 		}
 		return Array.from(unifiedSeriesMap.values());
 	}
 
-    /**
-     * Generate Chart data and options for the `Unified Wallets Comparing Net & Gross Profits`, which will caculate Net and Gross profits of wallets unified.
-     * This means that will take all the assets from the wallets and unify them in a single timeline.
-     * 
-     * @param dataSerie: Will be the unified array of assets ordered by `date`.
-     */
+	/**
+	 * Generate Chart data and options for the `Unified Wallets Comparing Net & Gross Profits`, which will caculate Net and Gross profits of wallets unified.
+	 * This means that will take all the assets from the wallets and unify them in a single timeline.
+	 *
+	 * @param dataSerie: Will be the unified array of assets ordered by `date`.
+	 */
 	private generateUnifiedNetGrossCompareChart(dataSerie: PerformanceWalletDataPoint[]): ChartGeneratedData {
 		if (dataSerie.length === 0) return {} as ChartGeneratedData;
 		let net_evolution_value = 0;
@@ -199,7 +201,7 @@ export class PerformanceEvolutionComponent {
 		};
 
 		for (let dataPoint of dataSerie) {
-			xAxis.push(dataPoint.date);
+			xAxis.push(dataPoint.local_exit_date);
 			net_evolution_value += dataPoint.net_profit;
 			gross_evolution_value += dataPoint.gross_profit;
 			net_evolution.push(net_evolution_value.toFixed(2));
@@ -217,7 +219,7 @@ export class PerformanceEvolutionComponent {
 
 		// Add a forecast of next data
 		for (let fIdx = 1; fIdx <= this.forecastTimes; fIdx++) {
-			xAxis.push(dataSerie.at(-1)!.date + this.thirdyDaysMS * fIdx);
+			xAxis.push(dataSerie.at(-1)!.local_exit_date + this.thirdyDaysMS * fIdx);
 			net_evolution.push((net_evolution_value + forecastAverage.net_profit_per_day * (30 * fIdx)).toFixed(2));
 			gross_evolution.push((gross_evolution_value + forecastAverage.gross_profit_per_day * (30 * fIdx)).toFixed(2));
 		}
@@ -246,12 +248,12 @@ export class PerformanceEvolutionComponent {
 		};
 	}
 
-    /**
-     * Generate Chart data and options for the `Unified Wallets Net Profits with Tendency`, which will calculate Net profit of wallets unifed.
-     * This means that will take all the assets from the wallets and unify them in a single timeline.
-     * 
-     * @param dataSerie: Will be the unified array of assets ordered by `date`.
-     */
+	/**
+	 * Generate Chart data and options for the `Unified Wallets Net Profits with Tendency`, which will calculate Net profit of wallets unifed.
+	 * This means that will take all the assets from the wallets and unify them in a single timeline.
+	 *
+	 * @param dataSerie: Will be the unified array of assets ordered by `date`.
+	 */
 	private generateUnifiedNetWithTendencyChart(dataSerie: PerformanceWalletDataPoint[]): ChartGeneratedData {
 		if (dataSerie.length === 0) return {} as ChartGeneratedData;
 		let net_evolution_value = 0;
@@ -264,7 +266,7 @@ export class PerformanceEvolutionComponent {
 		};
 
 		for (let dataPoint of dataSerie) {
-			xAxis.push(dataPoint.date);
+			xAxis.push(dataPoint.local_exit_date);
 			net_evolution_value += dataPoint.net_profit;
 			net_evolution.push(net_evolution_value.toFixed(2));
 			forecastAverage.days_to_profit += dataPoint.days_to_profit;
@@ -275,13 +277,13 @@ export class PerformanceEvolutionComponent {
 		forecastAverage.net_profit /= dataSerie.length;
 		forecastAverage.net_profit_per_day = forecastAverage.net_profit / forecastAverage.days_to_profit;
 
-        /**
-         * TODO: Add the two tendency lines.
-         */
+		/**
+		 * TODO: Add the two tendency lines.
+		 */
 
 		// Add a forecast of next data
 		for (let fIdx = 1; fIdx <= this.forecastTimes; fIdx++) {
-			xAxis.push(dataSerie.at(-1)!.date + this.thirdyDaysMS * fIdx);
+			xAxis.push(dataSerie.at(-1)!.local_exit_date + this.thirdyDaysMS * fIdx);
 			net_evolution.push((net_evolution_value + forecastAverage.net_profit_per_day * (30 * fIdx)).toFixed(2));
 		}
 
@@ -303,9 +305,9 @@ export class PerformanceEvolutionComponent {
 		};
 	}
 
-    /**
-     * Generate Chart data and options for the `Separate Wallets Net Profits`, which will calculate Net profit of each wallet individualy.
-     */
+	/**
+	 * Generate Chart data and options for the `Separate Wallets Net Profits`, which will calculate Net profit of each wallet individualy.
+	 */
 	private generateSeparateWalletsNetChart(): ChartGeneratedData {
 		if (this.data().length === 0) return {} as ChartGeneratedData;
 		let dataColumns: ChartDataSerie[] = [];
@@ -328,7 +330,7 @@ export class PerformanceEvolutionComponent {
 			dataClasses.push('billboard-lines-thick');
 
 			for (let dataPoint of wallet.series) {
-				xAxis.push(dataPoint.date);
+				xAxis.push(dataPoint.local_exit_date);
 				net_evolution_value += dataPoint.net_profit;
 				net_evolution.push(net_evolution_value.toFixed(2));
 				forecastAverage.days_to_profit += dataPoint.days_to_profit;
@@ -341,7 +343,7 @@ export class PerformanceEvolutionComponent {
 
 			// Add a forecast of next data
 			for (let fIdx = 1; fIdx <= this.forecastTimes; fIdx++) {
-				xAxis.push(wallet.series.at(-1)!.date + this.thirdyDaysMS * fIdx);
+				xAxis.push(wallet.series.at(-1)!.local_exit_date + this.thirdyDaysMS * fIdx);
 				net_evolution.push((net_evolution_value + forecastAverage.net_profit_per_day * (30 * fIdx)).toFixed(2));
 			}
 			dataColumns.push([...net_evolution]);
