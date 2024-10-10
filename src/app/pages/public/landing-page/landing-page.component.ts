@@ -94,23 +94,27 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
-			this.authenticationSubscription = this.authenticationService.loginUser({ email: this.loginForm.value.email, password: this.loginForm.value.password }).subscribe({
-				next: (response) => {
-					switch (response) {
-						case 'accept':
-							this.routerService.navigate(['/r!/home'], { replaceUrl: true });
-							break;
-						case 'deny':
-							this.loginForm.reset();
-							submittedForm.resetForm();
-							this.emailInputRef()?.nativeElement.focus();
-							break;
-					}
-				},
-				error: (error: Error) => {
-					console.error(error.message);
-				},
-			});
+			let userTimezoneN = -(new Date().getTimezoneOffset() / 60);
+			let userTimezone = `${userTimezoneN < 0 ? '-' : '+'}${Math.abs(userTimezoneN).toString().padStart(2, '0')}:00`;
+			this.authenticationSubscription = this.authenticationService
+				.loginUser({ email: this.loginForm.value.email, password: this.loginForm.value.password, timezone: userTimezone })
+				.subscribe({
+					next: (response) => {
+						switch (response) {
+							case 'accept':
+								this.routerService.navigate(['/r!/home'], { replaceUrl: true });
+								break;
+							case 'deny':
+								this.loginForm.reset();
+								submittedForm.resetForm();
+								this.emailInputRef()?.nativeElement.focus();
+								break;
+						}
+					},
+					error: (error: Error) => {
+						console.error(error.message);
+					},
+				});
 		} else this.loginForm.markAllAsTouched();
 	}
 

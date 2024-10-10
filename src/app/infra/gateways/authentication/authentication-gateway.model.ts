@@ -15,6 +15,7 @@ export interface IAuthenticationGatewayService {
 export type LoginUserRequest = {
 	email: string | null | undefined;
 	password: string | null | undefined;
+    timezone: string;
 };
 export type LoginUserResponse = IToken | null;
 
