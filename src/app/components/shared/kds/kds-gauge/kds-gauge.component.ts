@@ -97,7 +97,7 @@ export class KdsGaugeComponent {
 	gaugeColor = computed<{ stroke: string; fill: string }>(() => {
 		if (this.colorMeterSorted().length === 0) return { stroke: 'stroke-dongs-500', fill: 'fill-dongs-500' };
 		for (let t = 0; t < this.colorMeterSorted().length; t++) {
-			if (this.value() >= (this.colorMeterSorted()?.[t - 1]?.threshold ?? 0) && this.value() < this.colorMeterSorted()[t].threshold) {
+			if (this.value() > (this.colorMeterSorted()?.[t - 1]?.threshold ?? -1) && this.value() <= this.colorMeterSorted()[t].threshold) {
 				return { stroke: this.colorMeterSorted()[t].stroke, fill: this.colorMeterSorted()[t].fill };
 			}
 		}
