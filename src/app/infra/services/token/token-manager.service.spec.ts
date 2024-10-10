@@ -3,10 +3,10 @@ import { addHours, subDays } from 'date-fns';
 import { InvalidTokenError } from 'jwt-decode';
 import { TokenData } from './token-manager.model';
 import { TokenManagerService } from './token-manager.service';
+import { AuthenticationFakerData } from '../../../../fakers/authentication-faker.data';
 
 describe('TokenManagerService', () => {
 	let service: TokenManagerService;
-    const jacintoToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3Yzc1ZWIyNS1iYzk5LTQxNWItYmU1YS1jOTdkYjZkYTY5MjgiLCJ1c2VyRW1haWwiOiJqYWNpbnRvLnBpbnRvQGdtYWlsLmNvbSIsInVzZXJGdWxsbmFtZSI6IkphY2ludG8gUGludG8iLCJwZXJtcyI6eyJVU0VSU19BQ0NFU1MiOnRydWUsIlVTRVJTX05FVyI6dHJ1ZSwiVVNFUlNfRURJVCI6dHJ1ZSwiVVNFUlNfU0RFTCI6dHJ1ZSwiSU5WRVNUTUVOVFNfQUNDRVNTIjp0cnVlLCJJTlZFU1RNRU5UU19ORVciOnRydWUsIklOVkVTVE1FTlRTX0VESVQiOnRydWUsIklOVkVTVE1FTlRTX0hERUwiOnRydWUsIkVYUEVOU0VTX0FDQ0VTUyI6dHJ1ZSwiRVhQRU5TRVNfTkVXIjp0cnVlLCJFWFBFTlNFU19FRElUIjp0cnVlLCJFWFBFTlNFU19IREVMIjp0cnVlfSwiaG9zdCI6Imtkb25ncyIsImlhdCI6NDUxNjIzOTAyMn0.BEuJ2myqC3C20VsHCe7zRHp5lKCvm39vv1nD2d2tH6w';
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('TokenManagerService', () => {
 	});
 
 	it('(decode) should decode a jwt token', () => {
-		const decoded = service['decode'](jacintoToken);
+		const decoded = service['decode'](AuthenticationFakerData.getUser('jacinto.pinto@gmail.com', '123456'));
 		expect(decoded).not.toBeNull();
 		expect(decoded?.userEmail).toBe('jacinto.pinto@gmail.com');
 	});
@@ -71,7 +71,7 @@ describe('TokenManagerService', () => {
 	});
 
 	it('(extractToken) should extract a valid token', () => {
-		const result = service['extractToken'](jacintoToken);
+		const result = service['extractToken'](AuthenticationFakerData.getUser('jacinto.pinto@gmail.com', '123456'));
 		expect(result?.userEmail).toBe('jacinto.pinto@gmail.com');
 	});
 
