@@ -5,6 +5,7 @@ export interface TokenData {
 	perms: { [key: string]: boolean };
 	configs: string;
 	host: string;
+    tz: string;
 	iat: number;
 	exp?: number;
 }
