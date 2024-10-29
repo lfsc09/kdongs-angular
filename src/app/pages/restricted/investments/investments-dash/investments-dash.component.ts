@@ -1,13 +1,28 @@
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { AsyncPipe, CurrencyPipe, DatePipe, LowerCasePipe, PercentPipe } from '@angular/common';
 import { Component, InjectionToken, OnDestroy, OnInit, Signal, computed, inject, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCaretDown, faChartBar, faCheck, faFileInvoiceDollar, faPlus, faRotate, faTimeline } from '@fortawesome/free-solid-svg-icons';
+import {
+	faBrazilianRealSign,
+	faCaretDown,
+	faChartBar,
+	faCheck,
+	faCircleInfo,
+	faDollarSign,
+	faEuroSign,
+	faFileInvoiceDollar,
+	faPlus,
+	faRotate,
+	faTimeline,
+	faWallet,
+} from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { KdsLoadingSpinnerComponent } from '../../../../components/shared/kds/kds-loading-spinner/kds-loading-spinner.component';
 import { Currency, GetInvestmentsPerformanceRequest, IInvestmentsGatewayService, PerformanceData, Wallet } from '../../../../infra/gateways/investments/investments-gateway.model';
 import { Section, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
 import { PerformanceEvolutionComponent } from './performance-evolution/performance-evolution.component';
+import { PerformanceGroupComponent } from './performance-group/performance-group.component';
 import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
 
 const tokenIInvestmentsGatewayService = new InjectionToken<IInvestmentsGatewayService>('IInvestmentsGatewayService');
@@ -23,8 +38,12 @@ const tokenIInvestmentsGatewayService = new InjectionToken<IInvestmentsGatewaySe
 		DatePipe,
 		LowerCasePipe,
 		KdsLoadingSpinnerComponent,
+		CdkMenuTrigger,
+		CdkMenu,
+		CdkMenuItem,
 		PerformanceIndicatorsComponent,
 		PerformanceEvolutionComponent,
+		PerformanceGroupComponent,
 	],
 	providers: [
 		{
@@ -51,13 +70,18 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 		faChartBar: faChartBar,
 		faTimeline: faTimeline,
 		faFileInvoiceDollar: faFileInvoiceDollar,
+		faCircleInfo: faCircleInfo,
+		faDollarSign: faDollarSign,
+		faBrazilianRealSign: faBrazilianRealSign,
+		faEuroSign: faEuroSign,
+		faWallet: faWallet,
 	});
 	protected selectedSection = signal<Section | null>(null);
 	protected selectedWallets = signal<SelectableWallets>(new Map<SelectableWalletsMap_Key, SelectableWalletsMap_Value>());
 	protected selectedCurrency = signal<SelectableCurrency | null>(null);
 	protected currencyOnUse = computed<Currency>(() => {
 		if (this.selectedCurrency() === null || this.selectedWallets().size === 0) return 'BRL';
-		else if (this.selectedCurrency() === 'WALLET') {
+		else if (this.selectedCurrency() === 'Wallet') {
 			let moreFrequentCurrency: { [key: string]: number } = {};
 			this.selectedWallets().forEach((sWValue) => {
 				if (!(sWValue!.currency in moreFrequentCurrency)) moreFrequentCurrency[sWValue!.currency] = 0;
@@ -104,7 +128,7 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 			this.selectedSection.set(parsedPreferences.section_to_show);
 		} else {
 			this.handleUpdateSelectedWallets([]);
-			this.selectedCurrency.set('WALLET');
+			this.selectedCurrency.set('Wallet');
 			this.selectedSection.set('performance');
 		}
 		this.writeUserPreferences();
@@ -125,6 +149,10 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 		this.selectedSection.set(section);
 		this.writeUserPreferences();
 		if (section === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
+	}
+
+	protected handleCurrencyChange(currency: SelectableCurrency): void {
+		this.selectedCurrency.set(currency);
 	}
 
 	/**
