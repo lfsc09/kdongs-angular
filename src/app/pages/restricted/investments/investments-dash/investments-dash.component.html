@@ -1,19 +1,17 @@
 <main class="min-h-screen bg-zinc-50 dark:bg-slate-900">
 	<section class="z-2 flex min-h-screen flex-row items-stretch gap-0 px-10 pt-20 desktop-2k:container">
-		<section
-			class="relative my-8 flex max-h-[calc(100vh-144px)] min-h-[600px] w-[350px] flex-col gap-4 overflow-y-auto border-r border-zinc-300/40 p-4 dark:border-slate-50/[0.06]"
-		>
+		<section class="relative my-8 flex max-h-[calc(100vh-144px)] min-h-[600px] w-[350px] flex-col gap-4 overflow-y-auto p-4">
 			<button
 				type="button"
-				class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
+				class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 				routerLink="/new"
 				[disabled]="gatewayLoading()"
 			>
 				<fa-icon
-					class="mr-2 group-hover/link:text-dongs-500"
+					class="mr-2 group-hover/btn:text-dongs-500"
 					[icon]="icons().faPlus"
 				/>
-				<span class="font-medium group-hover/link:text-dongs-500">New Wallet</span>
+				<span class="font-medium group-hover/btn:text-dongs-500">New Wallet</span>
 			</button>
 			@if (gatewayLoading() && (wallets()?.length ?? 0) === 0) {
 				<div class="flex h-full w-full items-center justify-center">
@@ -120,12 +118,12 @@
 				}
 			}
 		</section>
-		<section class="my-8 flex flex-1 flex-col p-4">
+		<section class="my-8 flex flex-1 flex-col border-l border-zinc-300/40 p-4 dark:border-slate-50/[0.06]">
 			<menu class="flex flex-row items-center justify-between">
 				<div class="flex flex-row gap-2">
 					<button
 						type="button"
-						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
+						class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
 							'ring-2': selectedSection() === 'performance',
 							'ring-dongs-500/65': selectedSection() === 'performance',
@@ -133,14 +131,14 @@
 						(click)="handleDetailPanelChange('performance')"
 					>
 						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
+							class="mr-2 group-hover/btn:text-dongs-500"
 							[icon]="icons().faChartBar"
 						/>
-						<span class="font-medium group-hover/link:text-dongs-500">Performance</span>
+						<span class="font-medium group-hover/btn:text-dongs-500">Performance</span>
 					</button>
 					<button
 						type="button"
-						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
+						class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
 							'ring-2': selectedSection() === 'balance_history',
 							'ring-dongs-500/65': selectedSection() === 'balance_history',
@@ -148,14 +146,14 @@
 						(click)="handleDetailPanelChange('balance_history')"
 					>
 						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
+							class="mr-2 group-hover/btn:text-dongs-500"
 							[icon]="icons().faTimeline"
 						/>
-						<span class="font-medium group-hover/link:text-dongs-500">Balance History</span>
+						<span class="font-medium group-hover/btn:text-dongs-500">Balance History</span>
 					</button>
 					<button
 						type="button"
-						class="group/link flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
+						class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-zinc-100 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
 						[class]="{
 							'ring-2': selectedSection() === 'assets',
 							'ring-dongs-500/65': selectedSection() === 'assets',
@@ -163,28 +161,126 @@
 						(click)="handleDetailPanelChange('assets')"
 					>
 						<fa-icon
-							class="mr-2 group-hover/link:text-dongs-500"
+							class="mr-2 group-hover/btn:text-dongs-500"
 							[icon]="icons().faFileInvoiceDollar"
 						/>
-						<span class="font-medium group-hover/link:text-dongs-500">Assets</span>
+						<span class="font-medium group-hover/btn:text-dongs-500">Assets</span>
 					</button>
 				</div>
-				<div class="flex flex-row gap-2">
-					<div class="flex flex-row">
-						<div class="flex flex-row items-center rounded-l-lg border-r border-dashed bg-zinc-100 px-3 py-2 text-xs dark:bg-slate-900">
-							<span class="font-medium capitalize text-dongs-500">{{ selectedCurrency() | lowercase }}</span>
+				<div class="group/info relative rounded-lg bg-zinc-100 dark:bg-slate-900">
+					<div class="absolute -left-2 top-0 z-[200] hidden w-64 -translate-x-full rounded-md border border-gray-600/40 bg-gray-500 p-2 group-hover/info:block">
+						<div class="flex flex-col gap-1">
+							<p class="font-kds-mono text-xs leading-normal text-white">
+								<fa-icon
+									[icon]="icons().faCircleInfo"
+									class="mr-1 text-xs text-white"
+								></fa-icon>
+								Change the currency of the data. It will do the conversion using the last known exchange price.
+							</p>
 						</div>
-						<button
-							type="button"
-							class="group/link flex select-none flex-row items-center justify-center rounded-r-lg bg-zinc-100 px-3 py-2 text-sm transition-transform active:scale-95 dark:bg-slate-900"
-						>
-							<fa-icon
-								class="mr-2 group-hover/link:text-dongs-500"
-								[icon]="icons().faCaretDown"
-							></fa-icon>
-							<span class="font-medium group-hover/link:text-dongs-500">Currency</span>
-						</button>
 					</div>
+					<button
+						type="button"
+						class="group/btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2.5 transition-transform active:scale-95 disabled:active:scale-100"
+						[cdkMenuTriggerFor]="options"
+					>
+						<span class="text-xs font-medium text-dongs-500">{{ selectedCurrency() }}</span>
+						<div class="flex flex-1 flex-row items-center justify-end text-sm">
+							<fa-icon
+								[icon]="icons().faCaretDown"
+								class="mr-2 group-hover/btn:text-dongs-500 group-disabled/btn:text-gray-300 group-disabled/btn:dark:text-gray-600"
+							></fa-icon>
+							<span class="font-medium group-hover/btn:text-dongs-500 group-disabled/btn:text-gray-300 group-disabled/btn:dark:text-gray-600">Currency</span>
+						</div>
+					</button>
+					<ng-template #options>
+						<div
+							class="my-1.5 flex min-w-[200px] flex-col items-start justify-center gap-1.5 rounded-lg border border-zinc-300/40 bg-zinc-50 p-2 dark:border-slate-50/[0.06]"
+							cdkMenu
+						>
+							<div class="group/option-info relative w-full cursor-pointer select-none rounded-lg hover:bg-slate-100">
+								<div
+									class="absolute -left-4 top-0 z-[200] hidden w-64 -translate-x-full rounded-md border border-gray-600/40 bg-gray-500 p-2 group-hover/option-info:block"
+								>
+									<div class="flex flex-col gap-1">
+										<p class="font-kds-mono text-xs leading-normal text-white">
+											<fa-icon
+												[icon]="icons().faCircleInfo"
+												class="mr-1 text-xs text-white"
+											></fa-icon>
+											Use currency of the Wallet. If multiple wallets are selected, it will use the most used currency of them.
+										</p>
+									</div>
+								</div>
+								<button
+									type="button"
+									class="group/option-btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2.5 transition-transform active:scale-95 disabled:active:scale-100"
+									(click)="handleCurrencyChange('Wallet')"
+								>
+									<fa-icon
+										[icon]="icons().faWallet"
+										class="mr-2 text-xs group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									></fa-icon>
+									<span
+										class="text-xs font-medium group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									>
+										Keep Wallet
+									</span>
+								</button>
+							</div>
+							<div class="group/option-info relative w-full cursor-pointer select-none rounded-lg hover:bg-slate-100">
+								<button
+									type="button"
+									class="group/option-btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2.5 transition-transform active:scale-95 disabled:active:scale-100"
+									(click)="handleCurrencyChange('BRL')"
+								>
+									<fa-icon
+										[icon]="icons().faBrazilianRealSign"
+										class="mr-2 text-xs group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									></fa-icon>
+									<span
+										class="text-xs font-medium group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									>
+										BRL
+									</span>
+								</button>
+							</div>
+							<div class="group/option-info relative w-full cursor-pointer select-none rounded-lg hover:bg-slate-100">
+								<button
+									type="button"
+									class="group/option-btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2.5 transition-transform active:scale-95 disabled:active:scale-100"
+									(click)="handleCurrencyChange('USD')"
+								>
+									<fa-icon
+										[icon]="icons().faDollarSign"
+										class="mr-2 text-xs group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									></fa-icon>
+									<span
+										class="text-xs font-medium group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									>
+										USD
+									</span>
+								</button>
+							</div>
+							<div class="group/option-info relative w-full cursor-pointer select-none rounded-lg hover:bg-slate-100">
+								<button
+									type="button"
+									class="group/option-btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2.5 transition-transform active:scale-95 disabled:active:scale-100"
+									(click)="handleCurrencyChange('EUR')"
+								>
+									<fa-icon
+										[icon]="icons().faEuroSign"
+										class="mr-2 text-xs group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									></fa-icon>
+									<span
+										class="text-xs font-medium group-hover/option-btn:text-dongs-500 group-disabled/option-btn:text-gray-300 group-disabled/option-btn:dark:text-gray-600"
+									>
+										EUR
+									</span>
+								</button>
+							</div>
+						</div>
+					</ng-template>
 				</div>
 			</menu>
 			@if (gatewayLoading()) {
@@ -216,8 +312,17 @@
 										<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to load Evolution</div>
 									</div>
 								</div>
+								<div class="flex h-72 flex-col gap-6 rounded-lg border border-zinc-300/40 bg-zinc-100 p-4 dark:border-slate-50/[0.06]">
+									<div class="flex h-full w-full items-center justify-center">
+										<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to load Groups</div>
+									</div>
+								</div>
 							} @else {
 								<app-performance-evolution
+									[currencyOnUse]="currencyOnUse()"
+									[data]="performanceData()!.walletsSeries"
+								/>
+								<app-performance-group
 									[currencyOnUse]="currencyOnUse()"
 									[data]="performanceData()!.walletsSeries"
 								/>
