@@ -4,8 +4,8 @@ import { InvestmentsGatewayService } from '../app/infra/gateways/investments/inv
 export const environment = {
 	production: true,
 	title: 'Kdongs',
+    host: 'kdongs',
 	token: {
-		host: 'kdongs',
 		// lifespan of "1d" (miliseconds)
 		lifespan: 60 * 60 * 24 * 1000,
 		// re-process token interval each "5min" (miliseconds)
