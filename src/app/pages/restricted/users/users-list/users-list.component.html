@@ -1,10 +1,10 @@
-<main class="min-h-screen bg-zinc-50 dark:bg-slate-900">
+<main class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
 	<section class="z-2 flex min-h-screen flex-row items-stretch gap-0 px-10 pt-20 desktop-2k:container">
 		<div class="relative my-8 flex min-h-[600px] w-full flex-col">
 			<div
-				class="sticky top-20 flex h-14 flex-row items-center justify-center rounded-t-sm border border-zinc-300/40 bg-zinc-200/90 px-4 py-2 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+				class="sticky top-20 flex h-14 flex-row items-center justify-between rounded-t-lg border border-slate-300/40 bg-slate-200/90 px-4 py-2 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700"
 			>
-				<div class="absolute left-6">
+				<div>
 					<span class="select-none text-xl tracking-wide">System users</span>
 					@if (itemsSelected() > 0) {
 						<span class="ml-2 select-none font-mono text-sm text-dongs-500 dark:text-dongs-300">({{ itemsSelected() }} selected)</span>
@@ -13,7 +13,7 @@
 				<div class="flex flex-row gap-4">
 					<button
 						type="button"
-						class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 disabled:hover:translate-y-0 disabled:active:scale-100 dark:bg-slate-900"
+						class="group/link flex flex-row items-center rounded-lg bg-neutral-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 disabled:hover:translate-y-0 disabled:active:scale-100 dark:bg-neutral-900"
 						[disabled]="datapool().metadata.filteredItemsCount === 0"
 						(click)="handleFilterDialogToogle()"
 					>
@@ -35,7 +35,7 @@
 					@if (tokenManagerService.tokenData()?.perms?.['USERS_NEW']) {
 						<button
 							type="button"
-							class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-slate-900"
+							class="group/link flex flex-row items-center rounded-lg bg-neutral-50 px-3 py-1.5 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-neutral-900"
 							routerLink="/new"
 						>
 							<fa-icon
@@ -47,7 +47,7 @@
 					}
 				</div>
 			</div>
-			<div class="boder-zinc-300/40 flex-1 border-x shadow-sm dark:border-slate-50/10">
+			<div class="boder-slate-300/40 flex-1 border-x shadow-sm dark:border-slate-50/10 dark:bg-neutral-800">
 				@if (loadingDatapool()) {
 					<div class="flex h-full w-full items-center justify-center">
 						<kds-loading-spinner
@@ -58,25 +58,24 @@
 				} @else if (datapool().metadata.filteredItemsCount > 0) {
 					<table class="w-full">
 						<thead>
-							<tr class="*:border-b *:border-zinc-300/40 *:p-4 dark:*:border-slate-50/[0.06]">
+							<tr class="*:border-b *:border-slate-300/40 *:p-4 dark:*:border-slate-50/[0.06]">
 								<th class="text-right">User</th>
-								<th class="text-right">Name</th>
 								<th class="text-right">Email</th>
 							</tr>
 						</thead>
 						<tbody class="text-sm">
 							@for (user of datapool().pagePool; track user.id) {
 								<tr
-									class="group/row *:border-b *:border-zinc-300/40 *:px-4 *:py-3 dark:*:border-slate-50/[0.06]"
+									class="group/row *:border-b *:border-slate-300/40 *:px-4 *:py-3 dark:*:border-slate-50/[0.06]"
 									[class]="{
 										'*:border-b-0': $last,
 										'*:text-gray-300': user.inactive_flag,
-										'dark:*:text-gray-600': user.inactive_flag,
+										'dark:*:text-gray-700': user.inactive_flag,
 									}"
 								>
 									<td class="relative text-right">
 										<div class="absolute bottom-0 left-4 top-0 flex flex-row items-center opacity-0 group-hover/row:opacity-100">
-											<div class="flex flex-row items-center rounded-lg border border-dashed border-zinc-300/40 dark:border-slate-50/30">
+											<div class="flex flex-row items-center rounded-lg border border-dashed border-slate-300/40 dark:border-slate-50/30">
 												<button
 													type="button"
 													class="group/link flex flex-row items-center bg-transparent px-3 py-1.5 active:scale-95"
@@ -116,9 +115,8 @@
 										@if (user.admin_flag) {
 											<span class="mr-1 rounded-lg bg-dongs-500 px-2 py-0.5 text-xs text-white">admin</span>
 										}
-										{{ user.username }}
+										{{ user.name }}
 									</td>
-									<td class="text-right">{{ user.name }}</td>
 									<td class="text-right">{{ user.email }}</td>
 								</tr>
 							}
@@ -137,15 +135,15 @@
 				}
 			</div>
 			<div
-				class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between rounded-b-sm border border-zinc-300/40 bg-zinc-200/90 p-4 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
+				class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between rounded-b-lg border border-slate-300/40 bg-slate-200/90 p-4 backdrop-blur-[4px] dark:border-slate-50/[0.06] dark:bg-slate-700/90"
 			>
 				<div>
 					@if (datapool().metadata.filteredItemsCount !== datapool().metadata.itemsCount) {
-						<span class="mr-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.filteredItemsCount }}</span>
+						<span class="mr-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ datapool().metadata.filteredItemsCount }}</span>
 						<span class="font-mono text-sm">filtered rows from</span>
-						<span class="ml-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.itemsCount }}</span>
+						<span class="ml-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ datapool().metadata.itemsCount }}</span>
 					} @else {
-						<span class="mr-2 rounded-md bg-zinc-50 px-3 py-1 font-mono text-sm dark:bg-slate-900">{{ datapool().metadata.itemsCount }}</span>
+						<span class="mr-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ datapool().metadata.itemsCount }}</span>
 						<span class="font-mono text-sm">rows</span>
 					}
 				</div>
@@ -174,11 +172,11 @@
 							/>
 						</button>
 						<div class="mx-2 flex flex-row items-center gap-2">
-							<span class="rounded-md bg-zinc-50 px-3 py-1 text-center font-mono text-sm dark:bg-slate-900">
+							<span class="rounded-md bg-neutral-50 px-3 py-1 text-center font-mono text-sm dark:bg-neutral-900">
 								{{ triggerControls().currPageIdx + 1 }}
 							</span>
 							<span class="font-mono text-sm">of</span>
-							<span class="rounded-md bg-zinc-50 px-3 py-1 text-center font-mono text-sm dark:bg-slate-900">
+							<span class="rounded-md bg-neutral-50 px-3 py-1 text-center font-mono text-sm dark:bg-neutral-900">
 								{{ datapool().metadata.pagesCount }}
 							</span>
 						</div>

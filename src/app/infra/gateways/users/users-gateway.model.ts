@@ -2,7 +2,6 @@ export interface DatapoolUser {
 	id: string;
 	inactive_flag: boolean;
 	admin_flag: boolean;
-	username: string;
 	name: string;
 	email: string;
 }
