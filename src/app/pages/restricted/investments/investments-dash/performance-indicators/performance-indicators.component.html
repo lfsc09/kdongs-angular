@@ -1,12 +1,12 @@
-<div class="mt-6 flex flex-col gap-6 rounded-lg bg-zinc-100 p-4">
+<div class="mt-6 flex flex-col gap-6 rounded-lg bg-neutral-100 p-4 dark:bg-neutral-800">
 	<div class="flex flex-row items-center justify-between">
-		<span class="kds-title-slash select-none font-medium text-dongs-500">
+		<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">
 			Indicators
 			<div class="mt-1 flex flex-row items-center rounded-lg bg-indigo-400 px-2 py-1">
 				<span class="text-[.7rem] text-white">{{ data().indicators.local_date_begin | date: 'MMM yyyy' }} - {{ data().indicators.local_date_end | date: 'MMM yyyy' }}</span>
 			</div>
 		</span>
-		<div class="group/info relative rounded-lg bg-zinc-50 dark:bg-slate-900">
+		<div class="group/info relative rounded-lg bg-neutral-50 dark:bg-neutral-900">
 			<div class="absolute -left-2 top-0 z-[200] hidden w-64 -translate-x-full rounded-md border border-gray-600/40 bg-gray-500 p-2 group-hover/info:block">
 				<div class="flex flex-col gap-1">
 					<p class="font-kds-mono text-xs leading-normal text-white">
@@ -20,10 +20,10 @@
 			</div>
 			<button
 				type="button"
-				class="group/btn flex w-full select-none flex-row items-center justify-between gap-6 px-3 py-2 transition-transform active:scale-95"
+				class="group/btn flex w-full select-none flex-row items-center justify-between gap-6 rounded-lg px-3 py-2 transition-transform active:scale-95"
 				(click)="handleCompareWithTotalChange()"
 			>
-				<span class="text-xs font-medium capitalize text-dongs-500">{{ compareWithTotal() ? 'On' : 'Off' }}</span>
+				<span class="text-xs font-medium capitalize text-dongs-500 dark:text-dongs-400">{{ compareWithTotal() ? 'On' : 'Off' }}</span>
 				<div class="flex flex-1 flex-row items-center justify-end text-sm">
 					<fa-icon
 						[icon]="icons().faArrowRightArrowLeft"
@@ -35,8 +35,8 @@
 		</div>
 	</div>
 	<div class="grid grid-cols-8 gap-4">
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">N° of Assets</span>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">N° of Assets</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-2">
 				<div class="flex flex-col gap-0.5">
 					<div class="flex flex-row justify-between gap-2">
@@ -68,8 +68,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Expectancy</span>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">Expectancy</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-1">
 				<div class="flex flex-col gap-0.5">
 					<div class="flex flex-row justify-between gap-2">
@@ -84,7 +84,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.expectancy_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500">
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 									[{{ data().indicatorsComparison.expectancy_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 								</span>
 							</div>
@@ -105,7 +105,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
@@ -124,7 +124,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -142,7 +142,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500">
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 								[{{ data().indicatorsComparison.expectancy_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 							</span>
 						</div>
@@ -162,7 +162,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500">
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 								[{{ data().indicatorsComparison.expectancy_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 							</span>
 						</div>
@@ -182,7 +182,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500">
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 								[{{ data().indicatorsComparison.expectancy_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 							</span>
 						</div>
@@ -192,7 +192,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-red-400">Avg. Costs</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-1">
 				<div class="flex flex-col gap-0.5">
@@ -209,7 +209,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500">
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 									[{{ data().indicatorsComparison.avg_cost_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 								</span>
 							</div>
@@ -229,7 +229,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
@@ -249,7 +249,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -268,7 +268,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -287,7 +287,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500">
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 								[{{ data().indicatorsComparison.avg_cost_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 							</span>
 						</div>
@@ -308,7 +308,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -316,7 +316,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-red-400">Avg. Taxes</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-1">
 				<div class="flex flex-col gap-0.5">
@@ -333,7 +333,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500">
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 									[{{ data().indicatorsComparison.avg_tax_by_asset | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 								</span>
 							</div>
@@ -353,7 +353,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_days_by_asset }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_days_by_asset }}</span>
@@ -373,7 +373,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -392,7 +392,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -411,7 +411,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500">
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
 								[{{ data().indicatorsComparison.avg_tax_by_quarter | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
 							</span>
 						</div>
@@ -432,7 +432,7 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -440,7 +440,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-lg border border-zinc-300/40 bg-zinc-50 p-4 desktop-2k:col-span-1 dark:border-slate-50/[0.06]">
+		<div
+			class="col-span-2 flex flex-col justify-center gap-4 rounded-lg border border-slate-300/40 bg-neutral-50 p-4 desktop-2k:col-span-1 dark:border-slate-50/10 dark:bg-neutral-700"
+		>
 			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Profit Balance</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
 				@if (compareWithTotal()) {
@@ -455,13 +457,15 @@
 								class="text-[.7rem]"
 								[class]="{
 									'text-emerald-600': data().indicators.profit_in_perc > 0,
+									'dark:text-emerald-500': data().indicators.profit_in_perc > 0,
 									'text-red-500': data().indicators.profit_in_perc < 0,
+									'dark:text-red-400': data().indicators.profit_in_perc < 0,
 								}"
 							>
 								{{ data().indicators.profit_in_perc | percent: '0.0-2' }}
 							</span>
 						</div>
-						<span class="text-[.7rem] text-gray-500"> ({{ data().indicatorsComparison.profit_in_perc | percent: '0.0-2' }}) </span>
+						<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> ({{ data().indicatorsComparison.profit_in_perc | percent: '0.0-2' }}) </span>
 					</div>
 					<div class="flex flex-col items-center justify-center">
 						<div class="flex flex-row items-center gap-2">
@@ -476,20 +480,24 @@
 								class="text-xs"
 								[class]="{
 									'text-emerald-600': data().indicators.profit_in_curncy > 0,
+									'dark:text-emerald-500': data().indicators.profit_in_curncy > 0,
 									'text-red-500': data().indicators.profit_in_curncy < 0,
+									'dark:text-red-400': data().indicators.profit_in_curncy < 0,
 								}"
 							>
 								{{ data().indicators.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}
 							</span>
 						</div>
-						<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 					</div>
 				} @else {
 					<span
 						class="text-[.7rem]"
 						[class]="{
 							'text-emerald-600': data().indicators.profit_in_perc > 0,
+							'dark:text-emerald-500': data().indicators.profit_in_perc > 0,
 							'text-red-500': data().indicators.profit_in_perc < 0,
+							'dark:text-red-400': data().indicators.profit_in_perc < 0,
 						}"
 					>
 						{{ data().indicators.profit_in_perc | percent: '0.0-2' }}
@@ -498,7 +506,9 @@
 						class="text-xs"
 						[class]="{
 							'text-emerald-600': data().indicators.profit_in_curncy > 0,
+							'dark:text-emerald-500': data().indicators.profit_in_curncy > 0,
 							'text-red-500': data().indicators.profit_in_curncy < 0,
+							'dark:text-red-400': data().indicators.profit_in_curncy < 0,
 						}"
 					>
 						{{ data().indicators.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}
@@ -506,8 +516,8 @@
 				}
 			</div>
 		</div>
-		<div class="flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Breakeven</span>
+		<div class="flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">Breakeven</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
 				<kds-gauge
 					[value]="data().indicators.breakeven * 100"
@@ -522,8 +532,8 @@
 				</kds-gauge>
 			</div>
 		</div>
-		<div class="flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Edge</span>
+		<div class="flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">Edge</span>
 			<div class="flex w-full flex-1 flex-row items-center justify-evenly">
 				<kds-gauge
 					[value]="data().indicators.edge * 100"
@@ -538,8 +548,8 @@
 				</kds-gauge>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Profits & Losses</span>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">Profits & Losses</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-2">
 				<div class="flex flex-col gap-0.5">
 					<div class="flex flex-row items-center justify-between gap-2">
@@ -554,7 +564,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -572,7 +582,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -592,7 +602,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -611,7 +621,7 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500"> [{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -620,8 +630,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-zinc-300/40 bg-zinc-50 p-4 dark:border-slate-50/[0.06]">
-			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500">Historic</span>
+		<div class="col-span-2 flex flex-col justify-center gap-4 rounded-md border border-slate-300/40 bg-neutral-50 p-4 dark:border-slate-50/10 dark:bg-neutral-700">
+			<span class="kds-title-slash pl-2.5 text-xs font-bold text-dongs-500 dark:text-dongs-400">Historic</span>
 			<div class="flex w-full flex-1 flex-col justify-start gap-2">
 				<div class="flex flex-col gap-0.5">
 					<div class="flex flex-row items-center justify-between gap-2">

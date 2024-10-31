@@ -32,7 +32,7 @@ export class KdsLoadingSpinnerComponent {
 	 * SIGNALS
 	 */
 	size = input<'sm' | 'md' | 'lg' | 'xl'>('sm');
-	color = input<'white' | 'zinc' | 'dongs'>('white');
+	color = input<'white' | 'neutral' | 'dongs'>('white');
 
 	/**
 	 * VARS
@@ -45,7 +45,7 @@ export class KdsLoadingSpinnerComponent {
 	};
 	protected colors = {
 		white: 'stroke-white',
-		zinc: 'stroke-zinc-300',
-		dongs: 'stroke-dongs-500',
+		neutral: 'stroke-neutral-300 dark:stroke-neutral-600',
+		dongs: 'stroke-dongs-500 dark:stroke-dongs-600',
 	};
 }
