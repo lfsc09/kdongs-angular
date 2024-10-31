@@ -77,7 +77,7 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	 * Deactivation/Reactivation dialog
 	 */
 	protected handleConfirmDeactivate(userId: string): void {
-		const username = this.datapool().pagePool.find((u) => u.id === userId)?.username;
+		const username = this.datapool().pagePool.find((u) => u.id === userId)?.name;
 		if (username) {
 			this.confirmDialogData.set({
 				type: 'deactivate',
@@ -89,7 +89,7 @@ export class UsersListComponent extends KdsDatapool<DatapoolUser> {
 	}
 
 	protected handleConfirmReactivate(userId: string): void {
-		const username = this.datapool().pagePool.find((u) => u.id === userId)?.username;
+		const username = this.datapool().pagePool.find((u) => u.id === userId)?.name;
 		if (username) {
 			this.confirmDialogData.set({
 				type: 'reactivate',
