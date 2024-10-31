@@ -16,7 +16,7 @@ import { Component, input } from '@angular/core';
 				viewBox="0 0 300 150"
 			>
 				<path
-                    class="{{ colors[color()] }}"
+					class="{{ colors[color()] }}"
 					fill="none"
 					stroke-width="10"
 					stroke-linecap="round"
@@ -41,7 +41,7 @@ export class KdsLoadingInfiniteComponent {
 	 * SIGNALS
 	 */
 	size = input<'sm' | 'md' | 'lg'>('md');
-	color = input<'slate' | 'dongs'>('slate');
+	color = input<'neutral' | 'dongs'>('neutral');
 
 	/**
 	 * VARS
@@ -52,7 +52,7 @@ export class KdsLoadingInfiniteComponent {
 		lg: 'h-32 w-32',
 	};
 	protected colors = {
-		slate: 'stroke-slate-300',
-		dongs: 'stroke-dongs-300',
+		neutral: 'stroke-neutral-300 dark:stroke-neutral-600',
+		dongs: 'stroke-dongs-300 dark:stroke-dongs-600',
 	};
 }

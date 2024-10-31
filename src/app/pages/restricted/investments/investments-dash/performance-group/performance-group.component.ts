@@ -76,7 +76,7 @@ export class PerformanceGroupComponent {
 			contents: {
 				bindto: '#groupChartLegend',
 				template: (id: string, color: string) => {
-					return `<span class="flex flex-row items-center justify-center gap-1.5 p-2 rounded-lg bg-zinc-50">
+					return `<span class="flex flex-row items-center justify-center gap-1.5 p-2 rounded-lg bg-neutral-50 dark:bg-neutral-700">
                                 <span class="rounded-full h-2 w-2" style="background-color:${color}"></span>
                                 <span class="text-xs">${id}</span>
                             </span>`;
@@ -390,7 +390,6 @@ export class PerformanceGroupComponent {
 			if (wallet.series.length === 0) continue;
 			for (let dataPoint of wallet.series) {
                 let timeframeKey = this.generateTimeframeKey(dataPoint.local_exit_date);
-                console.log(timeframeKey);
 
                 if (!monthsLimits.has(timeframeKey)) {
                     if (monthsLimits.size === this.timeframeChartXLimits()) continue;

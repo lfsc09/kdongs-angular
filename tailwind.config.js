@@ -159,19 +159,19 @@ module.exports = {
 
 				// Inputs Invalid
 				'input.kds-input.kds-input-error': {
-					'@apply border border-red-300 dark:border-red-500 ring-1 ring-offset-0 ring-red-200 dark:ring-red-300': {},
+					'@apply ring-1 ring-offset-0 ring-red-300 dark:ring-red-300/60': {},
 				},
 
 				// General Inputs [NOT checkbox] [NOT time]
 				'input:not([type="checkbox"]).kds-input, input:not([type="time"]).kds-input': {
-					'@apply border rounded py-2 px-3 dark:text-slate-700': {},
+					'@apply border rounded py-2 px-3 dark:bg-neutral-900 dark:border-neutral-900': {},
 
 					// Input small size
 					'&.kds-input-sm': {
 						'@apply leading-tight': {},
 					},
 
-                    // Input extra small size
+					// Input extra small size
 					'&.kds-input-xs': {
 						'@apply leading-none': {},
 					},
@@ -217,7 +217,7 @@ module.exports = {
 				'hr.kds-h-divider': {
 					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent to-current opacity-75': {},
 				},
-                'hr.kds-h-divider-inverted': {
+				'hr.kds-h-divider-inverted': {
 					'@apply my-4 h-0.5 border-t-0 bg-transparent bg-gradient-to-l from-transparent to-current opacity-75': {},
 				},
 

@@ -14,7 +14,7 @@ import { faBan } from '@fortawesome/free-solid-svg-icons';
 	imports: [FontAwesomeModule],
 	template: `
 		<dialog
-			class="min-w-64 select-none rounded-md border border-slate-900/10 bg-zinc-50 px-6 py-4 shadow-sm backdrop:bg-zinc-200/40 backdrop:backdrop-blur-[2px] dark:border-slate-50/10 dark:bg-slate-900 dark:backdrop:bg-slate-900/80"
+			class="min-w-64 select-none rounded-md border border-neutral-900/10 bg-neutral-50 px-6 py-4 shadow-sm ring-0 backdrop:bg-neutral-200/40 backdrop:backdrop-blur-[2px] focus:ring-0 active:ring-0 dark:border-neutral-50/10 dark:bg-neutral-800 dark:backdrop:bg-neutral-900/80"
 			#dialogRef
 		>
 			<ng-content>
@@ -23,14 +23,14 @@ import { faBan } from '@fortawesome/free-solid-svg-icons';
 			<div class="mt-6 flex flex-row items-center justify-between">
 				<button
 					type="button"
-					class="group/link flex flex-row items-center rounded-lg bg-zinc-50 px-3 py-1.5 text-sm text-red-400 active:scale-95 dark:bg-slate-900"
+					class="group/link flex flex-row items-center rounded-lg bg-neutral-50 px-3 py-1.5 text-sm text-red-400 active:scale-95 dark:bg-neutral-800"
 					(click)="handleCancel()"
 				>
 					Cancel
 				</button>
 				<button
 					type="button"
-					class="flex flex-row items-center rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-semibold text-dongs-500 active:scale-95 dark:bg-slate-800"
+					class="flex flex-row items-center rounded-lg bg-neutral-100 px-6 py-1.5 text-sm font-semibold active:scale-95 dark:bg-neutral-800 dark:brightness-110"
 					(click)="handleOk()"
 				>
 					Yes

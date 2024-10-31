@@ -1,5 +1,5 @@
 <section
-	class="fixed left-0 right-0 top-0 z-[100] flex h-20 flex-row items-center border-b border-slate-900/10 bg-zinc-50/90 px-6 py-3 backdrop-blur-[4px] dark:border-slate-50/10 dark:bg-slate-900/95"
+	class="fixed left-0 right-0 top-0 z-[100] flex h-20 flex-row items-center border-b border-neutral-900/10 bg-neutral-50/90 px-6 py-3 backdrop-blur-[4px] dark:border-neutral-50/10 dark:bg-neutral-900/95"
 >
 	<div class="flex select-none flex-row items-center gap-2">
 		<img
@@ -17,7 +17,7 @@
 			@if (breadcrumbs().length > 0) {
 				@for (segment of breadcrumbs(); track $index) {
 					<code class="px-1.5 text-slate-500">/</code>
-					<span class="inline-block max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-slate-500 dark:text-slate-300">{{ segment }}</span>
+					<span class="inline-block max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-slate-500 dark:text-slate-400">{{ segment }}</span>
 				}
 			}
 		</div>

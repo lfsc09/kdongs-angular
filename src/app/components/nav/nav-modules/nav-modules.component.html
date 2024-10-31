@@ -1,19 +1,19 @@
 <section
-	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-zinc-200/40 backdrop-blur-[2px] dark:bg-slate-900/80"
+	class="fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-neutral-200/40 backdrop-blur-[2px] dark:bg-neutral-900/80"
 	(click)="navModulesService.handleClose()"
 ></section>
 <section
-	class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] border-l border-slate-900/10 bg-zinc-50/90 px-6 pb-6 pt-6 backdrop-blur-[4px] dark:border-slate-50/10 dark:bg-slate-900/95"
+	class="fixed bottom-0 right-0 top-0 z-[1001] w-[350px] border-l border-neutral-900/10 bg-neutral-50/90 px-6 pb-6 pt-6 backdrop-blur-[4px] dark:border-neutral-50/10 dark:bg-neutral-900/95"
 >
 	<div class="flex select-none flex-row items-center justify-start gap-3">
 		<fa-icon
 			[icon]="icons()['faCircleUser']"
-			class="text-dongs-400/90"
+			class="text-dongs-400/90 dark:text-dongs-600/90"
 			size="2xl"
 		></fa-icon>
 		<div class="flex flex-col justify-center gap-0.5">
-			<span class="text-sm font-semibold text-dongs-500">{{ tokenManagerService.tokenData()?.userFullname ?? 'unknown' }}</span>
-			<span class="text-xs text-slate-500">{{ tokenManagerService.tokenData()?.userEmail ?? 'unknown' }}</span>
+			<span class="text-sm font-semibold text-dongs-500 dark:text-dongs-600">{{ tokenManagerService.tokenData()?.userFullname ?? 'unknown' }}</span>
+			<span class="text-xs text-slate-400 dark:text-slate-400">{{ tokenManagerService.tokenData()?.userEmail ?? 'unknown' }}</span>
 		</div>
 	</div>
 	<div class="relative mt-4">
@@ -23,7 +23,7 @@
 		/>
 		<input
 			type="text"
-			class="kds-input kds-input-sm w-full !pl-10 font-mono text-xs !leading-5"
+			class="kds-input kds-input-sm w-full !pl-10 font-mono text-xs !leading-5 dark:!bg-neutral-950 dark:!border-neutral-950"
 			placeholder="Run"
 			(keyup.Enter)="handleEnter()"
 			[formControl]="runInput"
@@ -36,12 +36,12 @@
 	}
 	<ul class="flex cursor-pointer flex-col gap-0.5">
 		<li
-			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-neutral-100 active:scale-95 *:dark:text-current dark:hover:bg-neutral-800"
 			(click)="themeManagerService.invert()"
 		>
 			<span class="flex flex-col items-start text-xs">
 				Change Theme
-				<span class="font-mono text-[.70rem] text-slate-400 dark:text-dongs-400">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
+				<span class="font-mono text-[.70rem] text-slate-400 dark:text-dongs-500">{{ useDarkTheme() ? 'Dark' : 'Light' }}</span>
 			</span>
 			<fa-icon
 				[icon]="icons()['faCircleHalfStroke']"
@@ -49,7 +49,7 @@
 			/>
 		</li>
 		<li
-			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-red-400 hover:bg-zinc-100 active:scale-95 dark:hover:bg-slate-700"
+			class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-red-400 hover:bg-neutral-100 active:scale-95 dark:hover:bg-neutral-800"
 			(click)="tokenManagerService.clear()"
 		>
 			<span class="text-xs">Logout</span>
@@ -63,7 +63,7 @@
 	<ul class="flex cursor-pointer flex-col gap-1.5">
 		@for (module of navModulesService.modules(); track module?.url) {
 			<a
-				class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-zinc-100 active:scale-95 *:dark:text-current dark:hover:bg-slate-700"
+				class="flex select-none flex-row items-center justify-between rounded-md px-4 py-2 font-medium transition-transform *:text-slate-600 hover:bg-neutral-100 active:scale-95 *:dark:text-current dark:hover:bg-neutral-800"
 				routerLink="{{ module!.url }}"
 				routerLinkActive="navleft-router-link-active"
 				(click)="navModulesService.handleClose()"

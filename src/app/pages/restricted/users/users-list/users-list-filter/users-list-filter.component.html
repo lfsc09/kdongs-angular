@@ -1,53 +1,50 @@
-<aside class="fixed bottom-0 left-0 right-0 top-0 z-[900] flex items-center justify-center bg-zinc-200/40 backdrop-blur-[2px] dark:bg-slate-900/80">
+<aside class="fixed bottom-0 left-0 right-0 top-0 z-[900] flex items-center justify-center bg-neutral-200/40 backdrop-blur-[2px] dark:bg-neutral-900/80">
 	<section
 		class="absolute bottom-0 left-0 right-0 top-0 z-[901]"
 		(click)="handleClose()"
 	></section>
-	<section class="z-[901] flex min-w-[450px] flex-col gap-4 rounded-md border border-slate-900/10 bg-zinc-50 p-6 shadow-sm dark:border-slate-50/10 dark:bg-slate-900">
-		<div class="rounded-md border border-dashed p-6">
-			<p class="select-none font-semibold text-zinc-400/80">Table Controls</p>
-			<div class="mt-6 flex flex-row gap-6">
-				<div class="kds-form-group-v flex-1">
-					<label
-						for="control-goto"
-						class="text-xs"
-					>
-						Go to Page
-					</label>
-					<input
-						id="control-goto"
-						type="number"
-						class="kds-input-xs kds-input w-full text-center font-mono text-xs"
-						min="1"
-                        [formControl]="currPageInput"
-                        (focus)="currPageRef.select()"
-                        (keyup.Enter)="handleApply()"
-						#currPageRef
-					/>
-				</div>
-				<div class="kds-form-group-v flex-1">
-					<label
-						for="control-itemsPerPage"
-						class="text-xs"
-					>
-						Items per Page
-					</label>
-					<input
-						id="control-itemsPerPage"
-						type="number"
-						class="kds-input-xs kds-input w-full text-center font-mono text-xs"
-						min="5"
-						step="5"
-                        [formControl]="itemsPerPageInput"
-                        (focus)="itemsPerPageRef.select()"
-                        (keyup.Enter)="handleApply()"
-                        #itemsPerPageRef
-					/>
-				</div>
+	<section class="z-[901] flex min-w-[450px] flex-col gap-8 rounded-md border border-neutral-900/10 bg-neutral-50 p-6 shadow-sm dark:border-neutral-50/10 dark:bg-neutral-800">
+		<div class="flex flex-row gap-6 rounded-lg border border-dashed border-neutral-900/10 p-6 dark:border-neutral-50/10">
+			<div class="kds-form-group-v flex-1">
+				<label
+					for="control-goto"
+					class="text-xs"
+				>
+					Go to Page
+				</label>
+				<input
+					id="control-goto"
+					type="number"
+					class="kds-input kds-input-xs w-full text-center font-mono text-xs"
+					min="1"
+					[formControl]="currPageInput"
+					(focus)="currPageRef.select()"
+					(keyup.Enter)="handleApply()"
+					#currPageRef
+				/>
+			</div>
+			<div class="kds-form-group-v flex-1">
+				<label
+					for="control-itemsPerPage"
+					class="text-xs"
+				>
+					Items per Page
+				</label>
+				<input
+					id="control-itemsPerPage"
+					type="number"
+					class="kds-input kds-input-xs w-full text-center font-mono text-xs"
+					min="5"
+					step="5"
+					[formControl]="itemsPerPageInput"
+					(focus)="itemsPerPageRef.select()"
+					(keyup.Enter)="handleApply()"
+					#itemsPerPageRef
+				/>
 			</div>
 		</div>
-		<div class="rounded-md border border-dashed p-6">
-			<p class="select-none font-semibold text-zinc-400/80">Filters</p>
+		<div class="rounded-lg border border-dashed border-neutral-900/10 p-6 dark:border-neutral-50/10">
+			<p class="kds-title-slash select-none font-semibold text-dongs-500">Filter by</p>
 			<div class="mt-6 flex flex-col gap-6">
 				<div class="kds-form-group-v flex-1">
 					<label
@@ -59,7 +56,7 @@
 					<input
 						id="filter-user"
 						type="text"
-						class="kds-input-xs kds-input w-full font-mono text-xs"
+						class="kds-input kds-input-xs w-full font-mono text-xs"
 					/>
 				</div>
 				<div class="kds-form-group-v flex-1">
@@ -72,7 +69,7 @@
 					<input
 						id="filter-email"
 						type="text"
-						class="kds-input-xs kds-input w-full font-mono text-xs"
+						class="kds-input kds-input-xs w-full font-mono text-xs"
 						autocomplete="new-password"
 					/>
 				</div>
@@ -81,7 +78,7 @@
 		<div class="flex w-full flex-row items-center justify-between">
 			<button
 				type="button"
-				class="flex flex-row items-center justify-between rounded-lg bg-zinc-50 px-3 py-1.5 text-sm text-red-400 transition-transform active:scale-95 dark:bg-slate-900"
+				class="flex flex-row items-center justify-between rounded-lg bg-transparent px-3 py-2 text-sm text-red-400 transition-transform active:scale-95"
 				(click)="handleClose()"
 			>
 				Close
@@ -92,8 +89,8 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-row items-center justify-between rounded-lg bg-zinc-100 px-3 py-1.5 text-sm text-dongs-500 transition-transform active:scale-95 dark:bg-slate-800"
-                (click)="handleApply()"
+				class="flex flex-row items-center justify-between rounded-lg bg-neutral-100 px-6 py-2 text-sm text-dongs-500 transition-transform active:scale-95 dark:bg-neutral-800 dark:brightness-110"
+				(click)="handleApply()"
 			>
 				Apply
 				<fa-icon
