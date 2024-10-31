@@ -36,12 +36,12 @@ export class TokenManagerService {
 			}
 		}
 
-		const tokenRead = token === null ? localStorage.getItem(`token:${environment.token.host}`) : token;
+		const tokenRead = token === null ? localStorage.getItem(`token:${environment.host}`) : token;
 		this._tokenData.set(this.extractToken(tokenRead));
 
 		if (this._tokenData() !== null && tokenRead !== null) {
 			// Only save in localStorage if token is from login
-			if (token !== null) localStorage.setItem(`token:${environment.token.host}`, tokenRead as string);
+			if (token !== null) localStorage.setItem(`token:${environment.host}`, tokenRead as string);
 			this._token.set(tokenRead);
 			this._tokenExpLeft$.next(this.calculateTokenExpLeft());
 			return true;
@@ -53,7 +53,7 @@ export class TokenManagerService {
 		this._token.set(null);
 		this._tokenData.set(null);
 		this._tokenExpLeft$.next(0);
-		localStorage.removeItem(`token:${environment.token.host}`);
+		localStorage.removeItem(`token:${environment.host}`);
 	}
 
 	private calculateTokenExpLeft(): number {
@@ -90,7 +90,7 @@ export class TokenManagerService {
 		if (tokenData) {
 			// Generated token on server creates `exp` in seconds and must convert to miliseconds
 			const tokenExpDate = new Date(tokenData.exp! * 1000);
-			if (tokenData.host === environment.token.host && tokenExpDate >= new Date()) return true;
+			if (tokenData.host === environment.host && tokenExpDate >= new Date()) return true;
 		}
 		return false;
 	}
