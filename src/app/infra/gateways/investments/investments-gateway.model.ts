@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 export interface IInvestmentsGatewayService {
 	loading: Signal<boolean>;
 	getInvestmentsPerformance(request: GetInvestmentsPerformanceRequest): Observable<GetInvestmentsPerformanceResponse>;
+    getInvestmentsBalanceHistory(request: GetInvestmentsBalanceHistoryRequest): Observable<GetInvestmentsBalanceHistoryResponse>;
 }
 
 /**
@@ -122,4 +123,42 @@ export interface PerformanceWalletDataPoint {
 	gross_profit: number;
 	net_profit: number;
 	days_to_profit: number;
+}
+
+/**
+ * For Method: @method getInvestmentsBalanceHistory()
+ */
+export type GetInvestmentsBalanceHistoryRequest = {
+	wallets: string[];
+	wallets_info?: boolean;
+};
+export type GetInvestmentsBalanceHistoryResponse = IInvestmentsBalanceHistory | null;
+
+export interface IInvestmentsBalanceHistory {
+	wallets?: Wallet[];
+	balance_history: BalanceHistoryData;
+	selected_wallets: string[];
+}
+
+export interface BalanceHistoryData {
+	walletsSeries: BalanceHistoryWalletSeries[];
+}
+
+export interface BalanceHistoryWalletSeries {
+	name: string;
+	series: BalanceHistoryWalletDataPoint[];
+}
+export interface BalanceHistoryWalletDataPoint {
+    movement_type: 'deposit' | 'withdraw' | 'asset_result';
+    asset_name?: string;
+    local_date: number;
+    institution: string;
+    origin_currency: Currency;
+    origin_amount: number;
+    origin_gross_exch_rate?: number;
+    origin_exch_op_fee?: number;
+    origin_exch_vet_rate?: number;
+    result_currency: Currency;
+    result_amount: number;
+    details?: string;
 }

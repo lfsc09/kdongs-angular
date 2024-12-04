@@ -1,6 +1,6 @@
 import { Injectable, signal, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetInvestmentsPerformanceRequest, GetInvestmentsPerformanceResponse, IInvestmentsGatewayService } from './investments-gateway.model';
+import { GetInvestmentsBalanceHistoryRequest, GetInvestmentsBalanceHistoryResponse, GetInvestmentsPerformanceRequest, GetInvestmentsPerformanceResponse, IInvestmentsGatewayService } from './investments-gateway.model';
 
 @Injectable()
 export class InvestmentsGatewayService implements IInvestmentsGatewayService {
@@ -25,4 +25,8 @@ export class InvestmentsGatewayService implements IInvestmentsGatewayService {
 	getInvestmentsPerformance(request: GetInvestmentsPerformanceRequest): Observable<GetInvestmentsPerformanceResponse> {
 		throw new Error('Method not implemented.');
 	}
+
+    getInvestmentsBalanceHistory(request: GetInvestmentsBalanceHistoryRequest): Observable<GetInvestmentsBalanceHistoryResponse> {
+        throw new Error('Method not implemented.');
+    }
 }
