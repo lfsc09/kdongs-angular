@@ -1,4 +1,4 @@
-import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { CdkMenu, CdkMenuTrigger } from '@angular/cdk/menu';
 import { formatCurrency, formatDate } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -26,7 +26,7 @@ type ChartGeneratedData = {
 @Component({
 	selector: 'app-performance-evolution',
 	standalone: true,
-	imports: [FontAwesomeModule, CdkMenuTrigger, CdkMenu, CdkMenuItem],
+	imports: [FontAwesomeModule, CdkMenuTrigger, CdkMenu],
 	templateUrl: './performance-evolution.component.html',
 })
 export class PerformanceEvolutionComponent {
