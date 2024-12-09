@@ -330,6 +330,32 @@
 								/>
 							}
 						}
+                        @case ('balance_history') {
+                            @if (balanceHistoryData() === null || balanceHistoryData()?.walletsSeries === undefined) {
+								<div class="flex h-72 flex-col gap-6 rounded-lg border border-slate-300/40 bg-neutral-100 p-4 dark:border-slate-50/10 dark:bg-neutral-800">
+									<div class="flex h-full w-full items-center justify-center">
+										<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to load Evolution</div>
+									</div>
+								</div>
+								<div class="flex h-72 flex-col gap-6 rounded-lg border border-slate-300/40 bg-neutral-100 p-4 dark:border-slate-50/10 dark:bg-neutral-800">
+									<div class="flex h-full w-full items-center justify-center">
+										<div class="flex select-none flex-col items-center justify-center p-6 text-xl font-semibold text-slate-400">Failed to load Timeline</div>
+									</div>
+								</div>
+							} @else {
+								<app-balance-evolution
+									[currencyOnUse]="currencyOnUse()"
+									[data]="balanceHistoryData()!.walletsSeries"
+								/>
+                                <div class="grid grid-cols-1 laptop:grid-cols-2 desktop-2k:grid-cols-3 gap-6">
+                                    <app-balance-timeline
+                                        [currencyOnUse]="currencyOnUse()"
+                                        [data]="balanceHistoryData()!.walletsSeries"
+                                    />
+                                    <app-balance-control />
+                                </div>
+							}
+                        }
 					}
 				</section>
 			}
