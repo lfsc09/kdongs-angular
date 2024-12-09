@@ -1,0 +1,120 @@
+<div class="mt-6 flex flex-col gap-6 rounded-lg bg-neutral-100 p-4 dark:bg-neutral-800">
+	<div class="flex flex-row items-center justify-between py-2">
+		<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">Timeline</span>
+	</div>
+	<div
+		class="relative flex h-[500px] flex-col gap-3 pl-20 before:absolute before:bottom-4 before:left-8 before:top-4 before:rounded-2xl before:border-[2px] before:border-dongs-200/80 before:content-[''] dark:before:border-dongs-400/80"
+	>
+		@for (item of unifiedData() | slice: triggerControls().sliceStart : triggerControls().sliceEnd; track $index) {
+			<div
+				class="flex flex-col gap-1 rounded-lg p-4 shadow-md before:absolute before:left-8 before:-m-1.5 before:h-4 before:w-4 before:rounded-full before:border-[5px] before:border-neutral-100 before:bg-slate-600 before:content-[''] dark:before:border-neutral-800 dark:before:bg-neutral-100"
+				[class]="{
+					'bg-green-100/30': item.movement_type === 'deposit',
+					'dark:bg-green-800/30': item.movement_type === 'deposit',
+					'bg-red-100/30': item.movement_type === 'withdraw',
+					'dark:bg-red-800/30': item.movement_type === 'withdraw',
+					'bg-yellow-50/30': item.movement_type === 'asset_result',
+					'dark:bg-yellow-400/20': item.movement_type === 'asset_result',
+				}"
+			>
+				<span class="text-sm font-semibold underline">{{ item.local_date | date: 'MMM dd, yyyy' : 'en_US' }}</span>
+				@if (item.movement_type === 'asset_result') {
+					<span class="text-[.7rem] font-semibold">{{ (item?.asset_name ?? 'Unknown') || 'Unknown' }}</span>
+				}
+				<div class="flex flex-row items-center justify-between gap-1">
+					<span
+						class="text-xs font-semibold"
+						[class]="{
+							'!text-red-500': item.result_amount < 0,
+							'dark:!text-red-400': item.result_amount < 0,
+							'!text-emerald-600': item.result_amount > 0,
+							'dark:!text-emerald-400': item.result_amount > 0,
+						}"
+					>
+						{{ item.result_amount | amount: currencyOnUse() }}
+					</span>
+					<span
+						class="text-xs font-semibold text-slate-600 dark:text-slate-400"
+						[class]="{
+							'!text-red-500': item.timeline_amount < 0,
+							'dark:!text-red-400': item.timeline_amount < 0,
+							'!text-emerald-600': item.timeline_amount > 0,
+							'dark:!text-emerald-400': item.timeline_amount > 0,
+						}"
+					>
+						= {{ item.timeline_amount | currency: 'pt-br' : currencyOnUse() : '0.0-2' }}
+					</span>
+				</div>
+			</div>
+		}
+	</div>
+	<div class="sticky bottom-0 flex h-14 select-none flex-row items-center justify-between py-4 backdrop-blur-[8px]">
+		<div>
+			@if (triggerControls().filteredItemsCount !== triggerControls().itemsCount) {
+				<span class="mr-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ triggerControls().filteredItemsCount }}</span>
+				<span class="font-mono text-sm">filtered rows from</span>
+				<span class="ml-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ triggerControls().itemsCount }}</span>
+			} @else {
+				<span class="mr-2 rounded-md bg-neutral-50 px-3 py-1 font-mono text-sm dark:bg-neutral-900">{{ triggerControls().itemsCount }}</span>
+				<span class="font-mono text-sm">rows</span>
+			}
+		</div>
+		<div class="flex flex-row items-center gap-6">
+			<div class="flex flex-row items-center">
+				<button
+					type="button"
+					class="group/link rounded-md px-3 py-1.5 active:scale-75 disabled:active:scale-100"
+					[disabled]="triggerControls().pagesCount <= 1 || triggerControls().currPageIdx === 0"
+					(click)="firstPage()"
+				>
+					<fa-icon
+						class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+						[icon]="icons().faAnglesLeft"
+					/>
+				</button>
+				<button
+					type="button"
+					class="group/link rounded-md px-3 py-1.5 active:scale-75 disabled:active:scale-100"
+					[disabled]="triggerControls().pagesCount <= 1"
+					(click)="previousPage()"
+				>
+					<fa-icon
+						class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+						[icon]="icons().faAngleLeft"
+					/>
+				</button>
+				<div class="mx-2 flex flex-row items-center gap-2">
+					<span class="rounded-md bg-neutral-50 px-3 py-1 text-center font-mono text-sm dark:bg-neutral-900">
+						{{ triggerControls().currPageIdx + 1 }}
+					</span>
+					<span class="font-mono text-sm">of</span>
+					<span class="rounded-md bg-neutral-50 px-3 py-1 text-center font-mono text-sm dark:bg-neutral-900">
+						{{ triggerControls().pagesCount }}
+					</span>
+				</div>
+				<button
+					type="button"
+					class="group/link rounded-md px-3 py-1.5 active:scale-75 disabled:active:scale-100"
+					[disabled]="triggerControls().pagesCount <= 1"
+					(click)="nextPage()"
+				>
+					<fa-icon
+						class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+						[icon]="icons().faAngleRight"
+					/>
+				</button>
+				<button
+					type="button"
+					class="group/link rounded-md px-3 py-1.5 active:scale-75 disabled:active:scale-100"
+					[disabled]="triggerControls().pagesCount <= 1 || triggerControls().currPageIdx === triggerControls().pagesCount - 1"
+					(click)="lastPage()"
+				>
+					<fa-icon
+						class="group-hover/link:text-dongs-500 group-disabled/link:text-gray-300 group-disabled/link:dark:text-gray-600"
+						[icon]="icons().faAnglesRight"
+					/>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
