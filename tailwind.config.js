@@ -157,8 +157,8 @@ module.exports = {
 				 * INPUT
 				 ********/
 
-				// Inputs Invalid
-				'input.kds-input.kds-input-error': {
+				// Inputs/Textareas Invalid
+				'input.kds-input.kds-input-error, textarea.kds-textarea.kds-textarea-erro': {
 					'@apply ring-1 ring-offset-0 ring-red-300 dark:ring-red-300/60': {},
 				},
 
@@ -176,6 +176,47 @@ module.exports = {
 						'@apply leading-none': {},
 					},
 				},
+
+                // Selects
+				'.kds-select': {
+					'@apply relative': {},
+
+					'&:before': {
+						'@apply content-[""] pointer-events-none absolute right-4 top-1/2': {},
+                        'border-left': '0.3rem solid transparent',
+                        'border-right': '0.3rem solid transparent',
+                        'border-top': '0.3rem solid black'
+					},
+
+					'& > select': {
+						'@apply appearance-none w-full border rounded py-2 px-3 dark:bg-neutral-900 dark:border-neutral-900': {},
+					},
+
+					// Input small size
+					'&.kds-select-sm > select': {
+						'@apply leading-tight': {},
+					},
+
+					// Input extra small size
+					'&.kds-select-xs > select': {
+						'@apply leading-none': {},
+					},
+				},
+
+                // Text Areas
+                'textarea.kds-textarea': {
+                    '@apply border rounded py-2 px-3 dark:bg-neutral-900 dark:border-neutral-900': {},
+
+					// Input small size
+					'&.kds-textarea-sm': {
+						'@apply leading-tight': {},
+					},
+
+					// Input extra small size
+					'&.kds-textarea-xs': {
+						'@apply leading-none': {},
+					},
+                },
 
 				// Checkbox wrapper
 				'div.kds-input-checkbox-wrapper': {
