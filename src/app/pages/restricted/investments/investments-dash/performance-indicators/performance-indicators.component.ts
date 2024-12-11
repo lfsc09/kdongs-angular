@@ -29,7 +29,7 @@ export class PerformanceIndicatorsComponent {
 	/**
 	 * FUNCTIONS
 	 */
-	handleCompareWithTotalChange(): void {
+	protected handleCompareWithTotalChange(): void {
 		this.compareWithTotal.update((state) => !state);
 	}
 }

@@ -25,10 +25,10 @@ import { TokenManagerService } from '../../../infra/services/token/token-manager
 export class RestrictedPageComponent implements OnInit, OnDestroy {
 	/**
 	 * SERVICES
-	 */
+    */
+	protected readonly navModulesService = inject(NavModulesService);
 	private readonly tokenManagerService = inject(TokenManagerService);
 	private readonly routerService = inject(Router);
-	protected readonly navModulesService = inject(NavModulesService);
 
 	/**
 	 * SIGNALS AND OBSERVABLES
