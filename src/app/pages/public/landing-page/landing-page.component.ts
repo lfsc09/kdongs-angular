@@ -13,6 +13,7 @@ import { KdsLoadingSpinnerComponent } from '../../../components/shared/kds/kds-l
 import { ViewportMatchDirective } from '../../../infra/directives/viewport/viewport-match.directive';
 import { IAuthenticationGatewayService } from '../../../infra/gateways/authentication/authentication-gateway.model';
 import { ThemeManagerService } from '../../../infra/services/theme/theme-manager.service';
+import { KDS } from '../../../infra/util/kds.util';
 import { RandomParticlesProps } from './landing-page.model';
 
 const tokenIAuthenticationGatewayService = new InjectionToken<IAuthenticationGatewayService>('IAuthenticationGatewayService');
@@ -94,10 +95,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected handleLoginFormSubmit(submittedForm: any) {
 		if (this.loginForm.valid) {
-			let userTimezoneN = -(new Date().getTimezoneOffset() / 60);
-			let userTimezone = `${userTimezoneN < 0 ? '-' : '+'}${Math.abs(userTimezoneN).toString().padStart(2, '0')}:00`;
 			this.authenticationSubscription = this.authenticationService
-				.loginUser({ email: this.loginForm.value.email, password: this.loginForm.value.password, timezone: userTimezone })
+				.loginUser({ email: this.loginForm.value.email, password: this.loginForm.value.password, timezone: KDS.localTimezone() })
 				.subscribe({
 					next: (response) => {
 						switch (response) {
