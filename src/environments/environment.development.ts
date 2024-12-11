@@ -4,7 +4,7 @@ import { InvestmentsGatewayFakeService } from '../app/infra/gateways/investments
 export const environment = {
 	production: false,
 	title: 'Kdongs',
-    host: 'kdongs',
+	host: 'kdongs',
 	token: {
 		// lifespan of "1d" (miliseconds)
 		lifespan: 60 * 60 * 24 * 1000,

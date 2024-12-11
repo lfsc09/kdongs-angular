@@ -10,7 +10,7 @@ interface User {
 	 *      userFullname: string;
 	 *      perms: { [key: PERM_ID]: boolean };
 	 *      host: string;
-     *      tz (timezone): string;
+	 *      tz (timezone): string;
 	 * }
 	 */
 	token: string;
