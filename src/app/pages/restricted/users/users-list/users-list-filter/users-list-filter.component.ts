@@ -14,18 +14,16 @@ export class UsersListFilterComponent implements OnInit, AfterViewInit {
 	/**
 	 * SIGNALS
 	 */
+    open = model.required<boolean>();
+	currPageIdx = input.required<number>();
+	itemsPerPage = input.required<number>();
+	apply = output<UsersListFilterOutput>();
 	protected icons = signal({
 		faCircleXmark: faCircleXmark,
 		faPaperPlane: faPaperPlane,
 	});
-	open = model.required<boolean>();
-	currPageIdx = input.required<number>();
-	itemsPerPage = input.required<number>();
-	apply = output<UsersListFilterOutput>();
-
 	protected currPageInput = new FormControl<number>(1, { nonNullable: true });
 	protected itemsPerPageInput = new FormControl<number>(15, { nonNullable: true });
-
 	private currPageRef = viewChild<ElementRef<HTMLInputElement>>('currPageRef');
 
 	ngOnInit(): void {
