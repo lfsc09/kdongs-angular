@@ -1,6 +1,7 @@
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { CdkMenu, CdkMenuTrigger } from '@angular/cdk/menu';
 import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
-import { Component, InjectionToken, OnDestroy, OnInit, Signal, computed, inject, signal } from '@angular/core';
+import { Component, InjectionToken, OnDestroy, OnInit, Signal, computed, inject, signal, viewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
 	faBrazilianRealSign,
@@ -30,7 +31,7 @@ import {
 } from '../../../../infra/gateways/investments/investments-gateway.model';
 import { BalanceControlComponent } from './balance-control/balance-control.component';
 import { BalanceEvolutionComponent } from './balance-evolution/balance-evolution.component';
-import { BalanceTimelineComponent } from './balance-timeline/balance-timeline.component';
+import { BalanceEditEvent, BalanceTimelineComponent } from './balance-timeline/balance-timeline.component';
 import { Section, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
 import { PerformanceEvolutionComponent } from './performance-evolution/performance-evolution.component';
 import { PerformanceGroupComponent } from './performance-group/performance-group.component';
@@ -63,6 +64,20 @@ const tokenIInvestmentsGatewayService = new InjectionToken<IInvestmentsGatewaySe
 		},
 	],
 	templateUrl: './investments-dash.component.html',
+	animations: [
+		trigger('slideRight', [
+			transition(':enter', [
+				query(
+					':enter',
+					[
+						style({ opacity: 0, transform: 'translateX(-50px)' }),
+						stagger(50, [animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))]),
+					],
+					{ optional: true },
+				),
+			]),
+		]),
+	],
 })
 export class InvestmentsDashComponent implements OnInit, OnDestroy {
 	/**
@@ -102,6 +117,9 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 		}
 		return this.selectedCurrency() as Currency;
 	});
+	protected currencyForControlBalance = computed<Currency | undefined>(() => {
+		return this.selectedWallets().size !== 1 ? undefined : Array.from(this.selectedWallets().values())[0]?.currency;
+	});
 	protected gatewayLoading: Signal<boolean> = this.investmentsGatewayService.loading;
 	private investmentsSubscription: Subscription | undefined;
 	private _wallets = signal<Wallet[] | null>([]);
@@ -110,6 +128,7 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 	protected performanceData = this._performanceData.asReadonly();
 	private _balanceHistoryData = signal<BalanceHistoryData | null | undefined>(undefined);
 	protected balanceHistoryData = this._balanceHistoryData.asReadonly();
+	private balanceControlComponent = viewChild(BalanceControlComponent);
 
 	ngOnInit(): void {
 		this.readUserPreferences();
@@ -133,6 +152,40 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 	/**
 	 * FUNCTIONS
 	 */
+	protected handleBalanceHistoryTimelineEdit(eventData: BalanceEditEvent): void {
+		if (!this.balanceControlComponent()) return;
+		if (eventData.type === 'deposit') this.balanceControlComponent()!.exposeBalanceDepositFormUpdate(eventData.values);
+		else if (eventData.type === 'withdraw') this.balanceControlComponent()!.exposeBalanceWithdrawFormUpdate(eventData.values);
+	}
+
+	protected handleDetailPanelChange(section: Section): void {
+		this.selectedSection.set(section);
+		this.writeUserPreferences();
+		if (section === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
+		else if (section === 'balance_history') this.pullBalanceHistoryData({ wallets: Array.from(this.selectedWallets().keys()) });
+	}
+
+	protected handleCurrencyChange(currency: SelectableCurrency): void {
+		this.selectedCurrency.set(currency);
+	}
+
+	protected handleSelectMoreWallets(event: MouseEvent, selectedWalletId: string): void {
+		// Selecting multiple wallets with Ctrl
+		if (event.ctrlKey) {
+			let selectedWalletIds: string[];
+			// Figure it out if must add or remove
+			if (this.selectedWallets().has(selectedWalletId)) {
+				selectedWalletIds = Array.from(this.selectedWallets().keys()).filter((wallet_id) => wallet_id !== selectedWalletId);
+			} else {
+				selectedWalletIds = [...Array.from(this.selectedWallets().keys()), selectedWalletId];
+			}
+			this.handleUpdateSelectedWallets(selectedWalletIds);
+		} else this.handleUpdateSelectedWallets([selectedWalletId]);
+		this.writeUserPreferences();
+		if (this.selectedSection() === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
+		else if (this.selectedSection() === 'balance_history') this.pullBalanceHistoryData({ wallets: Array.from(this.selectedWallets().keys()) });
+	}
+
 	/**
 	 * Setup user selectables like, which wallets and the currency to show.
 	 */
@@ -161,17 +214,6 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 				section_to_show: this.selectedSection(),
 			} as UserPreferences),
 		);
-	}
-
-	protected handleDetailPanelChange(section: Section): void {
-		this.selectedSection.set(section);
-		this.writeUserPreferences();
-		if (section === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
-		else if (section === 'balance_history') this.pullBalanceHistoryData({ wallets: Array.from(this.selectedWallets().keys()) });
-	}
-
-	protected handleCurrencyChange(currency: SelectableCurrency): void {
-		this.selectedCurrency.set(currency);
 	}
 
 	/**
@@ -222,25 +264,8 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 		this.selectedWallets.set(selectedWalletMap);
 	}
 
-	protected handleSelectMoreWallets(event: MouseEvent, selectedWalletId: string): void {
-		// Selecting multiple wallets with Ctrl
-		if (event.ctrlKey) {
-			let selectedWalletIds: string[];
-			// Figure it out if must add or remove
-			if (this.selectedWallets().has(selectedWalletId)) {
-				selectedWalletIds = Array.from(this.selectedWallets().keys()).filter((wallet_id) => wallet_id !== selectedWalletId);
-			} else {
-				selectedWalletIds = [...Array.from(this.selectedWallets().keys()), selectedWalletId];
-			}
-			this.handleUpdateSelectedWallets(selectedWalletIds);
-		} else this.handleUpdateSelectedWallets([selectedWalletId]);
-		this.writeUserPreferences();
-		if (this.selectedSection() === 'performance') this.pullPerformanceData({ wallets: Array.from(this.selectedWallets().keys()) });
-		else if (this.selectedSection() === 'balance_history') this.pullBalanceHistoryData({ wallets: Array.from(this.selectedWallets().keys()) });
-	}
-
 	private pullPerformanceData(request: GetInvestmentsPerformanceRequest): void {
-        this._balanceHistoryData.set(undefined);
+		this._balanceHistoryData.set(undefined);
 		this.investmentsSubscription = this.investmentsGatewayService.getInvestmentsPerformance(request).subscribe({
 			next: (response) => {
 				if (response?.performance === undefined || response?.selected_wallets === undefined) console.error('Data integrity error on Performance Section');
@@ -258,7 +283,7 @@ export class InvestmentsDashComponent implements OnInit, OnDestroy {
 	}
 
 	private pullBalanceHistoryData(request: GetInvestmentsBalanceHistoryRequest): void {
-        this._performanceData.set(undefined);
+		this._performanceData.set(undefined);
 		this.investmentsSubscription = this.investmentsGatewayService.getInvestmentsBalanceHistory(request).subscribe({
 			next: (response) => {
 				if (response?.balance_history === undefined || response?.selected_wallets === undefined) console.error('Data integrity error on Balance History Section');
