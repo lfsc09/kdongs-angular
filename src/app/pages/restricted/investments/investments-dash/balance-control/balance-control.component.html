@@ -1,0 +1,394 @@
+<div class="mt-6 flex flex-col gap-6 rounded-lg bg-neutral-100 p-4 shadow-md dark:bg-neutral-800">
+	<div class="flex flex-row items-center justify-between py-2">
+		<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">Control Balance</span>
+	</div>
+	<div class="flex flex-col gap-8 p-4 pt-0">
+		<div class="flex items-center justify-center gap-4">
+			<button
+				type="button"
+				class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-neutral-50 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-neutral-900"
+				[class]="{
+					'ring-2': balanceAction() === 'deposit',
+					'ring-dongs-500/65': balanceAction() === 'deposit',
+				}"
+				(click)="updateBalanceAction('deposit')"
+			>
+				<fa-icon
+					[icon]="icons().faCircleDown"
+					class="mr-2 text-sm group-hover/link:text-dongs-500"
+					[class]="{
+						'!text-dongs-500': balanceAction() === 'deposit',
+					}"
+				/>
+				<span
+					class="font-medium group-hover/btn:text-dongs-500"
+					[class]="{
+						'!text-dongs-500': balanceAction() === 'deposit',
+					}"
+				>
+					Deposit
+				</span>
+			</button>
+			<button
+				type="button"
+				class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-neutral-50 px-3 py-2 text-sm transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-neutral-900"
+				[class]="{
+					'ring-2': balanceAction() === 'withdraw',
+					'ring-dongs-500/65': balanceAction() === 'withdraw',
+				}"
+				(click)="updateBalanceAction('withdraw')"
+			>
+				<fa-icon
+					[icon]="icons().faCircleUp"
+					class="mr-2 text-sm group-hover/link:text-dongs-500"
+					[class]="{
+						'!text-dongs-500': balanceAction() === 'withdraw',
+					}"
+				/>
+				<span
+					class="font-medium group-hover/btn:text-dongs-500"
+					[class]="{
+						'!text-dongs-500': balanceAction() === 'withdraw',
+					}"
+				>
+					Withdraw
+				</span>
+			</button>
+			<button
+				type="button"
+				class="group/btn flex select-none flex-row items-center justify-center rounded-lg bg-red-50 px-3 py-2 text-sm ring-2 ring-red-300/40 transition-transform hover:-translate-y-0.5 active:scale-95 dark:bg-neutral-900"
+				(click)="clearForm()"
+			>
+				<span class="font-medium group-hover/btn:text-red-300"> Clear </span>
+			</button>
+		</div>
+		@switch (balanceAction()) {
+			@case ('deposit') {
+				<form
+					[formGroup]="balanceDepositForm"
+					#balanceDepositFormRef="ngForm"
+					(ngSubmit)="handleDepositFormSubmit()"
+				>
+					<div class="flex flex-col gap-10">
+						<div class="flex flex-col gap-6 laptop:!flex-row">
+							<div class="flex flex-col gap-6 laptop:basis-1/3">
+								<div class="kds-form-group-v">
+									<label for="deposit-localDate">Date</label>
+									<input
+										type="date"
+										name="localDate"
+										id="deposit-localDate"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceDepositForm.get('localDate')!.invalid && balanceDepositForm.get('localDate')!.touched && balanceDepositFormRef.submitted
+										"
+										formControlName="localDate"
+									/>
+									@if (balanceDepositForm.get('localDate')!.invalid && balanceDepositForm.get('localDate')!.touched && balanceDepositFormRef.submitted) {
+										<span class="kds-form-group-error">Invalid date</span>
+									}
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-institution">Institution</label>
+									<input
+										type="text"
+										name="institution"
+										id="deposit-institution"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceDepositForm.get('institution')!.invalid && balanceDepositForm.get('institution')!.touched && balanceDepositFormRef.submitted
+										"
+										formControlName="institution"
+									/>
+									@if (balanceDepositForm.get('institution')!.invalid && balanceDepositForm.get('institution')!.touched && balanceDepositFormRef.submitted) {
+										<span class="kds-form-group-error">Cannot be blank</span>
+									}
+								</div>
+							</div>
+							<div class="laptop:basis-2/3">
+								<div class="kds-form-group-v">
+									<label for="deposit-details">Details</label>
+									<textarea
+										name="details"
+										id="deposit-details"
+										class="kds-textarea max-h-[8rem] min-h-[8rem] resize-none"
+										formControlName="details"
+										wrap="hard"
+									></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="flex flex-col justify-between gap-6 laptop:!flex-row">
+							<div class="flex basis-full flex-col gap-6">
+								<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">Origin</span>
+								<div class="kds-form-group-v">
+									<label for="deposit-originCurrency">Currency</label>
+									<div class="kds-select">
+										<select
+											name="originCurrency"
+											id="deposit-originCurrency"
+											formControlName="originCurrency"
+											(change)="handleOriginCurrencyChange()"
+										>
+											<option value="BRL">BRL</option>
+											<option value="USD">USD</option>
+											<option value="EUR">EUR</option>
+										</select>
+									</div>
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-originAmount">Amount ($)</label>
+									<input
+										type="number"
+										name="originAmount"
+										id="deposit-originAmount"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceDepositForm.get('originAmount')!.invalid && balanceDepositForm.get('originAmount')!.touched && balanceDepositFormRef.submitted
+										"
+										formControlName="originAmount"
+										(keyup)="handleOriginAmountChange()"
+										(dblclick)="originAmountRef.select()"
+										#originAmountRef
+									/>
+									@if (balanceDepositForm.get('originAmount')!.invalid && balanceDepositForm.get('originAmount')!.touched && balanceDepositFormRef.submitted) {
+										<span class="kds-form-group-error">Invalid amount</span>
+									}
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-originExchGrossRate">Exchange Rate (Gross)</label>
+									<input
+										type="number"
+										name="originExchGrossRate"
+										id="deposit-originExchGrossRate"
+										class="kds-input"
+										placeholder="--"
+										step="0.01"
+										[class.kds-input-error]="
+											balanceDepositForm.get('originExchGrossRate')!.invalid &&
+											balanceDepositForm.get('originExchGrossRate')!.touched &&
+											balanceDepositFormRef.submitted
+										"
+										formControlName="originExchGrossRate"
+										(keyup)="handleAutoVETCalc()"
+										(change)="handleAutoVETCalc()"
+										(dblclick)="originExchGrossRateRef.select()"
+										#originExchGrossRateRef
+									/>
+									@if (
+										balanceDepositForm.get('originExchGrossRate')!.invalid &&
+										balanceDepositForm.get('originExchGrossRate')!.touched &&
+										balanceDepositFormRef.submitted
+									) {
+										<span class="kds-form-group-error">Invalid value</span>
+									}
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-originExchOpFee">Exchange Op. Fee (%)</label>
+									<input
+										type="number"
+										name="originExchOpFee"
+										id="deposit-originExchOpFee"
+										class="kds-input"
+										placeholder="--"
+										step="0.1"
+										[class.kds-input-error]="
+											balanceDepositForm.get('originExchOpFee')!.invalid &&
+											balanceDepositForm.get('originExchOpFee')!.touched &&
+											balanceDepositFormRef.submitted
+										"
+										formControlName="originExchOpFee"
+										(keyup)="handleAutoVETCalc()"
+										(change)="handleAutoVETCalc()"
+										(dblclick)="originExchOpFeeRef.select()"
+										#originExchOpFeeRef
+									/>
+									@if (
+										balanceDepositForm.get('originExchOpFee')!.invalid && balanceDepositForm.get('originExchOpFee')!.touched && balanceDepositFormRef.submitted
+									) {
+										<span class="kds-form-group-error">Invalid amount</span>
+									}
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-originExchVetRate">Exchange Rate (VET)</label>
+									<input
+										type="number"
+										name="originExchVetRate"
+										id="deposit-originExchVetRate"
+										class="kds-input"
+										placeholder="--"
+										step="0.01"
+										[class.kds-input-error]="
+											balanceDepositForm.get('originExchVetRate')!.invalid &&
+											balanceDepositForm.get('originExchVetRate')!.touched &&
+											balanceDepositFormRef.submitted
+										"
+										formControlName="originExchVetRate"
+										(keyup)="handleAutoResultAmountCalc()"
+										(change)="handleAutoResultAmountCalc()"
+										(dblclick)="originExchVetRateRef.select()"
+										#originExchVetRateRef
+									/>
+									@if (
+										balanceDepositForm.get('originExchVetRate')!.invalid &&
+										balanceDepositForm.get('originExchVetRate')!.touched &&
+										balanceDepositFormRef.submitted
+									) {
+										<span class="kds-form-group-error">Invalid amount</span>
+									}
+								</div>
+							</div>
+							<div class="flex basis-full flex-col gap-6">
+								<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">Result</span>
+								<div class="kds-form-group-v">
+									<label for="deposit-resultCurrency">Currency</label>
+									<div class="kds-select">
+										<select
+											name="resultCurrency"
+											id="deposit-resultCurrency"
+											formControlName="resultCurrency"
+										>
+											<option [value]="selectedWalletCurrency()">{{ selectedWalletCurrency() }}</option>
+										</select>
+									</div>
+								</div>
+								<div class="kds-form-group-v">
+									<label for="deposit-resultAmount">Amount ($)</label>
+									<input
+										type="number"
+										name="resultAmount"
+										id="deposit-resultAmount"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceDepositForm.get('resultAmount')!.invalid && balanceDepositForm.get('resultAmount')!.touched && balanceDepositFormRef.submitted
+										"
+										formControlName="resultAmount"
+										(dblclick)="resultAmountRef.select()"
+										#resultAmountRef
+									/>
+									@if (balanceDepositForm.get('resultAmount')!.invalid && balanceDepositForm.get('resultAmount')!.touched && balanceDepositFormRef.submitted) {
+										<span class="kds-form-group-error">Invalid amount</span>
+									}
+								</div>
+							</div>
+						</div>
+						<div class="w-full">
+							<button
+								type="submit"
+								class="group/go kds-button !w-full bg-dongs-500 text-white transition-transform hover:brightness-110 active:scale-95 tablet-h:w-1/3 dark:bg-dongs-600"
+							>
+								Submit
+								<fa-icon
+									class="ml-auto text-white group-hover/go:animate-kds-go"
+									[icon]="icons().faAnglesRight"
+								/>
+							</button>
+						</div>
+					</div>
+				</form>
+			}
+			@case ('withdraw') {
+				<form
+					[formGroup]="balanceWithdrawForm"
+					#balanceWithdrawFormRef="ngForm"
+					(ngSubmit)="handleWithdrawFormSubmit()"
+				>
+					<div class="flex flex-col gap-10">
+						<div class="flex flex-col gap-6 laptop:!flex-row">
+							<div class="flex flex-col gap-6 laptop:basis-1/3">
+								<div class="kds-form-group-v">
+									<label for="withdraw-localDate">Date</label>
+									<input
+										type="date"
+										name="localDate"
+										id="withdraw-localDate"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceWithdrawForm.get('localDate')!.invalid && balanceWithdrawForm.get('localDate')!.touched && balanceWithdrawFormRef.submitted
+										"
+										formControlName="localDate"
+									/>
+									@if (balanceWithdrawForm.get('localDate')!.invalid && balanceWithdrawForm.get('localDate')!.touched && balanceWithdrawFormRef.submitted) {
+										<span class="kds-form-group-error">Invalid date</span>
+									}
+								</div>
+								<div class="kds-form-group-v">
+									<label for="withdraw-institution">Institution</label>
+									<input
+										type="text"
+										name="institution"
+										id="withdraw-institution"
+										class="kds-input"
+										[class.kds-input-error]="
+											balanceWithdrawForm.get('institution')!.invalid && balanceWithdrawForm.get('institution')!.touched && balanceWithdrawFormRef.submitted
+										"
+										formControlName="institution"
+									/>
+									@if (balanceWithdrawForm.get('institution')!.invalid && balanceWithdrawForm.get('institution')!.touched && balanceWithdrawFormRef.submitted) {
+										<span class="kds-form-group-error">Cannot be blank</span>
+									}
+								</div>
+							</div>
+							<div class="laptop:basis-2/3">
+								<div class="kds-form-group-v">
+									<label for="withdraw-details">Details</label>
+									<textarea
+										name="details"
+										id="withdraw-details"
+										class="kds-textarea max-h-[8rem] min-h-[8rem] resize-none"
+										formControlName="details"
+										wrap="hard"
+									></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="flex flex-col gap-6">
+							<div class="kds-form-group-v">
+								<label for="withdraw-resultCurrency">Currency</label>
+								<div class="kds-select">
+									<select
+										name="resultCurrency"
+										id="withdraw-resultCurrency"
+										formControlName="resultCurrency"
+									>
+										<option [value]="selectedWalletCurrency()">{{ selectedWalletCurrency() }}</option>
+									</select>
+								</div>
+							</div>
+							<div class="kds-form-group-v">
+								<label for="withdraw-resultAmount">Amount ($)</label>
+								<input
+									type="number"
+									name="resultAmount"
+									id="withdraw-resultAmount"
+									class="kds-input"
+									[class.kds-input-error]="
+										balanceWithdrawForm.get('resultAmount')!.invalid && balanceWithdrawForm.get('resultAmount')!.touched && balanceWithdrawFormRef.submitted
+									"
+									formControlName="resultAmount"
+									(dblclick)="resultAmountRef.select()"
+									#resultAmountRef
+								/>
+								@if (balanceWithdrawForm.get('resultAmount')!.invalid && balanceWithdrawForm.get('resultAmount')!.touched && balanceWithdrawFormRef.submitted) {
+									<span class="kds-form-group-error">Invalid amount</span>
+								}
+							</div>
+						</div>
+						<div class="w-full">
+							<button
+								type="submit"
+								class="group/go kds-button !w-full bg-dongs-500 text-white transition-transform hover:brightness-110 active:scale-95 tablet-h:w-1/3 dark:bg-dongs-600"
+							>
+								Submit
+								<fa-icon
+									class="ml-auto text-white group-hover/go:animate-kds-go"
+									[icon]="icons().faAnglesRight"
+								/>
+							</button>
+						</div>
+					</div>
+				</form>
+			}
+		}
+	</div>
+</div>
