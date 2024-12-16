@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export interface IInvestmentsGatewayService {
 	loading: Signal<boolean>;
 	getInvestmentsPerformance(request: GetInvestmentsPerformanceRequest): Observable<GetInvestmentsPerformanceResponse>;
-    getInvestmentsBalanceHistory(request: GetInvestmentsBalanceHistoryRequest): Observable<GetInvestmentsBalanceHistoryResponse>;
+	getInvestmentsBalanceHistory(request: GetInvestmentsBalanceHistoryRequest): Observable<GetInvestmentsBalanceHistoryResponse>;
 }
 
 /**
@@ -149,16 +149,17 @@ export interface BalanceHistoryWalletSeries {
 	series: BalanceHistoryWalletDataPoint[];
 }
 export interface BalanceHistoryWalletDataPoint {
-    movement_type: 'deposit' | 'withdraw' | 'asset_result';
-    asset_name?: string;
-    local_date: number;
-    institution: string;
-    origin_currency: Currency;
-    origin_amount: number;
-    origin_gross_exch_rate?: number;
-    origin_exch_op_fee?: number;
-    origin_exch_vet_rate?: number;
-    result_currency: Currency;
-    result_amount: number;
-    details?: string;
+	balance_id: string;
+	movement_type: 'deposit' | 'withdraw' | 'asset_result';
+	asset_name?: string;
+	local_date: number;
+	institution: string;
+	origin_currency: Currency;
+	origin_amount: number;
+	origin_exch_gross_rate?: number;
+	origin_exch_op_fee?: number;
+	origin_exch_vet_rate?: number;
+	result_currency: Currency;
+	result_amount: number;
+	details?: string;
 }
