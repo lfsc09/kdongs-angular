@@ -2,8 +2,8 @@ import { Component, inject, input, OnInit, signal, viewChild } from '@angular/co
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAnglesRight, faCircleDown, faCircleUp } from '@fortawesome/free-solid-svg-icons';
-import { Currency } from '../../../../../infra/gateways/investments/investments-gateway.model';
-import { KDS } from '../../../../../infra/util/kds.util';
+import { Currency } from '../../../../../../infra/gateways/investments/investments-gateway.model';
+import { KDS } from '../../../../../../infra/util/kds.util';
 
 @Component({
 	selector: 'app-balance-control',

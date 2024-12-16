@@ -29,13 +29,13 @@ import {
 	PerformanceData,
 	Wallet,
 } from '../../../../infra/gateways/investments/investments-gateway.model';
-import { BalanceControlComponent } from './balance-control/balance-control.component';
-import { BalanceEvolutionComponent } from './balance-evolution/balance-evolution.component';
-import { BalanceEditEvent, BalanceTimelineComponent } from './balance-timeline/balance-timeline.component';
+import { BalanceControlComponent } from './balance-history/balance-control/balance-control.component';
+import { BalanceEvolutionComponent } from './balance-history/balance-evolution/balance-evolution.component';
+import { BalanceEditEvent, BalanceTimelineComponent } from './balance-history/balance-timeline/balance-timeline.component';
 import { Section, SelectableCurrency, SelectableWallets, SelectableWalletsMap_Key, SelectableWalletsMap_Value, UserPreferences } from './investments-dash.model';
-import { PerformanceEvolutionComponent } from './performance-evolution/performance-evolution.component';
-import { PerformanceGroupComponent } from './performance-group/performance-group.component';
-import { PerformanceIndicatorsComponent } from './performance-indicators/performance-indicators.component';
+import { PerformanceEvolutionComponent } from './performance/performance-evolution/performance-evolution.component';
+import { PerformanceGroupComponent } from './performance/performance-group/performance-group.component';
+import { PerformanceIndicatorsComponent } from './performance/performance-indicators/performance-indicators.component';
 
 const tokenIInvestmentsGatewayService = new InjectionToken<IInvestmentsGatewayService>('IInvestmentsGatewayService');
 

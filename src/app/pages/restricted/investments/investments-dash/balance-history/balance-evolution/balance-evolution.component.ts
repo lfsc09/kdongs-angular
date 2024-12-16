@@ -4,7 +4,7 @@ import { Component, effect, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faCircleInfo, faCodeMerge } from '@fortawesome/free-solid-svg-icons';
 import bb, { areaSpline, spline } from 'billboard.js';
-import { BalanceHistoryWalletDataPoint, BalanceHistoryWalletSeries, Currency } from '../../../../../infra/gateways/investments/investments-gateway.model';
+import { BalanceHistoryWalletDataPoint, BalanceHistoryWalletSeries, Currency } from '../../../../../../infra/gateways/investments/investments-gateway.model';
 
 type ChartDataSerie = [string, ...number[]];
 type ChartGeneratedData = {

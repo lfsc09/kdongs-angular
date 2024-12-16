@@ -3,7 +3,7 @@ import { CurrencyPipe, DatePipe, SlicePipe } from '@angular/common';
 import { Component, OnInit, computed, input, output, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faCircleInfo, faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { BalanceHistoryWalletDataPoint, BalanceHistoryWalletSeries, Currency } from '../../../../../infra/gateways/investments/investments-gateway.model';
+import { BalanceHistoryWalletDataPoint, BalanceHistoryWalletSeries, Currency } from '../../../../../../infra/gateways/investments/investments-gateway.model';
 import { BalanceAction, BalanceDepositForm, BalanceWithdrawForm } from '../balance-control/balance-control.component';
 import { AmountPipe } from './amount.pipe';
 
