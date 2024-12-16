@@ -151,8 +151,6 @@ module.exports = {
 					},
 				},
 
-				// Form group horizontally
-
 				/********
 				 * INPUT
 				 ********/
@@ -177,15 +175,13 @@ module.exports = {
 					},
 				},
 
-                // Selects
+				// Selects
 				'.kds-select': {
 					'@apply relative': {},
 
 					'&:before': {
-						'@apply content-[""] pointer-events-none absolute right-4 top-1/2': {},
-                        'border-left': '0.3rem solid transparent',
-                        'border-right': '0.3rem solid transparent',
-                        'border-top': '0.3rem solid black'
+						'@apply content-[""] pointer-events-none absolute right-4 top-1/2 border-l-[.3rem] border-l-transparent border-r-[.3rem] border-r-transparent border-t-[.3rem] border-t-neutral-900 dark:border-t-neutral-50':
+							{},
 					},
 
 					'& > select': {
@@ -203,9 +199,9 @@ module.exports = {
 					},
 				},
 
-                // Text Areas
-                'textarea.kds-textarea': {
-                    '@apply border rounded py-2 px-3 dark:bg-neutral-900 dark:border-neutral-900': {},
+				// Text Areas
+				'textarea.kds-textarea': {
+					'@apply border rounded py-2 px-3 dark:bg-neutral-900 dark:border-neutral-900': {},
 
 					// Input small size
 					'&.kds-textarea-sm': {
@@ -216,7 +212,7 @@ module.exports = {
 					'&.kds-textarea-xs': {
 						'@apply leading-none': {},
 					},
-                },
+				},
 
 				// Checkbox wrapper
 				'div.kds-input-checkbox-wrapper': {
