@@ -1,4 +1,4 @@
-import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { CdkMenu, CdkMenuTrigger } from '@angular/cdk/menu';
 import { formatCurrency, formatDate } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -6,8 +6,8 @@ import { faCalendar, faCaretDown, faCaretLeft, faCircleInfo, faCodeMerge, faEye 
 import bb, { bar } from 'billboard.js';
 import { getQuarter } from 'date-fns';
 import cloneDeep from 'lodash.clonedeep';
-import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../infra/gateways/investments/investments-gateway.model';
-import { ViewportManagerService } from '../../../../../infra/services/viewport/viewport-manager.service';
+import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../../infra/gateways/investments/investments-gateway.model';
+import { ViewportManagerService } from '../../../../../../infra/services/viewport/viewport-manager.service';
 
 type ChartDataSerie = [string, ...(number | null)[]];
 type ChartGeneratedData = {
@@ -28,14 +28,14 @@ type ChartGeneratedData = {
 @Component({
 	selector: 'app-performance-group',
 	standalone: true,
-	imports: [FontAwesomeModule, CdkMenuTrigger, CdkMenu, CdkMenuItem],
+	imports: [FontAwesomeModule, CdkMenuTrigger, CdkMenu],
 	templateUrl: './performance-group.component.html',
 })
 export class PerformanceGroupComponent {
-    /**
-     * SERVICES
-     */
-    private readonly viewportManagerService = inject(ViewportManagerService);
+	/**
+	 * SERVICES
+	 */
+	private readonly viewportManagerService = inject(ViewportManagerService);
 
 	/**
 	 * CONSTS
@@ -125,24 +125,24 @@ export class PerformanceGroupComponent {
 	protected groupTimeframe = signal<number>(1);
 	protected groupValueType = signal<'percentage' | 'currency'>('currency');
 	protected compareNetGross = signal<boolean>(false);
-    private timeframeChartXLimits = computed<number>(() => {
-        switch (this.viewportManagerService.currentViewport()) {
-            case 'MOBILE_VERTICAL':
-                return 4;
-                case 'MOBILE_HORIZONTAL':
-                return 6;
-            case 'TABLET_VERTICAL':
-            case 'TABLET_HORIZONTAL':
-                return 8;
-            case 'LAPTOP':
-                return 12;
-            case 'DESKTOP_1K':
-            case 'DESKTOP_2K':
-                return 15;
-            default:
-                return 6;
-        }
-    });
+	private timeframeChartXLimits = computed<number>(() => {
+		switch (this.viewportManagerService.currentViewport()) {
+			case 'MOBILE_VERTICAL':
+				return 4;
+			case 'MOBILE_HORIZONTAL':
+				return 6;
+			case 'TABLET_VERTICAL':
+			case 'TABLET_HORIZONTAL':
+				return 8;
+			case 'LAPTOP':
+				return 12;
+			case 'DESKTOP_1K':
+			case 'DESKTOP_2K':
+				return 15;
+			default:
+				return 6;
+		}
+	});
 
 	constructor() {
 		effect(() => {
@@ -223,7 +223,7 @@ export class PerformanceGroupComponent {
 		switch (this.groupTimeframeLabels[this.groupTimeframe()]) {
 			case 'Month':
 				let keyFrag = timeframeKey.split('-');
-                // Using 15th, so that even with local machine timezone change, it will stay in the same month
+				// Using 15th, so that even with local machine timezone change, it will stay in the same month
 				return formatDate(new Date(`${keyFrag[0]}-${keyFrag[1].padStart(2, '0')}-15`), 'MMM yy', 'en_US');
 			case 'Quarter':
 				return timeframeKey.replace('-', ' ');
@@ -237,14 +237,14 @@ export class PerformanceGroupComponent {
 		let dateFromEpoch = new Date(epochMS);
 		switch (this.groupTimeframeLabels[this.groupTimeframe()]) {
 			case 'Month':
-                // Using 15th, so that even with local machine timezone change, it will stay in the same month
+				// Using 15th, so that even with local machine timezone change, it will stay in the same month
 				return new Date(`${dateFromEpoch.getFullYear()}-${`${dateFromEpoch.getMonth() + 1}`.padStart(2, '0')}-15`).getTime();
 			case 'Quarter':
 				const quarterToMonthMap = ['01', '01', '01', '04', '04', '04', '07', '07', '07', '10', '10', '10'];
-                // Using 15th, so that even with local machine timezone change, it will stay in the same month
+				// Using 15th, so that even with local machine timezone change, it will stay in the same month
 				return new Date(`${dateFromEpoch.getFullYear()}-${quarterToMonthMap[dateFromEpoch.getMonth()]}-15`).getTime();
 			case 'Year':
-                // Using 15th, so that even with local machine timezone change, it will stay in the same month
+				// Using 15th, so that even with local machine timezone change, it will stay in the same month
 				return new Date(`${dateFromEpoch.getFullYear()}-01-15`).getTime();
 		}
 		return -1;
@@ -373,13 +373,13 @@ export class PerformanceGroupComponent {
 			[key: string]: {
 				wallet_name: string;
 				timeframe_label: string;
-                timeSignatureLabel: number;
+				timeSignatureLabel: number;
 				input_value: number | null;
 				gross_profit: number | null;
 				net_profit: number | null;
 			};
 		} = {};
-        let monthsLimits = new Map<string, null>();
+		let monthsLimits = new Map<string, null>();
 
 		// Filters wallets with no data
 		let walletsName = this.data()
@@ -389,12 +389,12 @@ export class PerformanceGroupComponent {
 		for (let [idx, wallet] of this.data().entries()) {
 			if (wallet.series.length === 0) continue;
 			for (let dataPoint of wallet.series) {
-                let timeframeKey = this.generateTimeframeKey(dataPoint.local_exit_date);
+				let timeframeKey = this.generateTimeframeKey(dataPoint.local_exit_date);
 
-                if (!monthsLimits.has(timeframeKey)) {
-                    if (monthsLimits.size === this.timeframeChartXLimits()) continue;
-                    else monthsLimits.set(timeframeKey, null);
-                }
+				if (!monthsLimits.has(timeframeKey)) {
+					if (monthsLimits.size === this.timeframeChartXLimits()) continue;
+					else monthsLimits.set(timeframeKey, null);
+				}
 
 				// Force create the same timeframeKeys in all of the Wallets series
 				for (let walletName of walletsName) {
@@ -403,7 +403,7 @@ export class PerformanceGroupComponent {
 						walletTimeframeGroup[compositeKey] = {
 							wallet_name: walletName,
 							timeframe_label: this.formatLabel(timeframeKey),
-                            timeSignatureLabel: this.generateLabelTimeSignature(dataPoint.local_exit_date),
+							timeSignatureLabel: this.generateLabelTimeSignature(dataPoint.local_exit_date),
 							input_value: null,
 							gross_profit: null,
 							net_profit: null,

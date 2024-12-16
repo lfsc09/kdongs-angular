@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faCircleInfo, faCodeMerge, faEye } from '@fortawesome/free-solid-svg-icons';
 import bb, { areaSpline, spline } from 'billboard.js';
 import cloneDeep from 'lodash.clonedeep';
-import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../infra/gateways/investments/investments-gateway.model';
+import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../../infra/gateways/investments/investments-gateway.model';
 
 type ChartDataSerie = [string, ...number[]];
 type ChartGeneratedData = {
