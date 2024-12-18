@@ -1,4 +1,4 @@
-<div class="mt-6 flex flex-col gap-6 rounded-lg bg-neutral-100 p-4 dark:bg-neutral-800">
+<div class="mt-6 flex flex-col gap-6 rounded-lg bg-neutral-100 p-4 shadow-md dark:bg-neutral-800">
 	<div class="flex flex-row items-center justify-between">
 		<span class="kds-title-slash select-none font-medium text-dongs-500 dark:text-dongs-400">
 			Indicators
@@ -124,7 +124,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.expectancy_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -249,7 +251,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -268,7 +272,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -308,7 +314,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_cost_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -373,7 +381,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_day | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -392,7 +402,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_month | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -432,7 +444,9 @@
 								/>
 								<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 							</div>
-							<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+							<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+								[{{ data().indicatorsComparison.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+							</span>
 						</div>
 					} @else {
 						<span class="text-[.7rem]">{{ data().indicators.avg_tax_by_year | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -488,7 +502,9 @@
 								{{ data().indicators.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}
 							</span>
 						</div>
-						<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+						<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+							[{{ data().indicatorsComparison.profit_in_curncy | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+						</span>
 					</div>
 				} @else {
 					<span
@@ -564,7 +580,9 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+									[{{ data().indicatorsComparison.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.total_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -582,7 +600,9 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+									[{{ data().indicatorsComparison.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_profit | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -602,7 +622,9 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+									[{{ data().indicatorsComparison.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.total_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
@@ -621,7 +643,9 @@
 									/>
 									<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
 								</div>
-								<span class="text-[.7rem] text-gray-500 dark:text-gray-400"> [{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}] </span>
+								<span class="text-[.7rem] text-gray-500 dark:text-gray-400">
+									[{{ data().indicatorsComparison.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}]
+								</span>
 							</div>
 						} @else {
 							<span class="text-[.7rem]">{{ data().indicators.avg_loss | currency: currencyOnUse() : 'symbol' : '0.0-2' }}</span>
