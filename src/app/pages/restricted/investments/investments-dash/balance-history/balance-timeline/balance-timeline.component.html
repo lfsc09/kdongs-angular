@@ -13,15 +13,15 @@
 					'dark:bg-green-800/30': item.movement_type === 'deposit',
 					'bg-red-100/30': item.movement_type === 'withdraw',
 					'dark:bg-red-800/30': item.movement_type === 'withdraw',
-					'bg-yellow-50/30': item.movement_type === 'asset_result',
-					'dark:bg-yellow-400/20': item.movement_type === 'asset_result',
+					'bg-yellow-50/30': item.movement_type === 'done_asset',
+					'dark:bg-yellow-400/20': item.movement_type === 'done_asset',
 				}"
 			>
 				<div
 					class="group/balance relative"
 					[@slideLeftRight]="triggerControls().animationDirection"
 				>
-					@if (showBalanceEditControls() && item.movement_type !== 'asset_result') {
+					@if (showBalanceEditControls() && item.movement_type !== 'done_asset') {
 						<div class="absolute bottom-0 right-0 top-0 flex flex-row items-center p-4 opacity-0 backdrop-blur-lg group-hover/balance:opacity-100">
 							<div class="flex flex-row items-center rounded-lg border border-dashed border-slate-300/40 shadow-sm dark:border-slate-50/30">
 								<button
@@ -48,7 +48,7 @@
 					}
 					<div class="flex flex-col gap-1 p-4">
 						<span class="text-sm font-semibold underline">{{ item.local_date | date: 'MMM dd, yyyy' : 'en_US' }}</span>
-						@if (item.movement_type === 'asset_result') {
+						@if (item.movement_type === 'done_asset') {
 							<span class="text-[.7rem] font-semibold">{{ (item?.asset_name ?? 'Unknown') || 'Unknown' }}</span>
 						}
 						<div class="flex flex-row items-center justify-between gap-1">

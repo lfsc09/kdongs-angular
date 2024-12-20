@@ -292,10 +292,10 @@ export class PerformanceGroupComponent {
 			}
 
 			if (this.groupValueType() === 'percentage') {
-				timeframeGroup[groupKey].gross_profit += dataPoint.gross_profit / dataPoint.input_value;
-				timeframeGroup[groupKey].net_profit += dataPoint.net_profit / dataPoint.input_value;
+				timeframeGroup[groupKey].gross_profit += dataPoint.gross_profit / dataPoint.input_amount;
+				timeframeGroup[groupKey].net_profit += dataPoint.net_profit / dataPoint.input_amount;
 			} else {
-				timeframeGroup[groupKey].input_value += dataPoint.input_value;
+				timeframeGroup[groupKey].input_value += dataPoint.input_amount;
 				timeframeGroup[groupKey].gross_profit += dataPoint.gross_profit;
 				timeframeGroup[groupKey].net_profit += dataPoint.net_profit;
 			}
@@ -412,8 +412,8 @@ export class PerformanceGroupComponent {
 					if (walletName === wallet.name) {
 						if (this.groupValueType() === 'percentage') {
 							walletTimeframeGroup[compositeKey].gross_profit =
-								(walletTimeframeGroup[compositeKey]?.gross_profit ?? 0) + dataPoint.gross_profit / dataPoint.input_value;
-							walletTimeframeGroup[compositeKey].net_profit = (walletTimeframeGroup[compositeKey]?.net_profit ?? 0) + dataPoint.net_profit / dataPoint.input_value;
+								(walletTimeframeGroup[compositeKey]?.gross_profit ?? 0) + dataPoint.gross_profit / dataPoint.input_amount;
+							walletTimeframeGroup[compositeKey].net_profit = (walletTimeframeGroup[compositeKey]?.net_profit ?? 0) + dataPoint.net_profit / dataPoint.input_amount;
 						} else {
 							walletTimeframeGroup[compositeKey].input_value = (walletTimeframeGroup[compositeKey]?.net_profit ?? 0) + dataPoint.net_profit;
 							walletTimeframeGroup[compositeKey].gross_profit = (walletTimeframeGroup[compositeKey]?.gross_profit ?? 0) + dataPoint.gross_profit;

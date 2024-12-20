@@ -128,7 +128,7 @@ export class BalanceTimelineComponent implements OnInit {
 	}
 
 	protected handleBalanceEdit(timelinePoint: TimelineWalletDataPoint): void {
-		if (timelinePoint.movement_type === 'asset_result') return;
+		if (timelinePoint.movement_type === 'done_asset') return;
 		this.balanceEdit.emit({
 			type: timelinePoint.movement_type as BalanceAction,
 			values: {
