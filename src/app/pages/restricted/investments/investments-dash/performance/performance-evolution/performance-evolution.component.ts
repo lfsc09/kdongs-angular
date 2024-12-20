@@ -3,7 +3,7 @@ import { formatCurrency, formatDate } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faCircleInfo, faCodeMerge, faEye } from '@fortawesome/free-solid-svg-icons';
-import bb, { areaSpline, spline } from 'billboard.js';
+import bb, { area, line } from 'billboard.js';
 import cloneDeep from 'lodash.clonedeep';
 import { Currency, PerformanceWalletDataPoint, PerformanceWalletSeries } from '../../../../../../infra/gateways/investments/investments-gateway.model';
 
@@ -229,8 +229,8 @@ export class PerformanceEvolutionComponent {
 				x: 'x',
 				columns: [xAxis, gross_evolution, net_evolution],
 				types: {
-					'Summed Gross Profit': areaSpline(),
-					'Summed Net Profit': areaSpline(),
+					'Summed Gross Profit': area(),
+					'Summed Net Profit': area(),
 				},
 				colors: {
 					'Summed Gross Profit': '#f97316',
@@ -292,7 +292,7 @@ export class PerformanceEvolutionComponent {
 				x: 'x',
 				columns: [xAxis, net_evolution],
 				types: {
-					'Summed Net Profit': areaSpline(),
+					'Summed Net Profit': area(),
 				},
 				regions: {
 					'Summed Net Profit': [{ start: xAxis.at(-3), style: { dasharray: '4 4' } }],
@@ -355,7 +355,7 @@ export class PerformanceEvolutionComponent {
 			data: {
 				xs: { ...dataXSMap },
 				columns: dataColumns,
-				type: spline(),
+				type: line(),
 				regions: cloneDeep(dataRegions),
 			},
 			classes: [...dataClasses],

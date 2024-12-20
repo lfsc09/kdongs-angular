@@ -3,7 +3,7 @@ import { formatCurrency, formatDate } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCaretDown, faCircleInfo, faCodeMerge } from '@fortawesome/free-solid-svg-icons';
-import bb, { areaSpline, spline } from 'billboard.js';
+import bb, { area, line } from 'billboard.js';
 import { BalanceHistoryWalletDataPoint, BalanceHistoryWalletSeries, Currency } from '../../../../../../infra/gateways/investments/investments-gateway.model';
 
 type ChartDataSerie = [string, ...number[]];
@@ -180,7 +180,7 @@ export class BalanceEvolutionComponent {
 				x: 'x',
 				columns: [xAxis, balance_evolution],
 				types: {
-					'Summed Balance': areaSpline(),
+					'Summed Balance': area(),
 				},
 			},
 			classes: ['billboard-lines-thick'],
@@ -222,7 +222,7 @@ export class BalanceEvolutionComponent {
 			data: {
 				xs: { ...dataXSMap },
 				columns: dataColumns,
-				type: spline(),
+				type: line(),
 			},
 			classes: [...dataClasses],
 		};
